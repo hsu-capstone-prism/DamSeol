@@ -1,19 +1,36 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import LandingPage from "./pages/StartPage/LandingPage";
 import LoginPage from "./pages/StartPage/LoginPage";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage/MainPage";
 
+function AppContent() {
+  const location = useLocation();
+  const hideHeaderPaths = ["/", "/login"]; // Header를 숨길 페이지
+
+  const routes = [
+    { path: "/", element: <LandingPage /> },
+    { path: "/login", element: <LoginPage /> },
+    { path: "/main", element: <MainPage /> },
+  ];
+
+  return (
+    <div>
+      {!hideHeaderPaths.includes(location.pathname) && <Header />}
+      <Routes>
+        {routes.map(({ path, element }, key) => (
+          <Route path={path} element={element} key={key} />
+        ))}
+      </Routes>
+    </div>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/main" element={<MainPage />} />
-      </Routes>
+      <AppContent />
     </BrowserRouter>
   );
 }
