@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../styles/Header.css";
 
 const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const navigate = useNavigate();
 
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
