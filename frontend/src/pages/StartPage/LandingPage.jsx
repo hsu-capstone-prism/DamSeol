@@ -103,52 +103,53 @@ const LandingPage = () => {
       </div>
 
       {/* 기능 섹션 추가 */}
+      <div className="feature-section-container">
+        {/* 기능 섹션 제목 */}
+        <div className="feature-title">어떤 기능이 있나요?</div>
 
-      {/* 기능 섹션 제목 */}
-      <div className="feature-title">어떤 기능이 있나요?</div>
-
-      {/* 1. 학습 모듈 */}
-      <div
-        className={`feature-section feature-left ${
-          sectionVisible.feature1 ? "emphasized" : ""
-        }`}
-      >
-        <div className="feature-text">
-          <h2>학습 모듈</h2>
-          <p>
-            파형 시각화, 입모양(3D), 정확도 분석을 통해 실시간으로 발음 교정을
-            받을 수 있습니다.
-          </p>
+        {/* 1. 학습 모듈 */}
+        <div
+          className={`feature-section feature-left ${
+            sectionVisible.feature1 ? "emphasized" : ""
+          }`}
+        >
+          <div className="feature-text">
+            <h2>학습 모듈</h2>
+            <p>
+              파형 시각화, 입모양(3D), 정확도 분석을 통해 실시간으로 발음 교정을
+              받을 수 있습니다.
+            </p>
+          </div>
+          <div className="feature-placeholder">이미지 자리</div>
         </div>
-        <div className="feature-placeholder">이미지 자리</div>
-      </div>
 
-      {/* 2. 학습 보고서 제공 */}
-      <div
-        className={`feature-section feature-right ${
-          sectionVisible.feature2 ? "emphasized" : ""
-        }`}
-      >
-        <div className="feature-text">
-          <h2>학습 보고서 제공</h2>
-          <p>
-            사용자의 학습 데이터를 통계적으로 분석하여 학습 방향을 제시합니다.
-          </p>
+        {/* 2. 학습 보고서 제공 */}
+        <div
+          className={`feature-section feature-right ${
+            sectionVisible.feature2 ? "emphasized" : ""
+          }`}
+        >
+          <div className="feature-text">
+            <h2>학습 보고서 제공</h2>
+            <p>
+              사용자의 학습 데이터를 통계적으로 분석하여 학습 방향을 제시합니다.
+            </p>
+          </div>
+          <div className="feature-placeholder">이미지 자리</div>
         </div>
-        <div className="feature-placeholder">이미지 자리</div>
-      </div>
 
-      {/* 3. 게임형 콘텐츠 */}
-      <div
-        className={`feature-section feature-left ${
-          sectionVisible.feature3 ? "emphasized" : ""
-        }`}
-      >
-        <div className="feature-text">
-          <h2>게임형 콘텐츠</h2>
-          <p>퀴즈와 퍼즐을 통해 학습한 내용을 재미있게 복습할 수 있습니다.</p>
+        {/* 3. 게임형 콘텐츠 */}
+        <div
+          className={`feature-section feature-left ${
+            sectionVisible.feature3 ? "emphasized" : ""
+          }`}
+        >
+          <div className="feature-text">
+            <h2>게임형 콘텐츠</h2>
+            <p>퀴즈와 퍼즐을 통해 학습한 내용을 재미있게 복습할 수 있습니다.</p>
+          </div>
+          <div className="feature-placeholder">이미지 자리</div>
         </div>
-        <div className="feature-placeholder">이미지 자리</div>
       </div>
     </div>
   );
