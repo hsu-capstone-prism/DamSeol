@@ -23,18 +23,18 @@ const MainPage = () => {
           <div className="class-box" onClick={() => handleClick("/classC")}>
             C
           </div>
+          <div className="class-box">...</div>
         </div>
       </section>
       <section className="report-section">
-        <h3> 학습 보고서 </h3>
-        <div className="report-container">
-          <div className="report-box">
-            <span></span>
-          </div>
-        </div>
+        <h3>Report</h3>
+        <div
+          className="report-box"
+          onClick={() => handleClick("/report")}
+        ></div>
       </section>
       <section className="score-section">
-        <h3>점수</h3>
+        <h3>Score</h3>
         <div className="score-table">
           <div className="score-row">
             <span>A</span>
