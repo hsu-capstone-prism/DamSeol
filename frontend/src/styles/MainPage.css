@@ -1,20 +1,80 @@
 .main {
   margin-top: 80px;
-  margin-bottom: 120px;
   margin-left: 15%;
   margin-right: 15%;
   flex: 0.7;
   padding: 20px;
   overflow-y: auto;
-  height: calc(100vh - 80px-120px);
+  height: calc(100vh - 80px);
   box-sizing: border-box;
 }
 
-.content {
-  background: #e0e7ff;
-  margin: 10px 0;
-  padding: 20px;
+/* 학습 */
+.class-section {
+  background: #f8f9fa;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 50px;
+  border-radius: 12px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.class-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+  flex-wrap: nowrap; /* 가로 스크롤 활성화 */
+  scrollbar-width: thin;
+  padding-bottom: 20px;
+}
+
+.class-box {
+  flex: 1;
+  background: white;
+  border: 2px solid #ddd;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  color: #3b82f6;
+  padding: 100px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.class-box:hover {
+  background: #e3e7ff;
+}
+
+/* 보고서 */
+.report-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+/* 점수 */
+.score-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.score-row span {
+  width: 40px;
   font-weight: bold;
+}
+
+.score-line {
+  flex: 1;
+  height: 2px;
+  background: #ddd;
 }
