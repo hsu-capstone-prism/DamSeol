@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* 뷰포트 너비에 맞추기 */
+  width: 100%;
   height: 80px;
   background: #fff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -21,10 +21,12 @@
 }
 
 .header-center {
+  position: absolute;
+  left: 18%;
   display: flex;
   align-items: center;
   gap: 25px;
-  flex: 0.7;
+  min-width: 300px;
 }
 
 .menu-btn {
@@ -44,24 +46,27 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  position: relative;
+  position: absolute;
+  right: 20px;
 }
 
 .search {
-  padding: 5px;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 5px;
   outline: none;
   width: 160px;
+  font-size: 14px;
 }
 
 .search-btn {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
 }
 
+/* 프로필 */
 .profile-btn {
   width: 40px;
   height: 40px;
@@ -79,20 +84,19 @@
   position: relative;
 }
 
-/* 프로필 메뉴 팝업 */
 .profile-menu {
   position: absolute;
-  top: 60px;
+  top: 50px;
   right: 0px;
-  width: 180px;
+  width: 200px;
   background: white;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 10px;
+  border: 2px solid #ddd;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 15px;
   z-index: 1000;
 }
 
-/* 프로필 옵션 목록 */
 .profile-options {
   list-style: none;
   padding: 0;
@@ -103,15 +107,70 @@
   width: 100%;
   background: none;
   border: none;
-  padding: 10px;
+  padding: 11px 13px;
   text-align: left;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 
 .profile-option:hover {
-  background: #f5f5f5;
+  background: #f0eeee;
+}
+
+/* 햄버거 메뉴 바 */
+.sidebar {
+  position: fixed;
+  top: 85px;
+  left: -100%;
+  width: 14%;
+  height: calc(100vh - 80px);
+  background: #ffffff;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease-in-out;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  left: 0px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  font-size: 18px;
+  padding: 15px 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.sidebar-menu li:hover {
+  background: #f0eeee;
+}
+
+/* 메뉴가 열릴 때 화면을 덮는 overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999; /* sidebar보다 낮게 설정 */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* 메뉴가 열려도 헤더 내부 요소 이동 방지 */
+.sidebar.open ~ .header .header-center,
+.sidebar.open ~ .header .header-right {
+  transform: none;
 }
