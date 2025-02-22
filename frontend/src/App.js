@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import MainPage from "./pages/MainPage/MainPage";
 import WordPage from "./pages/MainPage/ClassPage/WordPage";
 import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
+import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 
 function AppContent() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function AppContent() {
     { path: "/main", element: <MainPage /> },
     { path: "/word", element: <WordPage /> },
     { path: "/sentence", element: <SentencePage /> },
+    { path: "/grammer", element: <GrammerPage /> },
   ];
 
   return (

@@ -20,7 +20,7 @@ const MainPage = () => {
           <div className="class-box" onClick={() => handleClick("/sentence")}>
             문장 학습
           </div>
-          <div className="class-box" onClick={() => handleClick("/classC")}>
+          <div className="class-box" onClick={() => handleClick("/grammer")}>
             문법 연습
           </div>
           <div className="class-box">...</div>
