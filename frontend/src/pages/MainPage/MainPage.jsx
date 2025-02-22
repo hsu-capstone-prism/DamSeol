@@ -14,27 +14,27 @@ const MainPage = () => {
       <section className="class-section">
         <h2>My Class</h2>
         <div className="class-container">
-          <div className="class-box" onClick={() => handleClick("/classA")}>
-            A
+          <div className="class-box" onClick={() => handleClick("/word")}>
+            단어 학습
           </div>
-          <div className="class-box" onClick={() => handleClick("/classB")}>
-            B
+          <div className="class-box" onClick={() => handleClick("/sentence")}>
+            문장 학습
           </div>
           <div className="class-box" onClick={() => handleClick("/classC")}>
-            C
+            문법 연습
           </div>
           <div className="class-box">...</div>
         </div>
       </section>
       <section className="report-section">
-        <h3>Report</h3>
+        <h2>Report</h2>
         <div
           className="report-box"
           onClick={() => handleClick("/report")}
         ></div>
       </section>
       <section className="score-section">
-        <h3>Score</h3>
+        <h2>Score</h2>
         <div className="score-table">
           <div className="score-row">
             <span>A</span>
