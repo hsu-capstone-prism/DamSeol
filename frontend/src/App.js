@@ -7,7 +7,7 @@ import MainPage from "./pages/MainPage/MainPage";
 
 function AppContent() {
   const location = useLocation();
-  const hideHeaderPaths = ["/", "/login"]; // Header를 숨길 페이지
+  const hideHeaderPaths = ["/", "/login"];
 
   const routes = [
     { path: "/", element: <LandingPage /> },
