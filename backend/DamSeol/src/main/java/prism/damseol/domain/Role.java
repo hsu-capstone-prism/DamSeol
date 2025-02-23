@@ -19,8 +19,12 @@ public class Role {
     @Column(name = "role_id")
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, unique = true)
     private String name;
+
+    public Role(String name) {
+        this.name = name;
+    }
 
     @ManyToMany(mappedBy = "roles")
     private List<Member> members = new ArrayList<>();
