@@ -18,12 +18,12 @@ public class Category {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "Category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Subcategory> subcategories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Word> words = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Sentence> sentences = new ArrayList<>();
 }

@@ -33,12 +33,12 @@ public class FileEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "File", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL)
     private List<Word> words = new ArrayList<>();
 
-    @OneToMany(mappedBy = "File", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL)
     private List<WordRecord> wordRecords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "File", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL)
     private List<SentenceRecord> sentenceRecords = new ArrayList<>();
 }

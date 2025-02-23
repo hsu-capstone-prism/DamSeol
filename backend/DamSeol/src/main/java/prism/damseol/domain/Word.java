@@ -34,6 +34,6 @@ public class Word {
     @JoinColumn(name = "file_id")
     private FileEntity file;
 
-    @OneToMany(mappedBy = "Word", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "word", cascade = CascadeType.ALL)
     private List<WordRecord> wordRecords = new ArrayList<>();
 }

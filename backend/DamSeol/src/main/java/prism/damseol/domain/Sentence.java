@@ -27,6 +27,6 @@ public class Sentence {
     @JoinColumn(name = "subcategory_id")
     private Subcategory subcategory;
 
-    @OneToMany(mappedBy = "Sentence", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sentence", cascade = CascadeType.ALL)
     private List<SentenceRecord> sentenceRecords = new ArrayList<>();
 }

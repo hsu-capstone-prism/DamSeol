@@ -30,10 +30,10 @@ public class Member {
 
     private String content;
 
-    @OneToMany(mappedBy = "Member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<WordRecord> wordRecords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<SentenceRecord> sentenceRecords = new ArrayList<>();
 
     @ManyToMany(cascade=CascadeType.MERGE)

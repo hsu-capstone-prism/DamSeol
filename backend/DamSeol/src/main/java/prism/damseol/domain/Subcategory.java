@@ -23,9 +23,9 @@ public class Subcategory {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "Subcategory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
     private List<Word> words = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Subcategory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
     private List<Sentence> sentences = new ArrayList<>();
 }
