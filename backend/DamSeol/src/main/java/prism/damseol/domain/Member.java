@@ -35,4 +35,11 @@ public class Member {
 
     @OneToMany(mappedBy = "Member", cascade = CascadeType.ALL)
     private List<SentenceRecord> sentenceRecords = new ArrayList<>();
+
+    @ManyToMany(cascade=CascadeType.MERGE)
+    @JoinTable(name="member_role",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
 }

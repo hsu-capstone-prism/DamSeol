@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileEntity {

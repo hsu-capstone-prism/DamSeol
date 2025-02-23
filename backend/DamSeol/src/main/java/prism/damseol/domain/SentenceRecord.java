@@ -6,8 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SentenceRecord {
