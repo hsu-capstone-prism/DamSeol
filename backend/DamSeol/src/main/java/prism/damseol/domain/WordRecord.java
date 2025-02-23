@@ -6,15 +6,15 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "WordRecord")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class WordRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wordRecordId;
+
+    @Id @GeneratedValue
+    @Column(name = "wordrecord_id")
+    private Long id;
 
     @Column(nullable = false)
     private double score;
@@ -28,15 +28,15 @@ public class WordRecord {
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @ManyToOne
-    @JoinColumn(name = "file_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
     private FileEntity file;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "word_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "word_id")
     private Word word;
 }

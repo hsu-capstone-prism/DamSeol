@@ -3,30 +3,36 @@ package prism.damseol.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "Member")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    @Id @GeneratedValue
+    @Column(name = "member_id")
+    private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 100, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false)
     private String phone;
 
-    @Column(length = 255)
     private String content;
+
+    @OneToMany(mappedBy = "Member", cascade = CascadeType.ALL)
+    private List<WordRecord> wordRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "Member", cascade = CascadeType.ALL)
+    private List<SentenceRecord> sentenceRecords = new ArrayList<>();
 }

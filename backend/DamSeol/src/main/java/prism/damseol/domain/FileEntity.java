@@ -4,17 +4,19 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "File")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fileId;
+
+    @Id @GeneratedValue
+    @Column(name = "file_id")
+    private Long id;
 
     @Column(nullable = false, length = 512)
     private String filePath;
@@ -28,7 +30,16 @@ public class FileEntity {
     @Column(nullable = false)
     private LocalDateTime uploadDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "File", cascade = CascadeType.ALL)
+    private List<Word> words = new ArrayList<>();
+
+    @OneToMany(mappedBy = "File", cascade = CascadeType.ALL)
+    private List<WordRecord> wordRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "File", cascade = CascadeType.ALL)
+    private List<SentenceRecord> sentenceRecords = new ArrayList<>();
 }

@@ -3,16 +3,18 @@ package prism.damseol.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "Word")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Word {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wordId;
+
+    @Id @GeneratedValue
+    @Column(name = "word_id")
+    private Long id;
 
     @Column(nullable = false, length = 100)
     private String text;
@@ -20,15 +22,18 @@ public class Word {
     @Column(nullable = false, length = 50)
     private String wordPron;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "subcategory_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subcategory_id")
     private Subcategory subcategory;
 
-    @OneToOne
-    @JoinColumn(name = "file_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
     private FileEntity file;
+
+    @OneToMany(mappedBy = "Word", cascade = CascadeType.ALL)
+    private List<WordRecord> wordRecords = new ArrayList<>();
 }

@@ -6,15 +6,15 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "SentenceRecord")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SentenceRecord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sentenceRecordId;
+
+    @Id @GeneratedValue
+    @Column(name = "sentencerecord_id")
+    private Long id;
 
     @Column(nullable = false)
     private double score;
@@ -28,15 +28,15 @@ public class SentenceRecord {
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @ManyToOne
-    @JoinColumn(name = "file_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
     private FileEntity file;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "sentence_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sentence_id")
     private Sentence sentence;
 }
