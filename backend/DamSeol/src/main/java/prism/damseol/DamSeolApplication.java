@@ -1,4 +1,4 @@
-package prism.deafspeak;
+package prism.damseol;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
