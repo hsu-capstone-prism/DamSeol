@@ -2,10 +2,10 @@ import React from "react";
 import Layout from "../Layout";
 import "../../../styles/GrammerPage.css";
 
-const SentencePage = () => {
+const GrammerPage = () => {
   return (
     <Layout>
-      <div className="sentence-page">
+      <div className="grammer-page">
         <h1 className="section-title">문법 연습</h1>
 
         <section className="learning-section">
@@ -26,4 +26,4 @@ const SentencePage = () => {
   );
 };
 
-export default SentencePage;
+export default GrammerPage;
