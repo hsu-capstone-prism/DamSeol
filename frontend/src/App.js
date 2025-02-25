@@ -7,14 +7,16 @@ import MainPage from "./pages/MainPage/MainPage";
 import WordPage from "./pages/MainPage/ClassPage/WordPage";
 import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
 import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
+import SignupPage from "./pages/StartPage/SignupPage";
 
 function AppContent() {
   const location = useLocation();
-  const hideHeaderPaths = ["/", "/login"];
+  const hideHeaderPaths = ["/", "/login", "/signup"];
 
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/login", element: <LoginPage /> },
+    { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
     { path: "/word", element: <WordPage /> },
     { path: "/sentence", element: <SentencePage /> },
