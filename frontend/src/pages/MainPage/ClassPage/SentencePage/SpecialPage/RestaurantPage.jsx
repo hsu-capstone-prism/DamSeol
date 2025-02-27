@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../../Layout";
-import "../../../../styles/Sentence_Detail.css";
+import Layout from "../../../Layout";
+import "../../../../../styles/Sentence_Detail.css";
 
 const RestaurantPage = () => {
   return (

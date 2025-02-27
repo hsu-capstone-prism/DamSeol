@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../../Layout";
-import "../../../../styles/Sentence_Detail.css";
+import Layout from "../../../Layout";
+import "../../../../../styles/Sentence_Detail.css";
 
 const ChurchPage = () => {
   return (
@@ -15,7 +15,7 @@ const ChurchPage = () => {
             <div className="sentence-box">04. 설교 중 핵심 문장</div>
             <div className="sentence-box">05. 교회 행사 안내</div>
             <div className="sentence-box">06. 신앙 관련 질문과 답변</div>
-            <div className="sentence-box">07. 교회 친구와의 일산 대화</div>
+            <div className="sentence-box">07. 교회 친구와의 일상 대화</div>
             <div className="sentence-box">08. 봉사 활동 관련 표현</div>
             <div className="sentence-box">09. 성경 구절 발음 연습</div>
             <div className="sentence-box">10. 교회 식사 시간 대화</div>

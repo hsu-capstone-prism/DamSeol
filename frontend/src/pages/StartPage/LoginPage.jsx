@@ -19,7 +19,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">로그인</h2>
+        <h2 className="login-title">Login</h2>
         <div className="input-group">
           <input
             type="text"

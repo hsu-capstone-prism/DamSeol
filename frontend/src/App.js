@@ -9,8 +9,20 @@ import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
 import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 
-import RestaurantPage from "./pages/MainPage/ClassPage/SentencePage/RestaurantPage";
-import ChurchPage from "./pages/MainPage/ClassPage/SentencePage/ChurchPage";
+import RestaurantPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/RestaurantPage";
+import ChurchPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/ChurchPage";
+import HospitalPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/HospitalPage";
+import AirportPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/AirportPage";
+import ShoppingPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/ShoppingPage";
+import TripPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/TripPage";
+import TransportPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/TransportPage";
+
+import ITPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/ITPage";
+import MarketingPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/MarketingPage";
+import SalesPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/SalesPage";
+import HRPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/HRPage";
+import DesignPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/DesignPage";
+import ResearchPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/ResearchPage";
 
 function AppContent() {
   const location = useLocation();
@@ -22,9 +34,23 @@ function AppContent() {
     { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
     { path: "/word", element: <WordPage /> },
+
     { path: "/sentence", element: <SentencePage /> },
     { path: "/sentence/church", element: <ChurchPage /> },
     { path: "/sentence/restaurant", element: <RestaurantPage /> },
+    { path: "/sentence/hospital", element: <HospitalPage /> },
+    { path: "/sentence/airport", element: <AirportPage /> },
+    { path: "/sentence/shopping", element: <ShoppingPage /> },
+    { path: "/sentence/trip", element: <TripPage /> },
+    { path: "/sentence/transport", element: <TransportPage /> },
+
+    { path: "/sentence/IT", element: <ITPage /> },
+    { path: "/sentence/marketing", element: <MarketingPage /> },
+    { path: "/sentence/sales", element: <SalesPage /> },
+    { path: "/sentence/HR", element: <HRPage /> },
+    { path: "/sentence/design", element: <DesignPage /> },
+    { path: "/sentence/research", element: <ResearchPage /> },
+
     { path: "/grammer", element: <GrammerPage /> },
   ];
 
