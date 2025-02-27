@@ -85,7 +85,7 @@
 .section-title {
   font-size: 36px;
   font-weight: bold;
-  color: #2364fa;
+  color: #0056b3;
   text-align: center; /* 중앙 정렬 */
   margin-top: 100px;
   margin-bottom: 40px; /* 카드와 간격 조정 */
@@ -195,7 +195,7 @@
 .feature-title {
   font-size: 38px;
   font-weight: bold;
-  color: #2364fa;
+  color: #0056b3;
   text-align: center;
   margin-bottom: 50px;
   letter-spacing: -0.5px;

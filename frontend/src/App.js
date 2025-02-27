@@ -9,6 +9,9 @@ import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
 import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 
+import RestaurantPage from "./pages/MainPage/ClassPage/SentencePage/RestaurantPage";
+import ChurchPage from "./pages/MainPage/ClassPage/SentencePage/ChurchPage";
+
 function AppContent() {
   const location = useLocation();
   const hideHeaderPaths = ["/", "/login", "/signup"];
@@ -20,6 +23,8 @@ function AppContent() {
     { path: "/main", element: <MainPage /> },
     { path: "/word", element: <WordPage /> },
     { path: "/sentence", element: <SentencePage /> },
+    { path: "/sentence/church", element: <ChurchPage /> },
+    { path: "/sentence/restaurant", element: <RestaurantPage /> },
     { path: "/grammer", element: <GrammerPage /> },
   ];
 

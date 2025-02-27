@@ -45,14 +45,6 @@ const LoginPage = () => {
             회원가입
           </button>
         </div>
-        <p className="social-text">소셜 계정으로 로그인</p>
-        <div className="social-icons">
-          <button className="social-btn kakao">K</button>
-          <button className="social-btn naver">N</button>
-          <button className="social-btn google">G</button>
-          <button className="social-btn facebook">F</button>
-          <button className="social-btn apple">A</button>
-        </div>
       </div>
     </div>
   );

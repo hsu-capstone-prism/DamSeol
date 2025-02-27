@@ -28,7 +28,7 @@ const Header = () => {
         </button>
       </div>
       <div className="header-center">
-        <h1 className="logo">LOREM IPSUM</h1>
+        <h1 className="logo">DamSeol</h1>
         <div className="header-search">
           <input type="text" placeholder="Search" className="search" />
           <button className="search-btn">🔍</button>

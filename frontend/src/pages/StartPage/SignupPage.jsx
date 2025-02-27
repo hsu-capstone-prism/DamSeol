@@ -6,7 +6,7 @@ const SignupPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     member_id: "",
     password: "",
     email: "",
@@ -18,8 +18,8 @@ const SignupPage = () => {
   };
 
   const handleSignup = () => {
-    const { username, member_id, password, email } = formData;
-    if (username && member_id && password && email) {
+    const { name, member_id, password, email } = formData;
+    if (name && member_id && password && email) {
       // 여기에 서버 요청 로직을 추가 가능
       alert("회원가입이 완료되었습니다!");
       navigate("/login"); // 회원가입 후 로그인 페이지로 이동
@@ -35,7 +35,7 @@ const SignupPage = () => {
         <div className="input-group">
           <input
             type="text"
-            name="username"
+            name="name"
             placeholder="이름"
             value={formData.username}
             onChange={handleChange}

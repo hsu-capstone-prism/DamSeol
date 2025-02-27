@@ -37,7 +37,7 @@ const LandingPage = () => {
           <h1>
             청각장애인을 위한 <br />
             언어 학습 플랫폼, <br />
-            <span className="blue-text">LOREM IPSUM</span>
+            <span className="blue-text">담설(談說)</span>
           </h1>
           <p className="subtitle">
             더 나은 소통을 위한 혁신적인 학습 시스템을 만나보세요.
