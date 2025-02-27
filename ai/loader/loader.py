@@ -11,6 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import pandas as pd
+import os
 from tqdm import trange
 
 def load_targets(label_paths):
@@ -29,7 +30,7 @@ def load_targets(label_paths):
         with open(file=label_txt, mode="r") as f:
             label = f.readline()
             file_num = label_txt.split('/')[-1].split('.')[0].split('_')[-1]
-            target_dict['KoSpeech_%s' % file_num] = label
+            target_dict['KsponSpeech_label_%s' % file_num] = label
         del label_txt, label # memory deallocation
 
     return target_dict
@@ -41,12 +42,42 @@ def load_data_list(data_list_path, dataset_path):
         - **data_list_path**: csv file with training or test data list
     Outputs: audio_paths, label_paths
         - **audio_paths**: set of audio path
-                Format : [base_dir/KaiSpeech/KaiSpeech_123260.pcm, ... , base_dir/KaiSpeech/KaiSpeech_621245.pcm]
+                Format : [base_dir/KsponSpeech/KsponSpeech_123260.pcm, ... , base_dir/KsponSpeech/KsponSpeech_621245.pcm]
         - **label_paths**: set of label path
-                Format : [base_dir/KaiSpeech/KaiSpeech_label_123260.txt, ... , base_dir/KaiSpeech/KaiSpeech_label_621245.txt]
+                Format : [base_dir/KsponSpeech/KsponSpeech_label_123260.txt, ... , base_dir/KsponSpeech/KsponSpeech_label_621245.txt]
     """
     data_list = pd.read_csv(data_list_path, delimiter = ",", encoding="cp949")
-    audio_paths = list(dataset_path + data_list["audio"])
-    label_paths = list(dataset_path + data_list["label"])
+
+    audio_paths = []
+    label_paths = []
+    
+    for _, row in data_list.iterrows():
+        audio_filename = row["audio"]
+        label_filename = row["label"]
+
+        audio_found = False
+        label_found = False
+
+        for root, _, files in os.walk(dataset_path):
+            if audio_filename in files:
+                audio_paths.append(os.path.join(root, audio_filename))
+                audio_found = True
+            if label_filename in files:
+                label_paths.append(os.path.join(root, label_filename))
+                label_found = True
+
+            if audio_found and label_found:
+                break
+
+        if not audio_found:
+            raise FileNotFoundError("Audio file not found: %s" % audio_filename)
+        if not label_found:
+            raise FileNotFoundError("Label file not found: %s" % label_filename)
+        
+
+
+    #audio_paths = list(dataset_path + data_list["audio"])
+    #label_paths = list(dataset_path + data_list["label"])
+    
 
     return audio_paths, label_paths

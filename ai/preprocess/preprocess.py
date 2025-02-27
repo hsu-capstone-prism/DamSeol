@@ -17,5 +17,5 @@ def transcript_to_pronunciation(text):
     pattern = r"\([^)]*\)/\(([^)]*)\)"
     return re.sub(pattern, r"\1", text)
 
-test = "Hello (World)/(Word)"
+test = "/b Hello/ (World)/(Word)"
 print(remove_special_characters(test)) # Hello Word

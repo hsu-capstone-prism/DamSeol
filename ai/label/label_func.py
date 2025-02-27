@@ -82,3 +82,4 @@ def label_to_string(labels, index2char, EOS_token):
                 sent += index2char[j.item()]
             sents.append(sent)
         return sents
+    
