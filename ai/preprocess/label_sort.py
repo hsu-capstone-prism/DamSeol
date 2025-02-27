@@ -13,11 +13,16 @@ def sort_csv_by_freq(csv_path):
   for idx, row in enumerate(rows):
     row[0] = str(idx + 1)
 
+  # Add special labels at the end
+  last_id = int(rows[-1][0])
+  special_labels = [[str(last_id + 1), '<s>', '0'], [str(last_id + 2), '</s>', '0'], [str(last_id + 3), '_', '0']]
+  rows.extend(special_labels)
+
   # Write the sorted data back to the CSV file
   with open(csv_path, 'w', newline='', encoding='cp949') as csvfile:
     csvwriter = csv.writer(csvfile)
     csvwriter.writerow(header)  # Write the header
     csvwriter.writerows(rows)
 
-# Sort the CSV file by frequency
-sort_csv_by_freq("csv/kspon_labels.csv")
+# Example usage
+#sort_csv_by_freq("csv/kspon_labels.csv")

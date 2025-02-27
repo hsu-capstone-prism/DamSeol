@@ -20,15 +20,11 @@ def convert_labels_to_txt(label_sequence, labels):
   text = ''.join(reverse_labels.get(label, '') for label in label_sequence.split())
   return text
 
-
-def main():
-  csv_path = 'csv/kspon_labels.csv'
-  txt_path = 'E:/KsponSpeech/original'
+def label_txt(csv_path, txt_path):
   labels = load_labels(csv_path)
-
   for root, dirs, files in os.walk(txt_path):
     for file in files:
-      if file.endswith('.txt'):
+      if file.endswith('.txt') and file.startswith('KsponSpeech_') and len(file) <= 22:
         file_path = os.path.join(root, file)
         label_sequence = convert_txt_to_labels(file_path, labels)
         new_file_name = file.replace('KsponSpeech', 'KsponSpeech_label')
@@ -38,6 +34,3 @@ def main():
 
   #label_sequence = convert_txt_to_labels(txt_path, labels)
   #print(label_sequence)
-
-if __name__ == '__main__':
-  main()

@@ -54,6 +54,7 @@ from train.evaluate import evaluate
 from train.save_and_load import save_epoch_result, load_model, load_pickle, save_pickle
 from train.training import train
 
+
 if __name__ == '__main__':
     os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
     logger.info("device : %s" % torch.cuda.get_device_name(0))
@@ -69,7 +70,7 @@ if __name__ == '__main__':
     torch.cuda.manual_seed_all(hparams.seed)
     cuda = hparams.use_cuda and torch.cuda.is_available()
     device = torch.device('cuda' if cuda else 'cpu')
-
+    logger.info("setting device : %s" % device)
     feat_size = 33
 
     listener = Listener(feat_size=feat_size, hidden_size=hparams.hidden_size,
@@ -81,12 +82,16 @@ if __name__ == '__main__':
                       sos_id=SOS_token, eos_id=EOS_token, layer_size = hparams.speller_layer_size,
                       rnn_cell = 'gru', dropout_p = hparams.dropout, use_attention = hparams.use_attention, device=device)
 
+    print("Listner and Speller model complete !!")
+
     if hparams.load_model:
         model = load_model(hparams.model_path)
     else:
         model = ListenAttendSpell(listener=listener, speller=speller, use_pyramidal=hparams.use_pyramidal)
         model.flatten_parameters()
         model = nn.DataParallel(model).to(device)
+
+    model = model.to(device)
 
     # Optimize Adam Algorithm
     optimizer = optim.Adam(model.module.parameters(), lr=hparams.lr)

@@ -115,6 +115,7 @@ class Listener(nn.Module):
         """concatenate the outputs at consecutive steps of  each layer before feeding it to the next layer"""
         if prev_layer_outputs.size(1) % 2:
             """if prev_layer_outputs`s seq_len is odd, concatenate zeros"""
-            zeros = torch.zeros((prev_layer_outputs.size(0), 1, prev_layer_outputs.size(2)))
+            device = prev_layer_outputs.device
+            zeros = torch.zeros((prev_layer_outputs.size(0), 1, prev_layer_outputs.size(2)), device=device)
             prev_layer_outputs = torch.cat([prev_layer_outputs, zeros], 1)
         return torch.cat([prev_layer_outputs[:, 0::2], prev_layer_outputs[:, 1::2]], 2)

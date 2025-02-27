@@ -1,6 +1,6 @@
 import os
 import csv
-from preprocess import remove_special_characters
+from preprocess.text_preprocess import remove_special_characters
 
 def label_syllables(dataset_path):
   # Create a dictionary to store the frequency of each syllable
@@ -33,5 +33,5 @@ def label_syllables(dataset_path):
       csvwriter.writerow([idx, syllable, freq])
 
 # Example usage
-dataset_path = 'E:/KsponSpeech/original/KsponSpeech_01/KsponSpeech_0001'
-label_syllables(dataset_path)
+#dataset_path = 'E:/KsponSpeech/original/KsponSpeech_01/KsponSpeech_0001'
+#label_syllables(dataset_path)

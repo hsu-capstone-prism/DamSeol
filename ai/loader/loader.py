@@ -52,8 +52,6 @@ def load_data_list(data_list_path, dataset_path):
     label_paths = []
     
     for _, row in data_list.iterrows():
-        if len(audio_paths) >= 1000 and len(label_paths) >= 1000:
-            break
 
         audio_filename = row["audio"]
         label_filename = row["label"]

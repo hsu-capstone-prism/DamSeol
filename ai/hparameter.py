@@ -46,7 +46,7 @@ class HyperParams():
         self.use_augment = False
         self.use_pickle = True
         self.use_pyramidal = True
-        self.use_cuda = False
+        self.use_cuda = True
         self.augment_ratio = 0.7
         self.hidden_size = 256
         self.dropout = 0.5

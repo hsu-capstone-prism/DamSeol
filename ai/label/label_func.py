@@ -11,6 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import os
 import csv
 from definition import logger
 
@@ -36,7 +37,7 @@ def load_label(label_path, encoding='utf-8'):
 
     return char2index, index2char
 
-def get_label(label_path, bos_id=2037, eos_id=2038, target_dict=None):
+def get_label(label_path, bos_id=1412, eos_id=1413, target_dict=None):
     """
     Provides specific file`s label to list format.
     Inputs: filepath, bos_id, eos_id, target_dict
@@ -50,7 +51,8 @@ def get_label(label_path, bos_id=2037, eos_id=2038, target_dict=None):
                 Format : [<s>, 5, 0, 49, 4, 0, 8, 190, 0, 78, 115, </s>]
     """
     if target_dict == None: logger.info("target_dict is None")
-    key = label_path.split('/')[-1].split('.')[0]
+    #key = label_path.split('/')[-1].split('.')[0] # for linux
+    key = label_path.split('\\')[-1].split('.')[0] # for windows
     script = target_dict[key]
     tokens = script.split(' ')
 

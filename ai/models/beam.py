@@ -109,6 +109,9 @@ class Beam:
         return y_hats
 
     def get_best(self):
+        device = self.beams.device
+        self.beam_scores = self.beam_scores.to(device)
+        self.done_beam_scores = self.done_beam_scores.to(device)
         y_hats = list()
         for batch_num, batch in enumerate(self.done_beams):
             if batch == []:
