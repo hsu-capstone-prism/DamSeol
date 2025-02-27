@@ -14,3 +14,8 @@
 - LSTM 기반 딥러닝 모델 클래스 구현
 - 학습 코드 구현
 - 평가 함수 구현
+
+## [1.0.0-alpha] - 2025-02-27
+
+### 변경
+- 프로젝트 구조 변경(Korean Speech Recognition [#](https://github.com/jeongwonkwak/Korean-Speech-Recognition))

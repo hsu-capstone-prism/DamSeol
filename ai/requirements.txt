@@ -1,8 +1,7 @@
 torch
 torchaudio
-torchcrepe
 numpy
 pandas
-matplotlib
-scikit-learn
-Levenshtein
+tqdm
+librosa
+python-levenshtein
