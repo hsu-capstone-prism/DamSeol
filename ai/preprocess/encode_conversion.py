@@ -6,4 +6,4 @@ def convert_cp949_to_utf8(input_file_path, output_file_path):
     output_file.write(content)
 
 # Example usage
-# convert_cp949_to_utf8("csv/kspon_labels.csv", "csv/kspon_labels.csv")
+convert_cp949_to_utf8("csv/kspon_labels.csv", "csv/kspon_labels.csv")

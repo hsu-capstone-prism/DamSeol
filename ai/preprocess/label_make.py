@@ -1,5 +1,6 @@
 import os
 import csv
+from preprocess import remove_special_characters
 
 def label_syllables(dataset_path):
   # Create a dictionary to store the frequency of each syllable
@@ -8,10 +9,11 @@ def label_syllables(dataset_path):
   # Iterate through all files in the dataset_path and its subdirectories
   for root, _, files in os.walk(dataset_path):
     for filename in files:
-      if filename.endswith(".txt"):
+      if filename.endswith(".txt") and filename.startswith("KsponSpeech_") and len(filename) <= 22:
         file_path = os.path.join(root, filename)
         with open(file_path, 'r', encoding='cp949') as file:
           text = file.read().replace('\n', '')  # Ignore line breaks
+          text = remove_special_characters(text)  # Remove special characters
           for syllable in text:
             if syllable in syllable_freq:
               syllable_freq[syllable] += 1
@@ -31,5 +33,5 @@ def label_syllables(dataset_path):
       csvwriter.writerow([idx, syllable, freq])
 
 # Example usage
-dataset_path = 'E:/KsponSpeech/original/KsponSpeech_01'
+dataset_path = 'E:/KsponSpeech/original/KsponSpeech_01/KsponSpeech_0001'
 label_syllables(dataset_path)

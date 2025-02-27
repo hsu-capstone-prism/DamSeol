@@ -19,3 +19,11 @@
 
 ### 변경
 - 프로젝트 구조 변경(Korean Speech Recognition [#](https://github.com/jeongwonkwak/Korean-Speech-Recognition))
+
+## [1.0.1-alpha] - 2025-02-27
+
+### 추가
+- 데이터셋 전처리 코드 추가
+
+### 변경
+- Ai-hub 데이터 구조 변경에 따른 데이터 처리 경로 설정 일부 변경

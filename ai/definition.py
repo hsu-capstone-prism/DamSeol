@@ -9,7 +9,7 @@ test_char2index, test_index2char = load_label('./csv/test_labels.csv', encoding=
 SOS_token = int(char2index['<s>'])
 EOS_token = int(char2index['</s>'])
 PAD_token = int(char2index['_'])
-DATASET_PATH = "E:/KsponSpeech/original/"
+DATASET_PATH = "E:/KsponSpeech/original/KsponSpeech_01/KsponSpeech_0001"
 TRAIN_LIST_PATH = "./csv/train_list.csv"
 TEST_LIST_PATH = "./csv/test_list.csv"
 train_dict = {'loss': [], 'cer': []}

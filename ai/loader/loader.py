@@ -52,6 +52,9 @@ def load_data_list(data_list_path, dataset_path):
     label_paths = []
     
     for _, row in data_list.iterrows():
+        if len(audio_paths) >= 1000 and len(label_paths) >= 1000:
+            break
+
         audio_filename = row["audio"]
         label_filename = row["label"]
 
@@ -70,9 +73,9 @@ def load_data_list(data_list_path, dataset_path):
                 break
 
         if not audio_found:
-            raise FileNotFoundError("Audio file not found: %s" % audio_filename)
+            continue
         if not label_found:
-            raise FileNotFoundError("Label file not found: %s" % label_filename)
+            continue
         
 
 

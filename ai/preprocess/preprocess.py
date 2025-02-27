@@ -10,7 +10,7 @@ def remove_special_characters(text):
     6. 불필요한 공백 제거
     """
     # 1. b/, n/, / 등의 잡음 라벨 제거
-    text = re.sub(r'\b[bn]/', '', text)  # "b/" 또는 "n/" 삭제
+    text = re.sub(r'\b[nolbu]/', '', text)  # "b/", "n/" 삭제
     text = text.replace('/', '')  # 기타 '/' 제거
 
     # 2. (철자전사)/(발음전사) → 발음전사만 남김
@@ -38,5 +38,5 @@ def transcript_to_pronunciation(text):
     return re.sub(pattern, r"\1", text)
 
 # 테스트 예제
-test = 'b/ 아/ 모+ 몬 소리야 (70%)/(칠 심 퍼센트) 확률이라니 n/'
-print(remove_special_characters(test))  # 출력: "아 모 몬 소리야 칠 심 퍼센트 확률이라니"
+#test = 'b/ 아/ 모+ 몬 소리야 (70%)/(칠 심 퍼센트) 확률이라니 n/'
+#print(remove_special_characters(test))  # 출력: "아 모 몬 소리야 칠 심 퍼센트 확률이라니"
