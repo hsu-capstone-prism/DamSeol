@@ -47,6 +47,7 @@ class Beam:
         self.beams = None
         self.done_beams = [[] for _ in range(self.batch_size)]
         self.done_beam_scores = [[] for _ in range(self.batch_size)]
+        self.device = decoder.device
 
     def search(self, init_speller_input, listener_outputs):
         """
@@ -58,6 +59,9 @@ class Beam:
             - **C**: number of classfication
             - **S**: sequence length
         """
+        init_speller_input = init_speller_input.to(self.device)
+        listener_outputs = listener_outputs.to(self.device)
+
         # get class classfication distribution (shape: BxC)
         init_step_output = self._forward_step(init_speller_input, listener_outputs).squeeze(1)
         # get top K probability & index (shape: BxK)
@@ -109,16 +113,15 @@ class Beam:
         return y_hats
 
     def get_best(self):
-        device = self.beams.device
-        self.beam_scores = self.beam_scores.to(device)
-        self.done_beam_scores = self.done_beam_scores.to(device)
         y_hats = list()
+        self.beams = self.beams.to(self.device)
         for batch_num, batch in enumerate(self.done_beams):
             if batch == []:
                 # 진행중인 놈중 가장 높은 놈 갖고와야함
                 top_beam_idx = self.beam_scores[batch_num].topk(1)[1]
             else:
                 top_beam_idx = self.done_beam_scores[batch_num].topk(1)[1]
+            top_beam_idx = top_beam_idx.to(self.device)
             y_hats.append(*self.beams[batch_num, top_beam_idx])
         return torch.stack(y_hats, dim=0)
 
@@ -131,8 +134,10 @@ class Beam:
 
     def _forward_step(self, speller_input, listener_outputs):
         output_size = speller_input.size(1)
+        speller_input = speller_input.to(self.device)
         embedded = self.embedding(speller_input)
         embedded = self.input_dropout(embedded)
+        self.speller_hidden = self.speller_hidden.to(self.device)
         speller_output, hidden = self.rnn(embedded, self.speller_hidden)  # speller output
 
         if self.use_attention:

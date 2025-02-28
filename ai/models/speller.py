@@ -100,6 +100,11 @@ class Speller(nn.Module):
 
     def forward(self, inputs=None, listener_hidden=None, listener_outputs=None, function=F.log_softmax, teacher_forcing_ratio=0.99):
         y_hats, logit = None, None
+
+        inputs = inputs.to(self.device)
+        listener_hidden = listener_hidden.to(self.device)
+        listener_outputs = listener_outputs.to(self.device)
+
         decode_results = []
         # Validate Arguments
         batch_size = inputs.size(0)

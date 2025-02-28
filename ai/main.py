@@ -82,7 +82,7 @@ if __name__ == '__main__':
                       sos_id=SOS_token, eos_id=EOS_token, layer_size = hparams.speller_layer_size,
                       rnn_cell = 'gru', dropout_p = hparams.dropout, use_attention = hparams.use_attention, device=device)
 
-    print("Listner and Speller model complete !!")
+    logger.info("Listner and Speller model complete !!")
 
     if hparams.load_model:
         model = load_model(hparams.model_path)
@@ -93,6 +93,8 @@ if __name__ == '__main__':
 
     model = model.to(device)
 
+    logger.info("load model complete !!")
+
     # Optimize Adam Algorithm
     optimizer = optim.Adam(model.module.parameters(), lr=hparams.lr)
     # CrossEntropy로 loss 계산
@@ -100,6 +102,8 @@ if __name__ == '__main__':
 
     # load audio_paths & label_paths
     audio_paths, label_paths = load_data_list(data_list_path=TRAIN_LIST_PATH, dataset_path=DATASET_PATH)
+
+    logger.info("setting optimizer and loss function complete !!")
 
     if hparams.use_pickle:
         target_dict = load_pickle("./pickle/target_dict.txt", "load all target_dict using pickle complete !!")
