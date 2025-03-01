@@ -62,7 +62,7 @@ class Speller(nn.Module):
     def __init__(self, vocab_size, max_len, hidden_size,
                  sos_id, eos_id,
                  layer_size=1, rnn_cell='gru', dropout_p=0,
-                 use_attention=True, device=None, use_beam_search=True, k=8):
+                 use_attention=True, device=None, use_beam_search=False, k=8):
         super(Speller, self).__init__()
         self.rnn_cell = nn.LSTM if rnn_cell.lower() == 'lstm' else nn.GRU if rnn_cell.lower() == 'gru' else nn.RNN
         self.rnn = self.rnn_cell(hidden_size , hidden_size, layer_size, batch_first=True, dropout=dropout_p)
@@ -140,8 +140,10 @@ class Speller(nn.Module):
                     decode_results.append(step_output)
                     speller_input = decode_results[-1].topk(1)[1]
 
+        
             logit = torch.stack(decode_results, dim=1).to(self.device)
             y_hats = logit.max(-1)[1]
+
         print("Speller y_hats ====================")
         print(y_hats)
 
