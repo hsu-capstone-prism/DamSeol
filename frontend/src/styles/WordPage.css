@@ -11,19 +11,22 @@
   margin-bottom: 20px;
 }
 
-.learning-section {
+.word-learning-section {
   background-color: #f8f9fa;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  padding: px;
+  padding: 40px;
   border-radius: 12px;
-  padding-bottom: 45px;
+  max-width: 1000px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
 }
 
-.learning-section h2 {
+.word-learning-section h2 {
   font-size: 20px;
-  margin-bottom: 20px;
   color: #0056b3;
-  border-bottom: 2px solid #0056b3;
+  border-bottom: 1px solid #e4e0e0;
+  margin-bottom: 20px;
   padding-bottom: 20px;
 }
 

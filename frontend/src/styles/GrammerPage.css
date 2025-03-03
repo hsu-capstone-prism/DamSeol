@@ -11,20 +11,15 @@
   margin-bottom: 20px;
 }
 
-.learning-section {
+.grammer-learning-section {
   background-color: #f8f9fa;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   padding: 40px;
   border-radius: 12px;
-  padding-bottom: 45px;
-}
-
-.learning-section h2 {
-  font-size: 22px;
-  margin-bottom: 20px;
-  color: #0056b3;
-  border-bottom: 2px solid #0056b3;
-  padding-bottom: 20px;
+  width: 100%;
+  max-width: 1000px;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .box-container {
@@ -36,6 +31,7 @@
 .box {
   flex: 1 1 150px;
   min-width: 150px;
+  max-width: 200px;
   background-color: #e8f0fe;
   border-radius: 10px;
   padding: 25px;

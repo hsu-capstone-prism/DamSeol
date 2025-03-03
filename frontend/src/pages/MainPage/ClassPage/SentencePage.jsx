@@ -15,7 +15,7 @@ const SentencePage = () => {
       <div className="sentence-page">
         <h1 className="section-title">문장 학습</h1>
 
-        <section className="learning-section">
+        <section className="sentence-learning-section">
           <h2>특별한 상황</h2>
           <div className="box-container">
             <div
@@ -60,7 +60,7 @@ const SentencePage = () => {
             <div className="box">..</div>
           </div>
         </section>
-        <section className="learning-section">
+        <section className="sentence-learning-section">
           <h2>비즈니스</h2>
           <div className="box-container">
             <div className="box" onClick={() => handleClick("/sentence/IT")}>

@@ -11,7 +11,7 @@ const WordPage = () => {
       <div className="word-page">
         <h1 className="section-title">단어 학습</h1>
 
-        <section className="learning-section">
+        <section className="word-learning-section">
           <h2>음운</h2>
           <div className="box-container">
             <div className="box">모음</div>
@@ -26,7 +26,7 @@ const WordPage = () => {
             <div className="box">..</div>
           </div>
         </section>
-        <section className="learning-section">
+        <section className="word-learning-section">
           <h2>음운 변동</h2>
           <div className="box-container">
             <div className="box">모음조화</div>
@@ -39,7 +39,7 @@ const WordPage = () => {
             <div className="box">..</div>
           </div>
         </section>
-        <section className="learning-section">
+        <section className="word-learning-section">
           <h2>사잇소리 현상</h2>
           <div className="box-container">
             <div className="box">ㅅ 첨가</div>

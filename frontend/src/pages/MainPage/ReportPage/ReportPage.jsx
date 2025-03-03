@@ -25,7 +25,6 @@ ChartJS.register(
 );
 
 const ReportPage = () => {
-  // 주차별 정확도 데이터 (Line Chart)
   const weeklyData = {
     labels: ["1주차", "2주차", "3주차", "4주차"],
     datasets: [
@@ -53,7 +52,6 @@ const ReportPage = () => {
     ],
   };
 
-  // 5각형 그래프 데이터 (Radar Chart)
   const radarData = {
     labels: ["정확도", "리듬 적확성", "평균 RMS", "음정 변화율", "음정 평균값"],
     datasets: [
@@ -69,11 +67,8 @@ const ReportPage = () => {
 
   return (
     <div className="report-container">
-      {/* 제목 */}
       <h1 className="section-title">Report</h1>
-
-      {/* 주차별 정확도 추이 */}
-      <section className="learning-section">
+      <section className="report-learning-section">
         <h2>주차별 정확도 추이</h2>
         <div className="chart-container">
           <Line data={weeklyData} />
@@ -81,7 +76,7 @@ const ReportPage = () => {
       </section>
 
       {/* 피드백 + 5각형 그래프 */}
-      <section className="learning-section feedback-section">
+      <section className="report-learning-section feedback-section">
         <div className="radar-chart-container">
           <Radar data={radarData} />
         </div>
@@ -104,7 +99,7 @@ const ReportPage = () => {
       </section>
 
       {/* 최근 학습 */}
-      <section className="learning-section">
+      <section className="report-learning-section">
         <h2>최근 학습</h2>
         <div className="teacher-container">
           <div className="box teacher">
