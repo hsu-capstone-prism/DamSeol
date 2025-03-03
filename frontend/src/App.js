@@ -14,20 +14,20 @@ import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/Consonan
 import StudyPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/StudyPage";
 
 //SentencePage
-import RestaurantPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/RestaurantPage";
-import ChurchPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/ChurchPage";
-import HospitalPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/HospitalPage";
-import AirportPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/AirportPage";
-import ShoppingPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/ShoppingPage";
-import TripPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/TripPage";
-import TransportPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/TransportPage";
+import RestaurantPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/RestaurantPage/RestaurantPage";
+import ChurchPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/ChurchPage/ChurchPage";
+import HospitalPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/HospitalPage/HospitalPage";
+import AirportPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/AirportPage/AirportPage";
+import ShoppingPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/ShoppingPage/ShoppingPage";
+import TripPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/TripPage/TripPage";
+import TransportPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/TransportPage/TransportPage";
 
-import ITPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/ITPage";
-import MarketingPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/MarketingPage";
-import SalesPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/SalesPage";
-import HRPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/HRPage";
-import DesignPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/DesignPage";
-import ResearchPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/ResearchPage";
+import ITPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/ITPage/ITPage";
+import MarketingPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/MarketingPage/MarketingPage";
+import SalesPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/SalesPage/SalesPage";
+import HRPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/HRPage/HRPage";
+import DesignPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/DesignPage/DesignPage";
+import ResearchPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/ResearchPage/ResearchPage";
 
 function AppContent() {
   const location = useLocation();
