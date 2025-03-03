@@ -27,8 +27,8 @@ public class Word {
     private Subcategory subcategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private FileEntity file;
+    @JoinColumn(name = "lipshape3d_id")
+    private LipShape3D lipShape3d;
 
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL)
     private List<WordRecord> wordRecords = new ArrayList<>();

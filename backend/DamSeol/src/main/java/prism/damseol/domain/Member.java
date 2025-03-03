@@ -31,6 +31,9 @@ public class Member {
     private String content;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<WaveFormRecord> waveFormRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<WordRecord> wordRecords = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
