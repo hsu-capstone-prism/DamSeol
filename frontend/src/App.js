@@ -8,6 +8,7 @@ import WordPage from "./pages/MainPage/ClassPage/WordPage";
 import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
 import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 import SignupPage from "./pages/StartPage/SignupPage";
+import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
 
 //WordPage
 import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/ConsonantPage";
@@ -38,6 +39,8 @@ function AppContent() {
     { path: "/login", element: <LoginPage /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
+    { path: "/word", element: <WordPage /> },
+    { path: "/report", element: <ReportPage /> },
 
     //word
     { path: "/word", element: <WordPage /> },
