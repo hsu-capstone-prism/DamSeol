@@ -3,6 +3,15 @@ import csv
 from preprocess.text_preprocess import remove_special_characters
 
 def label_syllables(dataset_path):
+  """
+  데이터셋의 모든 음절에 대한 레이블을 생성합니다.
+  매개변수:
+  dataset_path (str): 음절 레이블을 생성할 데이터셋 경로.
+  CSV 파일 형식:
+  - id: 음절 ID
+  - char: 음절
+  - freq: 음절 빈도
+  """
   # Create a dictionary to store the frequency of each syllable
   syllable_freq = {}
 

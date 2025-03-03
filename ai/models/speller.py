@@ -110,7 +110,7 @@ class Speller(nn.Module):
         batch_size = inputs.size(0)
         max_length = inputs.size(1) - 1  # minus the start of sequence symbol
         # Initiate Speller Hidden State to zeros  :  LxBxH
-        speller_hidden = torch.FloatTensor(self.layer_size, batch_size, self.hidden_size).uniform_(-1.0, 1.0)#.cuda()
+        speller_hidden = torch.FloatTensor(self.layer_size, batch_size, self.hidden_size).uniform_(-1.0, 1.0).to(self.device)
         # Decide Use Teacher Forcing or Not
         use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
 
@@ -144,7 +144,7 @@ class Speller(nn.Module):
             logit = torch.stack(decode_results, dim=1).to(self.device)
             y_hats = logit.max(-1)[1]
 
-        print("Speller y_hats ====================")
-        print(y_hats)
+        #print("Speller y_hats ====================")
+        #print(y_hats)
 
         return y_hats, logit if self.training else y_hats

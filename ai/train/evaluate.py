@@ -37,9 +37,11 @@ def evaluate(model, queue, loss_func, device):
             target = scripts[:, 1:]
 
             model.module.flatten_parameters()
-            logit = model(feats, feat_lengths, scripts, teacher_forcing_ratio=0.0)
+            #logit = model(feats, feat_lengths, scripts, teacher_forcing_ratio=0.0)
+            logit = model(feats, scripts, teacher_forcing_ratio=0.0)
 
-            logit = torch.stack(logit, dim=1).to(device)
+            #logit = torch.stack(logit, dim=1).to(device)
+            log = torch.stack(logit, dim=1).to(device).float()
             y_hat = logit.max(-1)[1]
 
             loss = loss_func(logit.contiguous().view(-1, logit.size(-1)), target.contiguous().view(-1))

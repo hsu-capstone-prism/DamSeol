@@ -11,7 +11,7 @@ def sort_csv_by_freq(csv_path):
 
   # Reassign IDs based on the new order
   for idx, row in enumerate(rows):
-    row[0] = str(idx + 1)
+    row[0] = str(idx)
 
   # Add special labels at the end
   last_id = int(rows[-1][0])

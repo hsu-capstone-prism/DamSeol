@@ -21,6 +21,16 @@ def convert_labels_to_txt(label_sequence, labels):
   return text
 
 def label_txt(csv_path, txt_path):
+  """
+  주어진 텍스트 파일들을 레이블 시퀀스로 변환합니다.
+  매개변수:
+  csv_path (str): 레이블 CSV 파일 경로.
+  txt_path (str): 변환할 텍스트 파일이 저장된 디렉토리 경로.
+  텍스트 파일은 'KsponSpeech_'로 시작하고, 길이가 22자 이하인 파일(KsponSpeech_xxxxxx.txt 형식)만 포함됩니다.
+  변환된 레이블 시퀀스는 'KsponSpeech_label_'로 시작하는 파일로 저장됩니다.
+  Output:
+  'KsponSpeech_label_xxxxxx.txt' 형식의 파일이 생성됩니다.
+  """
   labels = load_labels(csv_path)
   for root, dirs, files in os.walk(txt_path):
     for file in files:
