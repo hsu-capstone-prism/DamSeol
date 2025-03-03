@@ -33,8 +33,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    /*
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -42,7 +40,8 @@ public class WebSecurityConfig {
                         .requestMatchers(PUBLIC_MATCHERS).permitAll()
                         .requestMatchers("/", "/home", "/signup").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+//                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -58,11 +57,10 @@ public class WebSecurityConfig {
                 .exceptionHandling(exceptions -> exceptions
                         .accessDeniedPage("/accessDenied")
                 )
-                .userDetailsService(customUserDetailsService);
+                .userDetailsService(customUserDetailsService)
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/api/**"));
 
         return http.build();
     }
-    */
 }
