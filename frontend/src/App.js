@@ -9,6 +9,11 @@ import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
 import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 
+//WordPage
+import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/ConsonantPage";
+import StudyPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/StudyPage";
+
+//SentencePage
 import RestaurantPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/RestaurantPage";
 import ChurchPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/ChurchPage";
 import HospitalPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/HospitalPage";
@@ -33,9 +38,16 @@ function AppContent() {
     { path: "/login", element: <LoginPage /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
-    { path: "/word", element: <WordPage /> },
 
+    //word
+    { path: "/word", element: <WordPage /> },
+    //phon
+    { path: "/phon/consonant", element: <ConsonantPage /> },
+    { path: "/phon/consonant/study/:letter", element: <StudyPage /> },
+
+    //sentence
     { path: "/sentence", element: <SentencePage /> },
+    //special
     { path: "/sentence/church", element: <ChurchPage /> },
     { path: "/sentence/restaurant", element: <RestaurantPage /> },
     { path: "/sentence/hospital", element: <HospitalPage /> },
@@ -43,7 +55,7 @@ function AppContent() {
     { path: "/sentence/shopping", element: <ShoppingPage /> },
     { path: "/sentence/trip", element: <TripPage /> },
     { path: "/sentence/transport", element: <TransportPage /> },
-
+    //business
     { path: "/sentence/IT", element: <ITPage /> },
     { path: "/sentence/marketing", element: <MarketingPage /> },
     { path: "/sentence/sales", element: <SalesPage /> },
@@ -51,6 +63,7 @@ function AppContent() {
     { path: "/sentence/design", element: <DesignPage /> },
     { path: "/sentence/research", element: <ResearchPage /> },
 
+    //grammer
     { path: "/grammer", element: <GrammerPage /> },
   ];
 

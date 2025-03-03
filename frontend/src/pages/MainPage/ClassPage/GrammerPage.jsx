@@ -7,7 +7,6 @@ const GrammerPage = () => {
     <Layout>
       <div className="grammer-page">
         <h1 className="section-title">문법 연습</h1>
-
         <section className="learning-section">
           <h2>문법 연습</h2>
           <div className="box-container">
