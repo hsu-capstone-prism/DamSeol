@@ -25,9 +25,6 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String phone;
-
     private String content;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
