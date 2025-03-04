@@ -80,7 +80,7 @@ public class WebSecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll()
+                        .requestMatchers("/api/login", "/", "/api/join").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
@@ -88,7 +88,13 @@ public class WebSecurityConfig {
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(
+                        new LoginFilter(
+                                authenticationManager(authenticationConfiguration),
+                                jwtUtil
+                        ),
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         //세션 설정(stateless)
         http

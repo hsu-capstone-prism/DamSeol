@@ -17,11 +17,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
+
+    public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        super.setFilterProcessesUrl("/api/login"); //URL 변경
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -46,7 +51,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String username = customUserDetails.getUsername();
 
-        // ✅ 모든 역할을 가져와서 List<String>으로 변환
+        //모든 역할을 가져와서 List<String>으로 변환
         List<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());

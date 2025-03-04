@@ -10,16 +10,8 @@ import prism.damseol.service.JoinService;
 @Controller
 @ResponseBody
 @AllArgsConstructor
-public class JoinController {
+public class LoginController {
 
-    private final JoinService joinService;
 
-    @PostMapping("/api/join")
-    public String joinProcess(JoinDTO joinDTO) {
-
-        System.out.println(joinDTO.getUsername());
-        joinService.joinProcess(joinDTO);
-
-        return "ok";
-    }
 }
+
