@@ -1,0 +1,72 @@
+/* 회원가입 페이지 전체 */
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: "Poppins", sans-serif;
+}
+
+/* 회원가입 박스 */
+.signup-box {
+  background: white;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 80%;
+  text-align: center;
+}
+
+/* 제목 */
+.signup-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* 입력 필드 */
+.input-group {
+  width: 93%;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
+
+/* 버튼 */
+.signup-button {
+  padding: 15px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background-color: #0056b3;
+  color: white;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .signup-box {
+    width: 95%;
+    padding: 40px;
+  }
+
+  input {
+    font-size: 18px;
+    padding: 12px;
+  }
+
+  .signup-button {
+    font-size: 18px;
+    padding: 12px 30px;
+  }
+}

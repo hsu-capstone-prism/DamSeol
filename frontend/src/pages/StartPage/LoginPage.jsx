@@ -19,7 +19,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">로그인</h2>
+        <h2 className="login-title">Login</h2>
         <div className="input-group">
           <input
             type="text"
@@ -41,15 +41,9 @@ const LoginPage = () => {
           <button className="login-button" onClick={handleLogin}>
             로그인
           </button>
-          <button className="signup-button">회원가입</button>
-        </div>
-        <p className="social-text">소셜 계정으로 로그인</p>
-        <div className="social-icons">
-          <button className="social-btn kakao">K</button>
-          <button className="social-btn naver">N</button>
-          <button className="social-btn google">G</button>
-          <button className="social-btn facebook">F</button>
-          <button className="social-btn apple">A</button>
+          <button className="signup-button" onClick={() => navigate("/signup")}>
+            회원가입
+          </button>
         </div>
       </div>
     </div>
