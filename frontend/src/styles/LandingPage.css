@@ -56,7 +56,7 @@
   font-weight: 600;
   transition: all 0.3s ease;
   border: 2px solid transparent;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* 버튼 그림자 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .start-button {
@@ -86,9 +86,9 @@
   font-size: 38px;
   font-weight: bold;
   color: #0056b3;
-  text-align: center; /* 중앙 정렬 */
+  text-align: center;
   margin-top: 100px;
-  margin-bottom: 50px; /* 카드와 간격 조정 */
+  margin-bottom: 50px;
   letter-spacing: -0.5px;
 }
 
@@ -96,12 +96,12 @@
 .section-container {
   min-height: 60vh;
   display: flex;
-  justify-content: center; /* 카드들과 정렬 */
+  justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
-  max-width: 1200px; /* 전체 카드 섹션 너비와 일치 */
-  margin: 0 auto; /* 중앙 정렬 */
-  gap: 25px; /* 카드 간격 */
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 25px;
   padding: 60px 10px;
   background: white;
 }
@@ -113,11 +113,11 @@
   padding: 20px 20px;
   width: 320px;
   height: 340px;
-  text-align: center; /* 제목 및 본문 정렬 */
+  text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 내용과 버튼을 분리 */
-  align-items: center; /* 좌측 정렬 */
+  justify-content: center;
+  align-items: center;
   transition: transform 0.3s ease-in-out;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
@@ -257,4 +257,72 @@
     width: 80%;
     max-width: 400px;
   }
+}
+
+/* 모달 전체 화면 배경 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 모달 박스 */
+.modal-content {
+  background: white;
+  padding: 40px 30px;
+  width: 480px;
+  max-width: 90%;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+/* 모달 제목과 X 버튼을 같은 줄에 배치 */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+/* 제목 */
+.modal-header h2 {
+  font-size: 26px;
+  color: #0056b3;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* X 닫기 버튼 (제목 오른쪽에 배치) */
+.close-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #0056b3;
+  transform: scale(1.1);
+}
+
+/* 모달 설명 */
+.modal-content p {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 10px;
 }
