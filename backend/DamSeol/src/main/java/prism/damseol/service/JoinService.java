@@ -35,6 +35,7 @@ public class JoinService {
         data.setName(username);
         data.setPassword(bCryptPasswordEncoder.encode(password));
         data.setEmail(email);
+
         Optional<Role> optionalRole = roleRepository.findByName("ROLE_ADMIN");
         Role role = optionalRole.orElseGet(() -> {
             Role newRole = new Role();
