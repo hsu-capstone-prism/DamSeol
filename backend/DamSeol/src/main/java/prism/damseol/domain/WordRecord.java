@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class WordRecord {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wordrecord_id")
     private Long id;
 

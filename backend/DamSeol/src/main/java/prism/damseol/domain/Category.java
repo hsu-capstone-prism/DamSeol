@@ -11,9 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long id;
+
 
     @Column(nullable = false, length = 100)
     private String name;

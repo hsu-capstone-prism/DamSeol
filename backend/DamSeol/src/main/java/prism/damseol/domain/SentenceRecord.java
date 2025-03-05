@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SentenceRecord {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sentencerecord_id")
     private Long id;
 

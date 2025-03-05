@@ -15,7 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class LipShape {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lipshape_id")
     private Long id;
 

@@ -12,7 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Word {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "word_id")
     private Long id;
 

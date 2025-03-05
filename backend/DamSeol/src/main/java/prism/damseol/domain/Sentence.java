@@ -12,7 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Sentence {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sentence_id")
     private Long id;
 

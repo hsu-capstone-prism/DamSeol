@@ -16,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class WaveFormRecord {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "waveformrecord_id")
     private Long id;
 
