@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +13,10 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LipShape3D {
+public class LipShape {
 
     @Id @GeneratedValue
-    @Column(name = "lipshape3d_id")
+    @Column(name = "lipshape_id")
     private Long id;
 
     @Column(nullable = false, length = 512)
@@ -26,6 +25,6 @@ public class LipShape3D {
     @Column(nullable = false, length = 255)
     private String fileName;
 
-    @OneToMany(mappedBy = "lipShape3d", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "lipShape", cascade = CascadeType.ALL)
     private List<Word> words = new ArrayList<>();
 }
