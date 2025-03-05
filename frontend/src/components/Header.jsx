@@ -20,6 +20,11 @@ const Header = () => {
     navigate("/");
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className="header">
       <div className="header-left">
@@ -28,7 +33,7 @@ const Header = () => {
         </button>
       </div>
       <div className="header-center">
-        <h1 className="logo">LOREM IPSUM</h1>
+        <h1 className="logo">DamSeol</h1>
         <div className="header-search">
           <input type="text" placeholder="Search" className="search" />
           <button className="search-btn">🔍</button>
@@ -61,7 +66,7 @@ const Header = () => {
       </div>
       <div className={`sidebar ${isMenuOpen ? "open" : ""}`}>
         <ul className="sidebar-menu">
-          <li>Home</li>
+          <li onClick={() => handleNavigate("/main")}>Home</li>
           <li>Class</li>
           <li>Report</li>
           <li>Game</li>

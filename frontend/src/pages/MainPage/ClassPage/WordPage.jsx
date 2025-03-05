@@ -1,18 +1,23 @@
 import React from "react";
 import Layout from "../Layout";
+import { useNavigate } from "react-router-dom";
 import "../../../styles/WordPage.css";
 
 const WordPage = () => {
+  const navigate = useNavigate();
+
   return (
     <Layout>
       <div className="word-page">
         <h1 className="section-title">단어 학습</h1>
 
-        <section className="learning-section">
+        <section className="word-learning-section">
           <h2>음운</h2>
           <div className="box-container">
             <div className="box">모음</div>
-            <div className="box">자음</div>
+            <div className="box" onClick={() => navigate("/phon/consonant")}>
+              자음
+            </div>
             <div className="box">모음과 자음의 결합</div>
             <div className="box">음절의 끝소리</div>
             <div className="box">유성자음과 무성자음</div>
@@ -21,7 +26,7 @@ const WordPage = () => {
             <div className="box">..</div>
           </div>
         </section>
-        <section className="learning-section">
+        <section className="word-learning-section">
           <h2>음운 변동</h2>
           <div className="box-container">
             <div className="box">모음조화</div>
@@ -34,7 +39,7 @@ const WordPage = () => {
             <div className="box">..</div>
           </div>
         </section>
-        <section className="learning-section">
+        <section className="word-learning-section">
           <h2>사잇소리 현상</h2>
           <div className="box-container">
             <div className="box">ㅅ 첨가</div>
