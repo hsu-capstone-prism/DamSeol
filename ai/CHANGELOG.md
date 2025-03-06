@@ -37,3 +37,8 @@
 
 ### 해결
 - 토치 Device 관련 문제 해결
+
+## [2.0.0-alpha] - 2025-03-06
+
+### 변경
+- 프로젝트 구조 변경(KoSpeech [#](https://github.com/sooftware/kospeech))

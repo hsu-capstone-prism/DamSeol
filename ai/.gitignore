@@ -1,23 +1,33 @@
 venv/
+venv/*
 env/
 .venv/
 .env/
 .env
 
-
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+outputs/
 
 *.log
 
 .DS_Store
 
-
 .metadata/
-data/
-pickle/
-*.wav
 *.label
 *.script
+*.bin
+*.zip
+*.idea
+
+experiment/
+experiment/*
+data/sample
+data/sample/*
+data/data_list/debug_list.csv
+data/data_list/sample_list.csv
+
+docs/training
+docs/training/*
+__pycache__/
+*.pyc
+.idea
+.ipynb_checkpoints
