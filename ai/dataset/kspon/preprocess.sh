@@ -1,7 +1,7 @@
 # Author
 # Soohwan Kim, Seyoung Bae, Cheolhwang Won, Soyoung Cho, Jeongwon Kwak
 
-DATASET_PATH="E:/KsponSpeech/original/KsponSpeech_test"
+DATASET_PATH="E:/KsponSpeech/original"
 VOCAB_DEST='E:/KsponSpeech'
 OUTPUT_UNIT='character'                                          # you can set character / subword / grapheme
 PREPROCESS_MODE='phonetic'                                       # phonetic : 칠 십 퍼센트,  spelling : 70%

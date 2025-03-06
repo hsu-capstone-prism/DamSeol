@@ -1,6 +1,6 @@
 # data
 dataset: 'kspon'
-dataset_path: 'E:/KsponSpeech/original/KsponSpeech_test'
+dataset_path: 'E:/KsponSpeech/original'
 transcripts_path: '../../../data/transcripts.txt'
 output_unit: 'character'
 

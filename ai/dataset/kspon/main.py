@@ -23,7 +23,7 @@ def _get_parser():
     """ Get arguments parser """
     parser = argparse.ArgumentParser(description='KsponSpeech Preprocess')
     parser.add_argument('--dataset_path', type=str,
-                        default='E:/KsponSpeech/original/KsponSpeech_test',
+                        default='E:/KsponSpeech/original',
                         help='path of original dataset')
     parser.add_argument('--vocab_dest', type=str,
                         default='E:/KsponSpeech',
