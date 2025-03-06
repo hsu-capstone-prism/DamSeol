@@ -11,19 +11,15 @@ import java.util.List;
 @AllArgsConstructor
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long id;
+
 
     @Column(nullable = false, length = 100)
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Subcategory> subcategories = new ArrayList<>();
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Word> words = new ArrayList<>();
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Sentence> sentences = new ArrayList<>();
 }

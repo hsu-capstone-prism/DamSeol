@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class WordRecord {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wordrecord_id")
     private Long id;
 
@@ -29,8 +30,8 @@ public class WordRecord {
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private FileEntity file;
+    @JoinColumn(name = "waveformrecord_id")
+    private WaveFormRecord waveFormRecord;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

@@ -12,7 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Word {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "word_id")
     private Long id;
 
@@ -23,16 +24,12 @@ public class Word {
     private String wordPron;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id")
     private Subcategory subcategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private FileEntity file;
+    @JoinColumn(name = "lipshape_id")
+    private LipShape lipShape;
 
     @OneToMany(mappedBy = "word", cascade = CascadeType.ALL)
     private List<WordRecord> wordRecords = new ArrayList<>();

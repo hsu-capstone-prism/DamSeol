@@ -11,6 +11,8 @@ const LandingPage = () => {
     section3: false,
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll(".fade-section");
@@ -37,7 +39,7 @@ const LandingPage = () => {
           <h1>
             청각장애인을 위한 <br />
             언어 학습 플랫폼, <br />
-            <span className="blue-text">LOREM IPSUM</span>
+            <span className="blue-text">담설(談說)</span>
           </h1>
           <p className="subtitle">
             더 나은 소통을 위한 혁신적인 학습 시스템을 만나보세요.
@@ -46,10 +48,38 @@ const LandingPage = () => {
             <button className="start-button" onClick={() => navigate("/login")}>
               시작하기 →
             </button>
-            <button className="detail-button">자세히</button>
+            <button
+              className="detail-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              자세히
+            </button>
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            {/* ✅ X 버튼을 제목과 같은 줄에 배치 */}
+            <div className="modal-header">
+              <h2>담설(談說)이란?</h2>
+              <button
+                className="close-button"
+                onClick={() => setIsModalOpen(false)}
+              >
+                &times;
+              </button>
+            </div>
+            <p>
+              <strong>“담설(談說)”</strong>은 ‘말을 주고받으며 소통한다’는
+              의미를 담고 있습니다. <br />
+              청각장애인들이 언어를 보다 쉽게 학습하고, <br />
+              원활한 소통을 할 수 있도록 지원하는 플랫폼입니다.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* 배경 및 필요성 - 첫 번째 카드 위에 위치 */}
       <div className="section-title">어떤 서비스 인가요?</div>

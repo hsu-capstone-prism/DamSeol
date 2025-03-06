@@ -12,7 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Subcategory {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subcategory_id")
     private Long id;
 

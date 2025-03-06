@@ -12,16 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Sentence {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sentence_id")
     private Long id;
 
     @Column(nullable = false)
     private String text;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id")
