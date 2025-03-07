@@ -315,6 +315,7 @@ def split_dataset(config: DictConfig, transcripts_path: str, vocab: Vocabulary):
         dataset_path=config.train.dataset_path,
         audio_extension=config.audio.audio_extension
     )
-
+    
+    logger.info('train time step: %d, valid time step: %d, total time step: %d' % (train_time_step, valid_time_step, total_time_step))
     logger.info("split dataset complete !!")
     return train_time_step, trainset_list, validset
