@@ -10,11 +10,11 @@ import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
 
-//WordPage
+// WordPage
 import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/ConsonantPage";
 import StudyPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/StudyPage";
 
-//SentencePage
+// SentencePage
 import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
 import SpecialPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/SpecialPage";
 import sentenceData from "./data/sentenceData";
@@ -22,6 +22,9 @@ import sentenceData from "./data/sentenceData";
 function AppContent() {
   const location = useLocation();
   const hideHeaderPaths = ["/", "/login", "/signup"];
+  const shouldHideHeader = hideHeaderPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   const routes = [
     { path: "/", element: <LandingPage /> },
@@ -30,31 +33,31 @@ function AppContent() {
     { path: "/main", element: <MainPage /> },
     { path: "/report", element: <ReportPage /> },
 
-    //word
+    // word
     { path: "/word", element: <WordPage /> },
-    //phon
     { path: "/phon/consonant", element: <ConsonantPage /> },
     { path: "/phon/consonant/study/:letter", element: <StudyPage /> },
 
-    //sentence
+    // sentence
     { path: "/sentence", element: <SentencePage /> },
+    { path: "/sentence/business", element: <BusinessPage /> },
+    { path: "/sentence/special", element: <SpecialPage /> },
 
-    //grammer
+    // grammer
     { path: "/grammer", element: <GrammerPage /> },
   ];
 
   return (
     <div>
-      {!hideHeaderPaths.includes(location.pathname) && <Header />}
+      {!shouldHideHeader && <Header />}
       <Routes>
         {routes.map(({ path, element }, key) => (
           <Route path={path} element={element} key={key} />
         ))}
-        {/* sentence */}
-        {sentenceData.map(({ id }) => (
+        {sentenceData.map(({ id, category }) => (
           <Route
             key={id}
-            path={`/sentence/:category`}
+            path={`/sentence/${category}`}
             element={<BusinessPage />}
           />
         ))}
