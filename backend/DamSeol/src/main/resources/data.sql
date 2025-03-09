@@ -91,3 +91,36 @@ INSERT INTO word (text, word_pron, subcategory_id) VALUES
 
     ('촛불', '촏뿔, 초뿔', 33), ('콧등', '콛등, 코뜽', 33), ('뱃사공', '밷싸공, 배싸공', 33), ('햇빛', '핻삗, 해삗', 33), ('냇가', '낻까, 내까', 33),
     ('샛길', '샏낄, 새낄', 33), ('뱃속', '밷쏙, 배쏙', 33); -- ㄴ 첨가
+
+-- 카테고리 삽입
+INSERT INTO category (name) VALUES
+    ('Grammar'),    -- 문법 연습
+    ('Special'),    -- 특별한 상황
+    ('Business');   -- 비즈니스
+
+-- 서브카테고리 삽입
+INSERT INTO subcategory (name, category_id) VALUES
+    -- 문법 연습 (category_id = 3)
+    ('BasicSentence', 3),  -- 기본 문장 구조
+    ('VowelPron', 3),  -- 문장 내 모음 발음
+    ('ConsonantPron', 3),  -- 문장 내 자음 발음
+    ('Alter', 3),  -- 문장 내 음운 변동
+    ('Add', 3),  -- 사잇소리 현상
+    ('IrregularUsage', 3),  -- 문장 내 불규칙 활용
+
+    -- 특별한 상황 (category_id = 4)
+    ('Church', 4),  -- 교회에서 대화
+    ('RestaurantOrdering', 4),  -- 식당에서 주문
+    ('Hospital', 4),  -- 병원에서 대화
+    ('Airport', 4),  -- 공항에서 대화
+    ('Shopping', 4),  -- 쇼핑할 때의 대화
+    ('Travel', 4),  -- 여행 중 대화
+    ('TransportUsage', 4),  -- 대중교통 이용
+
+    -- 비즈니스 (category_id = 5)
+    ('ITDeveloper', 5),  -- IT 개발자
+    ('Marketing', 5),  -- 마케팅 업무
+    ('Sales', 5),  -- 영업 업무
+    ('HR', 5),  -- HR 업무
+    ('Design', 5),  -- 디자인 업무
+    ('Research', 5);  -- 연구 개발
