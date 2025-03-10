@@ -127,4 +127,4 @@ INSERT INTO subcategory (name, category_id) VALUES
 
 -- 문장 삽입
 INSERT INTO sentence (text, subcategory_id) VALUES
-    ('샬롬! 오늘 예배 가운데 큰 은혜 받으시길 바랍니다.', 5),
+    ('샬롬! 오늘 예배 가운데 큰 은혜 받으시길 바랍니다.', 42);
