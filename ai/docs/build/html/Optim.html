@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Optim &mdash; KoSpeech latest documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Learning Rate Scheduler" href="Learning Rate Schedulers.html" />
+    <link rel="prev" title="Evaluator" href="Evaluator.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> KoSpeech
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">GETTING STARTED</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notes/intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/Preparation.html">Preparation before Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/opts.html">Options</a></li>
+</ul>
+<p class="caption"><span class="caption-text">ARCHITECTURE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Deep Speech 2.html">Deep Speech 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Listen, Attend and Spell.html">Listen, Attend and Spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Speech Transformer.html">Speech Transformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Common Modules.html">Common Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">LIBRARY REFERENCE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Checkpoint.html">Checkpoint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Decode.html">Decode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Evaluator.html">Evaluator</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Optim</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-kospeech.optim.__init__">Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-kospeech.optim.radam">RAdam</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Learning Rate Schedulers.html">Learning Rate Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Trainer.html">Trainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Vocabs.html">Vocabs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Voice Activity Detection.html">Voice Activity Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Etc.html">Etc</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">KoSpeech</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Optim</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Optim.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="optim">
+<h1>Optim<a class="headerlink" href="#optim" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-kospeech.optim.__init__">
+<span id="optimizer"></span><h2>Optimizer<a class="headerlink" href="#module-kospeech.optim.__init__" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kospeech.optim.__init__.Optimizer">
+<em class="property">class </em><code class="descclassname">kospeech.optim.__init__.</code><code class="descname">Optimizer</code><span class="sig-paren">(</span><em>optim</em>, <em>scheduler=None</em>, <em>scheduler_period=None</em>, <em>max_grad_norm=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kospeech/optim/__init__.html#Optimizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kospeech.optim.__init__.Optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is wrapper classs of torch.optim.Optimizer.
+This class provides functionalities for learning rate scheduling and gradient norm clipping.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>optim</strong> (<a class="reference external" href="https://pytorch.org/docs/master/optim.html#torch.optim.Optimizer" title="(in PyTorch vmaster (1.8.0a0+2221ff5 ))"><em>torch.optim.Optimizer</em></a>) – optimizer object, the parameters to be optimized
+should be given when instantiating the object, e.g. torch.optim.Adam, torch.optim.SGD</li>
+<li><strong>scheduler</strong> (<em>kospeech.optim.lr_scheduler</em><em>, </em><em>optional</em>) – learning rate scheduler</li>
+<li><strong>scheduler_period</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – timestep with learning rate scheduler</li>
+<li><strong>max_grad_norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – value used for gradient norm clipping</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kospeech.optim.radam">
+<span id="radam"></span><h2>RAdam<a class="headerlink" href="#module-kospeech.optim.radam" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kospeech.optim.radam.RAdam">
+<em class="property">class </em><code class="descclassname">kospeech.optim.radam.</code><code class="descname">RAdam</code><span class="sig-paren">(</span><em>params</em>, <em>lr=0.001</em>, <em>betas=(0.9</em>, <em>0.999)</em>, <em>eps=1e-08</em>, <em>weight_decay=0</em>, <em>degenerated_to_sgd=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kospeech/optim/radam.html#RAdam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kospeech.optim.radam.RAdam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copyright (c) LiyuanLucasLiu</p>
+<p>Copied from <a class="reference external" href="https://github.com/LiyuanLucasLiu/RAdam">https://github.com/LiyuanLucasLiu/RAdam</a>
+- Apache 2.0 License</p>
+<dl class="method">
+<dt id="kospeech.optim.radam.RAdam.step">
+<code class="descname">step</code><span class="sig-paren">(</span><em>closure=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kospeech/optim/radam.html#RAdam.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kospeech.optim.radam.RAdam.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a single optimization step (parameter update).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>closure</strong> (<em>callable</em>) – A closure that reevaluates the model and
+returns the loss. Optional for most optimizers.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unless otherwise specified, this function should not modify the
+<code class="docutils literal notranslate"><span class="pre">.grad</span></code> field of the parameters.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Learning Rate Schedulers.html" class="btn btn-neutral float-right" title="Learning Rate Scheduler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Evaluator.html" class="btn btn-neutral float-left" title="Evaluator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Soohwan Kim
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
