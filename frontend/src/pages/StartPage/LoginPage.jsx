@@ -5,7 +5,7 @@ import "../../styles/LoginPage.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(""); // 기존 username 유지
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -15,11 +15,19 @@ const LoginPage = () => {
       return;
     }
 
+    console.log(username);
+    console.log(password);
+
     try {
+      // URLSearchParams를 사용하여 백엔드가 받을 수 있도록 변환
+      const formData = new URLSearchParams();
+      formData.append("username", username);
+      formData.append("password", password);
+
       const response = await axios.post(
-        "http://localhost:8080/api/login",
-        { username, password }, // 요청 본문에 username, password 포함
-        { headers: { "Content-Type": "application/json" } }
+        "/api/login",
+        formData, // 변경된 데이터 전송 방식
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
 
       if (response.status === 200) {
@@ -43,7 +51,7 @@ const LoginPage = () => {
         <h2 className="login-title">Login</h2>
         <div className="input-group">
           <input
-            type="text"
+            type="text" // username 입력 유지
             placeholder="아이디"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
