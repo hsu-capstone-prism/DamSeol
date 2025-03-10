@@ -28,7 +28,7 @@ const ConsonantPage = () => {
           <h2>자음 목록</h2>
           <div className="consonant-box-container">
             {consonants.map((consonant) => (
-              <Link to={`/phon/consonant/study/${consonant}`} key={consonant}>
+              <Link to={`/phon/study/${consonant}`} key={consonant}>
                 <div className="consonant-box">{consonant} 단어</div>
               </Link>
             ))}

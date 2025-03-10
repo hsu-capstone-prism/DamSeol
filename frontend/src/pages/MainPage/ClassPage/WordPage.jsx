@@ -14,7 +14,9 @@ const WordPage = () => {
         <section className="word-learning-section">
           <h2>음운</h2>
           <div className="box-container">
-            <div className="box">모음</div>
+            <div className="box" onClick={() => navigate("/phon/vowel")}>
+              모음
+            </div>
             <div className="box" onClick={() => navigate("/phon/consonant")}>
               자음
             </div>
