@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../../../Layout";
+import Layout from "../../../Layout";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "../../../../../../styles/ConsonantPage.css";
+import "../../../../../styles/ConsonantPage.css";
 
 const consonants = [
   { symbol: "ㄱ", key: "G" },

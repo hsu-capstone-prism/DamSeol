@@ -11,9 +11,9 @@ import SignupPage from "./pages/StartPage/SignupPage";
 import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
 
 //WordPage
-import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/ConsonantPage";
-import VowelPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/VowelPage/VowelPage";
-import WordStudyPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/WordStudyPage";
+import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage";
+import VowelPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/VowelPage";
+import WordStudyPage from "./pages/MainPage/ClassPage/WordPage/WordStudyPage";
 
 //SentencePage
 import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";

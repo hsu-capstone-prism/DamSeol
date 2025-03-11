@@ -46,7 +46,7 @@ const WordPage = () => {
           <div className="box-container">
             <div className="box">ㅅ 첨가</div>
             <div className="box">ㄴ 첨가</div>
-            <div className="box">ㅅ과 ㄴ의 첨가</div>
+            <div className="box">..</div>
             <div className="box">..</div>
           </div>
         </section>

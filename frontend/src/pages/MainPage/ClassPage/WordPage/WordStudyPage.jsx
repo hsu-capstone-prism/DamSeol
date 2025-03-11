@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../../Layout";
+import Layout from "../../Layout";
 import { useParams } from "react-router-dom";
-import "../../../../../styles/StudyPage.css";
-import MicButton from "../../../../../components/MicButton";
-import ProgressBar from "../../../../../components/ProgressBar";
+import "../../../../styles/StudyPage.css";
+import MicButton from "../../../../components/MicButton";
+import ProgressBar from "../../../../components/ProgressBar";
 import axios from "axios";
 
 // ✅ JWT 토큰 가져오기
