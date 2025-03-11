@@ -25,18 +25,26 @@ const LoginPage = () => {
       formData.append("password", password);
 
       const response = await axios.post(
-        "/api/login",
+        "http://localhost:8080/api/login",
         formData, // 변경된 데이터 전송 방식
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
 
-      if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem("authToken", token);
-        navigate("/main"); // 로그인 성공 시 메인 페이지로 이동
+      console.log("전체 응답 객체:", response);
+
+      const authHeader = response.headers["authorization"];
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        throw new Error("서버에서 JWT 토큰을 반환하지 않았습니다.");
       }
+
+      const token = authHeader.split(" ")[1]; // "Bearer <TOKEN>"에서 <TOKEN> 부분만 추출
+      localStorage.setItem("authToken", token);
+      console.log("JWT 토큰 저장 완료:", token);
+
+      navigate("/main"); // 로그인 성공 시 메인 페이지로 이동
     } catch (error) {
       console.error("로그인 실패:", error);
+
       if (error.response) {
         setError(error.response.data.message || "로그인에 실패하였습니다.");
       } else {
