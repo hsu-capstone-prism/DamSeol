@@ -13,7 +13,7 @@ import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
 //WordPage
 import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage/ConsonantPage";
 import VowelPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/VowelPage/VowelPage";
-import StudyPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/StudyPage";
+import WordstudyPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/WordstudyPage";
 
 //SentencePage
 import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
@@ -35,7 +35,7 @@ function AppContent() {
     { path: "/word", element: <WordPage /> },
     //phon
     { path: "/phon/consonant", element: <ConsonantPage /> },
-    { path: "/phon/study/:letter", element: <StudyPage /> },
+    { path: "/phon/study/:letter", element: <WordstudyPage /> },
     { path: "/phon/vowel", element: <VowelPage /> },
     //sentence
     { path: "/sentence", element: <SentencePage /> },

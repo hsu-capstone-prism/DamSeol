@@ -99,3 +99,12 @@
   background-color: #0056b3;
   color: white;
 }
+
+.loading-message,
+.error-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff4d4f;
+  margin-top: 300px; /* 🔹 화면 아래로 이동 */
+}
