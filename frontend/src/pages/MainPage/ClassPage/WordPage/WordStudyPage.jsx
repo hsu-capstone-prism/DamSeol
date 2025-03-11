@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../../Layout";
+import Layout from "../../Layout";
 import { useParams } from "react-router-dom";
-import "../../../../../styles/StudyPage.css";
-import MicButton from "../../../../../components/MicButton";
-import ProgressBar from "../../../../../components/ProgressBar";
+import "../../../../styles/StudyPage.css";
+import MicButton from "../../../../components/MicButton";
+import ProgressBar from "../../../../components/ProgressBar";
 import axios from "axios";
 
 // ✅ JWT 토큰 가져오기
@@ -27,27 +27,10 @@ const consonants = [
   { symbol: "ㅎ", key: "H" },
 ];
 
-// ✅ 모음 목록
-const vowels = [
-  { symbol: "ㅣ", key: "I" },
-  { symbol: "ㅡ", key: "EU" },
-  { symbol: "ㅜ", key: "U" },
-  { symbol: "ㅔ", key: "E" },
-  { symbol: "ㅓ", key: "EO" },
-  { symbol: "ㅗ", key: "O" },
-  { symbol: "ㅐ", key: "AE" },
-  { symbol: "ㅏ", key: "A" },
-];
-
 // ✅ key 값을 symbol로 변환하는 함수
 const getSymbolFromKey = (key) => {
-  const consonantMatch = consonants.find((con) => con.key === key);
-  const vowelMatch = vowels.find((v) => v.key === key);
-  return consonantMatch
-    ? consonantMatch.symbol
-    : vowelMatch
-    ? vowelMatch.symbol
-    : key;
+  const match = consonants.find((con) => con.key === key);
+  return match ? match.symbol : key;
 };
 
 const WordStudy = () => {
