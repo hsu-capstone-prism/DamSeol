@@ -1,79 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../Layout";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/MicButton";
 import ProgressBar from "../../../../components/ProgressBar";
 import axios from "axios";
 
-// ✅ JWT 토큰 가져오기
+// JWT 토큰 가져오기
 const getAuthToken = () => localStorage.getItem("authToken");
-
-// ✅ 자음 목록
-const consonants = [
-  { symbol: "ㄱ", key: "G" },
-  { symbol: "ㄴ", key: "N" },
-  { symbol: "ㄷ", key: "D" },
-  { symbol: "ㄹ", key: "R" },
-  { symbol: "ㅁ", key: "M" },
-  { symbol: "ㅂ", key: "B" },
-  { symbol: "ㅅ", key: "S" },
-  { symbol: "ㅇ", key: "O" },
-  { symbol: "ㅈ", key: "J" },
-  { symbol: "ㅊ", key: "CH" },
-  { symbol: "ㅋ", key: "K" },
-  { symbol: "ㅌ", key: "T" },
-  { symbol: "ㅍ", key: "P" },
-  { symbol: "ㅎ", key: "H" },
-];
-
-// ✅ key 값을 symbol로 변환하는 함수
-const getSymbolFromKey = (key) => {
-  const match = consonants.find((con) => con.key === key);
-  return match ? match.symbol : key;
-};
 
 const WordStudy = () => {
   const { subcategoryId } = useParams();
-  const [subcategoryName, setSubcategoryName] = useState("");
   const [words, setWords] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation();
+  const symbol = location.state?.symbol || "알 수 없음"; // state에서 symbol 가져오기
 
-  // ✅ (1) 서브카테고리 이름 가져오기
-  useEffect(() => {
-    if (!subcategoryId) return;
-
-    const fetchSubcategory = async () => {
-      try {
-        const token = getAuthToken();
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-        const response = await axios.get(
-          "http://localhost:8080/api/subcategories",
-          { headers }
-        );
-
-        const subcategory = response.data.find(
-          (item) => item.id === parseInt(subcategoryId)
-        );
-
-        if (subcategory) {
-          setSubcategoryName(subcategory.name);
-        } else {
-          setError("해당 서브카테고리를 찾을 수 없습니다.");
-        }
-      } catch (err) {
-        console.error("Error fetching subcategory:", err);
-        setError("서브카테고리 데이터를 불러오는 중 오류가 발생했습니다.");
-      }
-    };
-
-    fetchSubcategory();
-  }, [subcategoryId]);
-
-  // ✅ (2) 단어 목록 가져오기
+  // 단어 목록 가져오기
   useEffect(() => {
     if (!subcategoryId) return;
 
@@ -120,8 +65,7 @@ const WordStudy = () => {
     <Layout>
       <div className="word-study">
         <nav className="breadcrumb">
-          <span>단어 학습</span> ➝{" "}
-          <span className="highlight">{getSymbolFromKey(subcategoryName)}</span>
+          <span>단어 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
         <section className="word-display">
           {words.length > 0 ? (

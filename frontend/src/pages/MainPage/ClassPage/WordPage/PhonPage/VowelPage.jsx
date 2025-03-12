@@ -15,8 +15,8 @@ const vowels = [
   { symbol: "ㅏ", key: "A" },
 ];
 
-// ✅ JWT 토큰 가져오기
-const getAuthToken = () => localStorage.getItem("authtoken");
+// JWT 토큰 가져오기
+const getAuthToken = () => localStorage.getItem("authToken");
 
 const VowelPage = () => {
   const [subcategoryMap, setSubcategoryMap] = useState({});
@@ -37,25 +37,29 @@ const VowelPage = () => {
           { headers }
         );
 
-        console.log("📂 Subcategory List:", response.data);
+        console.log("Vowel - Subcategory List:", response.data);
 
-        // ✅ 모음 목록과 서브카테고리를 매핑
+        // 모음 목록과 서브카테고리를 매핑
         const vowelCategories = response.data.filter(
           (cat) =>
             vowels.some((v) => v.key === cat.name) &&
             cat.categoryName === "Phon"
         );
 
-        // ✅ { "ㅣ": 1, "ㅡ": 2, ... } 형태의 객체 생성
+        console.log("📂 Filtered Vowel Categories:", vowelCategories);
+
+        // { "ㅣ": 1, "ㅡ": 2, ... } 형태의 객체 생성
         const map = vowelCategories.reduce((acc, cat) => {
           const vowelSymbol = vowels.find((v) => v.key === cat.name)?.symbol;
           if (vowelSymbol) acc[vowelSymbol] = cat.id;
           return acc;
         }, {});
 
+        console.log("📂 Final Vowel Map:", map);
         setSubcategoryMap(map);
       } catch (error) {
         console.error("🚨 Error fetching subcategories:", error);
+        setError("서브카테고리 데이터를 불러오는 중 오류가 발생했습니다.");
       }
     };
 
@@ -69,17 +73,18 @@ const VowelPage = () => {
           <h2>모음 목록</h2>
           {error && <p className="error-message">❌ {error}</p>}
           <div className="vowel-box-container">
-            {vowels.map((v) =>
-              subcategoryMap[v.symbol] ? (
+            {vowels.map((vowel) =>
+              subcategoryMap[vowel.symbol] ? (
                 <Link
-                  to={`/phon/vowel/words/${subcategoryMap[v.symbol]}`}
-                  key={v.symbol}
+                  to={`/phon/vowel/words/${subcategoryMap[vowel.symbol]}`}
+                  key={vowel.symbol}
+                  state={{ symbol: vowel.symbol }} // symbol을 state로 전달
                 >
-                  <div className="vowel-box">{v.symbol} 단어</div>
+                  <div className="vowel-box">{vowel.symbol} 단어</div>
                 </Link>
               ) : (
-                <div className="vowel-box disabled" key={v.symbol}>
-                  {v.symbol} (데이터 없음)
+                <div className="vowel-box disabled" key={vowel.symbol}>
+                  {vowel.symbol}
                 </div>
               )
             )}
