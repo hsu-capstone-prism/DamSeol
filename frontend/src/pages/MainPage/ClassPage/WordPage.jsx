@@ -3,6 +3,12 @@ import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/WordPage.css";
 
+const phonetics = [
+  { name: "음절의 끝소리", key: "FinalSound" },
+  { name: "유성자음", key: "Voiced" },
+  { name: "무성자음", key: "Unvoiced" },
+];
+
 const WordPage = () => {
   const navigate = useNavigate();
 
@@ -20,9 +26,17 @@ const WordPage = () => {
             <div className="box" onClick={() => navigate("/phon/consonant")}>
               자음
             </div>
-            <div className="box">모음과 자음의 결합</div>
-            <div className="box">음절의 끝소리</div>
-            <div className="box">유성자음과 무성자음</div>
+            {phonetics.map((phon) => (
+              <div
+                key={phon.key}
+                className="box"
+                onClick={() =>
+                  navigate("/phon/study", { state: { phonName: phon.name } })
+                }
+              >
+                {phon.name}
+              </div>
+            ))}
             <div className="box">..</div>
             <div className="box">..</div>
             <div className="box">..</div>

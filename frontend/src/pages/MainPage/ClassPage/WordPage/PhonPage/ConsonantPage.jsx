@@ -93,7 +93,7 @@ const ConsonantPage = () => {
                 </Link>
               ) : (
                 <div className="consonant-box disabled" key={consonant.symbol}>
-                  {consonant.symbol} (데이터 없음)
+                  {consonant.symbol}
                 </div>
               )
             )}
