@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../../../Layout";
+import Layout from "../../../Layout";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "../../../../../../styles/VowelPage.css";
+import "../../../../../styles/VowelPage.css";
 
 const vowels = [
   { symbol: "ㅣ", key: "I" },
@@ -16,7 +16,7 @@ const vowels = [
 ];
 
 // ✅ JWT 토큰 가져오기
-const getAuthToken = () => localStorage.getItem("token");
+const getAuthToken = () => localStorage.getItem("authtoken");
 
 const VowelPage = () => {
   const [subcategoryMap, setSubcategoryMap] = useState({});
