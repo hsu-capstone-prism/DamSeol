@@ -18,6 +18,11 @@ const alterTopics = [
   { name: "구개음화", key: "Palatalization" },
 ];
 
+const addTopics = [
+  { name: "ㅅ 첨가", key: "SInsertion" },
+  { name: "ㄴ 첨가", key: "NInsertion" },
+];
+
 const WordPage = () => {
   const navigate = useNavigate();
 
@@ -72,10 +77,17 @@ const WordPage = () => {
         <section className="word-learning-section">
           <h2>사잇소리 현상</h2>
           <div className="box-container">
-            <div className="box">ㅅ 첨가</div>
-            <div className="box">ㄴ 첨가</div>
-            <div className="box">ㅅ과 ㄴ의 첨가</div>
-            <div className="box">..</div>
+            {addTopics.map((add) => (
+              <div
+                key={add.key}
+                className="box"
+                onClick={() =>
+                  navigate("/add/study", { state: { addName: add.name } })
+                }
+              >
+                {add.name}
+              </div>
+            ))}
           </div>
         </section>
       </div>
