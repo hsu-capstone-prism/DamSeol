@@ -77,12 +77,6 @@ const WordPage = () => {
         <section className="word-learning-section">
           <h2>사잇소리 현상</h2>
           <div className="box-container">
-<<<<<<< HEAD
-            <div className="box">ㅅ 첨가</div>
-            <div className="box">ㄴ 첨가</div>
-            <div className="box">..</div>
-            <div className="box">..</div>
-=======
             {addTopics.map((add) => (
               <div
                 key={add.key}
@@ -94,7 +88,6 @@ const WordPage = () => {
                 {add.name}
               </div>
             ))}
->>>>>>> 9a5130f62a2bd7422517a5b0c004bdb4d363e2f9
           </div>
         </section>
       </div>
