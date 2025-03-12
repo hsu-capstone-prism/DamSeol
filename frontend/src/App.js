@@ -19,10 +19,10 @@ import AlterPage from "./pages/MainPage/ClassPage/WordPage/AlterPage/AlterPage";
 import AddPage from "./pages/MainPage/ClassPage/WordPage/AddPage/AddPage";
 
 //SentencePage
-import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
-import SpecialPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/SpecialPage";
+//import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
+//import SpecialPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/SpecialPage";
 import SenStudyPage from "./pages/MainPage/ClassPage/SentencePage/SenStudyPage";
-import sentenceData from "./data/sentenceData";
+//import sentenceData from "./data/sentenceData";
 
 function AppContent() {
   const location = useLocation();
@@ -59,9 +59,10 @@ function AppContent() {
 
     //sentence
     { path: "/sentence", element: <SentencePage /> },
-    { path: "/sentence/business", element: <BusinessPage /> },
-    { path: "/sentence/special", element: <SpecialPage /> },
-    { path: "/sentence/study/:subcategoryId", element: <SenStudyPage /> },
+    {
+      path: "/sentence/study/:subcategoryId",
+      element: <SenStudyPage />,
+    },
 
     //grammer
     { path: "/grammer", element: <GrammerPage /> },
@@ -75,14 +76,14 @@ function AppContent() {
           <Route path={path} element={element} key={key} />
         ))}
         {/* sentence */}
-        {sentenceData.map(({ id }) => (
+        {/*sentenceData.map(({ id }) => (
           <Route
             key={id}
             path={`/sentence/:category`}
             element={<BusinessPage />}
           />
-        ))}
-        <Route path={`/sentence/:category`} element={<SpecialPage />} />
+        ))*/}
+        {/* <Route path={`/sentence/:category`} element={<SpecialPage />} /> */}
       </Routes>
     </div>
   );

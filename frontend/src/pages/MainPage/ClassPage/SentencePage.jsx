@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../Layout";
 import "../../../styles/SentencePage.css";
 
-// 특별한 상황 & 비즈니스 카테고리 목록 (고정된 카테고리명)
+// 📌 특별한 상황 서브카테고리 (한글)
 const specialTopics = [
   { name: "교회에서 대화", key: "Church" },
   { name: "식당에서 주문", key: "RestaurantOrdering" },
@@ -15,6 +15,7 @@ const specialTopics = [
   { name: "대중교통 이용시 대화", key: "TransportUsage" },
 ];
 
+// 📌 비즈니스 서브카테고리 (한글)
 const businessTopics = [
   { name: "IT 개발자", key: "ITDeveloper" },
   { name: "마케팅 업무", key: "Marketing" },
@@ -24,13 +25,13 @@ const businessTopics = [
   { name: "연구 개발", key: "Research" },
 ];
 
+// JWT 토큰 가져오기
+const getAuthToken = () => localStorage.getItem("authToken");
+
 const SentencePage = () => {
   const navigate = useNavigate();
   const [subcategoryMap, setSubcategoryMap] = useState({});
   const [error, setError] = useState(null);
-
-  // JWT 토큰 가져오기
-  const getAuthToken = () => localStorage.getItem("authToken");
 
   useEffect(() => {
     const fetchSubcategories = async () => {
@@ -49,7 +50,7 @@ const SentencePage = () => {
 
         console.log("📌 Sentence - Subcategory List:", response.data);
 
-        // 서브카테고리 데이터를 categoryName 기준으로 분류
+        // 서브카테고리 데이터를 categoryName 기준으로 정리
         const map = response.data.reduce((acc, subcat) => {
           const { categoryName, name, id } = subcat;
           if (!acc[categoryName]) {
@@ -69,13 +70,11 @@ const SentencePage = () => {
     fetchSubcategories();
   }, []);
 
-  const handleClick = (categoryKey, path) => {
-    const subcategoryId =
-      subcategoryMap?.Special?.[categoryKey] ||
-      subcategoryMap?.Business?.[categoryKey];
-
+  const handleClick = (subcategoryId, topicName) => {
     if (subcategoryId) {
-      navigate(path, { state: { subcategoryId } });
+      navigate(`/sentence/study/${subcategoryId}`, {
+        state: { symbol: topicName }, // 📌 symbol을 state로 전달
+      });
     } else {
       alert("데이터가 없습니다.");
     }
@@ -92,13 +91,18 @@ const SentencePage = () => {
         <section className="sentence-learning-section">
           <h2>특별한 상황</h2>
           <div className="box-container">
-            {specialTopics.map((special) => (
+            {specialTopics.map((topic) => (
               <div
-                key={special.key}
+                key={topic.key}
                 className="box"
-                onClick={() => handleClick(special.key, "/sentence/special")}
+                onClick={() =>
+                  handleClick(
+                    subcategoryMap["Special"]?.[topic.key],
+                    topic.name
+                  )
+                }
               >
-                {special.name}
+                {topic.name}
               </div>
             ))}
           </div>
@@ -108,13 +112,18 @@ const SentencePage = () => {
         <section className="sentence-learning-section">
           <h2>비즈니스</h2>
           <div className="box-container">
-            {businessTopics.map((business) => (
+            {businessTopics.map((topic) => (
               <div
-                key={business.key}
+                key={topic.key}
                 className="box"
-                onClick={() => handleClick(business.key, "/sentence/business")}
+                onClick={() =>
+                  handleClick(
+                    subcategoryMap["Business"]?.[topic.key],
+                    topic.name
+                  )
+                }
               >
-                {business.name}
+                {topic.name}
               </div>
             ))}
           </div>

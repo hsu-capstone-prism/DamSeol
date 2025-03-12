@@ -1,66 +1,76 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import Layout from "../../../Layout";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import "../../../../../styles/Sentence_Detail.css";
+
+// 📌 비즈니스 서브카테고리 매칭 리스트 (한글)
+const businessTopics = [
+  { name: "IT 개발자", key: "ITDeveloper" },
+  { name: "마케팅 업무", key: "Marketing" },
+  { name: "영업 업무", key: "Sales" },
+  { name: "HR 업무", key: "HR" },
+  { name: "디자인 업무", key: "Design" },
+  { name: "연구 개발", key: "Research" },
+];
+
+// JWT 토큰 가져오기
+const getAuthToken = () => localStorage.getItem("authToken");
 
 const BusinessPage = () => {
+  const [subcategoryMap, setSubcategoryMap] = useState({});
+  const navigate = useNavigate();
   const location = useLocation();
-  const subcategoryId = location.state?.subcategoryId || null;
-  const [sentences, setSentences] = useState([]);
-  const [error, setError] = useState(null);
+  const businessName = location.state?.businessName || null;
 
   useEffect(() => {
-    const fetchSentences = async () => {
+    const fetchSubcategories = async () => {
       try {
-        if (!subcategoryId) {
-          setError("올바른 카테고리를 선택하세요.");
-          return;
-        }
-
-        const token = localStorage.getItem("authToken");
+        const token = getAuthToken();
         if (!token) {
-          setError("로그인이 필요합니다.");
+          console.error("인증이 필요합니다. 로그인 후 다시 시도하세요.");
           return;
         }
-
         const headers = { Authorization: `Bearer ${token}` };
 
         const response = await axios.get(
-          `http://localhost:8080/api/sentences/${subcategoryId}`,
+          "http://localhost:8080/api/subcategories",
           { headers }
         );
 
-        console.log("📌 Business Sentences:", response.data);
-        setSentences(response.data);
+        console.log("📌 Business - Subcategory List:", response.data);
+
+        // Business 카테고리의 서브카테고리 필터링
+        const businessCategories = response.data.filter(
+          (cat) =>
+            businessTopics.some((b) => b.key === cat.name) &&
+            cat.categoryName === "Business"
+        );
+
+        // { "IT 개발자": 47, "마케팅 업무": 48, "영업 업무": 49, ... } 형태의 객체 생성
+        const map = businessCategories.reduce((acc, cat) => {
+          const businessTopic = businessTopics.find(
+            (b) => b.key === cat.name
+          )?.name;
+          if (businessTopic) acc[businessTopic] = cat.id;
+          return acc;
+        }, {});
+
+        setSubcategoryMap(map);
       } catch (error) {
-        console.error("🚨 Error fetching sentences:", error);
-        setError("문장 데이터를 불러오는 중 오류가 발생했습니다.");
+        console.error("🚨 Error fetching subcategories:", error);
       }
     };
 
-    fetchSentences();
-  }, [subcategoryId]);
+    fetchSubcategories();
+  }, []);
 
-  return (
-    <Layout>
-      <div className="sentence">
-        <section className="sentence-section">
-          <h2>비즈니스 문장 학습</h2>
-          {error && <p className="error-message">❌ {error}</p>}
-          <div className="sentence-box-container">
-            {sentences.length > 0
-              ? sentences.map((sentence, index) => (
-                  <div key={index} className="sentence-box">
-                    {`${index + 1}. ${sentence.text}`}
-                  </div>
-                ))
-              : !error && <p className="empty-message">문장이 없습니다.</p>}
-          </div>
-        </section>
-      </div>
-    </Layout>
-  );
+  useEffect(() => {
+    if (businessName && subcategoryMap[businessName]) {
+      navigate(`/sentence/study/${subcategoryMap[businessName]}`, {
+        replace: true,
+        state: { categoryName: businessName }, // "IT 개발자" 등 전달
+      });
+    }
+  }, [businessName, subcategoryMap, navigate]);
 };
 
 export default BusinessPage;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
 import "../../../../styles/StudyPage.css";
@@ -16,9 +16,9 @@ const SenStudyPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
-  const categoryName = location.state?.categoryName || "알 수 없음"; // state에서 카테고리 이름 가져오기
+  const categoryName = location.state?.symbol || "알 수 없음"; // 📌 선택한 카테고리 이름
 
-  // 문장 목록 가져오기
+  // 📌 문장 목록 가져오기
   useEffect(() => {
     if (!subcategoryId) return;
 
