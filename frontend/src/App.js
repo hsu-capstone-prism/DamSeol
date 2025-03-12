@@ -40,7 +40,6 @@ function AppContent() {
       path: "/phon/consonant/words/:subcategoryId",
       element: <WordStudyPage />,
     },
-
     //sentence
     { path: "/sentence", element: <SentencePage /> },
 
