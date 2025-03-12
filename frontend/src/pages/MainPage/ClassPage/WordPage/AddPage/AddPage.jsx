@@ -2,20 +2,19 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-const phonTopics = [
-  { name: "음절의 끝소리", key: "FinalSound" },
-  { name: "유성자음", key: "Voiced" },
-  { name: "무성자음", key: "Unvoiced" },
+const addTopics = [
+  { name: "ㅅ 첨가", key: "SInsertion" },
+  { name: "ㄴ 첨가", key: "NInsertion" },
 ];
 
 // JWT 토큰 가져오기
 const getAuthToken = () => localStorage.getItem("authToken");
 
-const PhonPage = () => {
+const AddPage = () => {
   const [subcategoryMap, setSubcategoryMap] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
-  const phonName = location.state?.phonName || null;
+  const addName = location.state?.addName || null;
 
   useEffect(() => {
     const fetchSubcategories = async () => {
@@ -32,19 +31,19 @@ const PhonPage = () => {
           { headers }
         );
 
-        console.log("Phon - Subcategory List:", response.data);
+        console.log("Add - Subcategory List:", response.data);
 
-        // Phon 카테고리의 서브카테고리 필터링
-        const phonCategories = response.data.filter(
+        // Add 카테고리의 서브카테고리 필터링
+        const addCategories = response.data.filter(
           (cat) =>
-            phonTopics.some((p) => p.key === cat.name) &&
-            cat.categoryName === "Phon"
+            addTopics.some((ad) => ad.key === cat.name) &&
+            cat.categoryName === "Add"
         );
 
-        // { "음절의 끝소리": 23, "유성자음": 24, "무성자음": 25 } 형태의 객체 생성
-        const map = phonCategories.reduce((acc, cat) => {
-          const phonName = phonTopics.find((p) => p.key === cat.name)?.name;
-          if (phonName) acc[phonName] = cat.id;
+        // { "ㅅ 첨가": 32, "ㄴ 첨가": 33 } 형태의 객체 생성
+        const map = addCategories.reduce((acc, cat) => {
+          const addTopic = addTopics.find((ad) => ad.key === cat.name)?.name;
+          if (addTopic) acc[addTopic] = cat.id;
           return acc;
         }, {});
 
@@ -58,15 +57,15 @@ const PhonPage = () => {
   }, []);
 
   useEffect(() => {
-    if (phonName && subcategoryMap[phonName]) {
-      navigate(`/phon/study/words/${subcategoryMap[phonName]}`, {
+    if (addName && subcategoryMap[addName]) {
+      navigate(`/add/study/words/${subcategoryMap[addName]}`, {
         replace: true,
-        state: { symbol: phonName }, // symbol을 state로 전달
+        state: { symbol: addName }, // "ㅅ 첨가" 등 전달
       });
     }
-  }, [phonName, subcategoryMap, navigate]);
+  }, [addName, subcategoryMap, navigate]);
 
   return null;
 };
 
-export default PhonPage;
+export default AddPage;
