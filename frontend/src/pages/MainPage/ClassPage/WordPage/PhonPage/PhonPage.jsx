@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-const phonetics = [
+const phonTopics = [
   { name: "음절의 끝소리", key: "FinalSound" },
   { name: "유성자음", key: "Voiced" },
   { name: "무성자음", key: "Unvoiced" },
@@ -37,13 +37,13 @@ const PhonPage = () => {
         // Phon 카테고리의 서브카테고리 필터링
         const phonCategories = response.data.filter(
           (cat) =>
-            phonetics.some((p) => p.key === cat.name) &&
+            phonTopics.some((p) => p.key === cat.name) &&
             cat.categoryName === "Phon"
         );
 
         // { "음절의 끝소리": 23, "유성자음": 24, "무성자음": 25 } 형태의 객체 생성
         const map = phonCategories.reduce((acc, cat) => {
-          const phonName = phonetics.find((p) => p.key === cat.name)?.name;
+          const phonName = phonTopics.find((p) => p.key === cat.name)?.name;
           if (phonName) acc[phonName] = cat.id;
           return acc;
         }, {});

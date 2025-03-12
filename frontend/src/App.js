@@ -15,6 +15,7 @@ import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/Consonan
 import VowelPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/VowelPage";
 import WordStudyPage from "./pages/MainPage/ClassPage/WordPage/WordStudyPage";
 import PhonPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/PhonPage";
+import AlterPage from "./pages/MainPage/ClassPage/WordPage/AlterPage/AlterPage";
 
 //SentencePage
 import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
@@ -47,6 +48,9 @@ function AppContent() {
     },
     { path: "/phon/study", element: <PhonPage /> },
     { path: "/phon/study/words/:subcategoryId", element: <WordStudyPage /> },
+    //alter
+    { path: "/alter/study", element: <AlterPage /> },
+    { path: "/alter/study/words/:subcategoryId", element: <WordStudyPage /> },
 
     //sentence
     { path: "/sentence", element: <SentencePage /> },
