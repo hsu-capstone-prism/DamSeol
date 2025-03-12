@@ -45,7 +45,7 @@ const ConsonantPage = () => {
           { headers }
         );
 
-        console.log("Subcategory List:", response.data);
+        console.log("Component - Subcategory List:", response.data);
 
         // 자음 목록과 서브카테고리를 매핑
         const consonantCategories = response.data.filter(
@@ -87,6 +87,7 @@ const ConsonantPage = () => {
                     subcategoryMap[consonant.symbol]
                   }`}
                   key={consonant.symbol}
+                  state={{ symbol: consonant.symbol }} // symbol을 state로 전달
                 >
                   <div className="consonant-box">{consonant.symbol} 단어</div>
                 </Link>
