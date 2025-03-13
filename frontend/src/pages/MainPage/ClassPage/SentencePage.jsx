@@ -4,7 +4,6 @@ import axios from "axios";
 import Layout from "../Layout";
 import "../../../styles/SentencePage.css";
 
-// 📌 특별한 상황 서브카테고리 (한글)
 const specialTopics = [
   { name: "교회에서 대화", key: "Church" },
   { name: "식당에서 주문", key: "RestaurantOrdering" },
@@ -15,7 +14,6 @@ const specialTopics = [
   { name: "대중교통 이용시 대화", key: "TransportUsage" },
 ];
 
-// 📌 비즈니스 서브카테고리 (한글)
 const businessTopics = [
   { name: "IT 개발자", key: "ITDeveloper" },
   { name: "마케팅 업무", key: "Marketing" },

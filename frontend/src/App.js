@@ -19,10 +19,8 @@ import AlterPage from "./pages/MainPage/ClassPage/WordPage/AlterPage/AlterPage";
 import AddPage from "./pages/MainPage/ClassPage/WordPage/AddPage/AddPage";
 
 //SentencePage
-//import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
-//import SpecialPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/SpecialPage";
+
 import SenStudyPage from "./pages/MainPage/ClassPage/SentencePage/SenStudyPage";
-//import sentenceData from "./data/sentenceData";
 
 function AppContent() {
   const location = useLocation();
@@ -58,7 +56,7 @@ function AppContent() {
     { path: "/add/study/words/:subcategoryId", element: <WordStudyPage /> },
 
     //sentence
-    { path: "/sentence", element: <SentencePage /> },
+    { path: "/sentence/", element: <SentencePage /> },
     {
       path: "/sentence/study/:subcategoryId",
       element: <SenStudyPage />,
@@ -75,15 +73,6 @@ function AppContent() {
         {routes.map(({ path, element }, key) => (
           <Route path={path} element={element} key={key} />
         ))}
-        {/* sentence */}
-        {/*sentenceData.map(({ id }) => (
-          <Route
-            key={id}
-            path={`/sentence/:category`}
-            element={<BusinessPage />}
-          />
-        ))*/}
-        {/* <Route path={`/sentence/:category`} element={<SpecialPage />} /> */}
       </Routes>
     </div>
   );
