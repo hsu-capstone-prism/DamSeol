@@ -70,11 +70,14 @@ const SentencePage = () => {
     fetchSubcategories();
   }, []);
 
-  const handleClick = (subcategoryId, topicName) => {
+  const handleClick = (category, subcategoryId, topicName) => {
     if (subcategoryId) {
-      navigate(`/sentence/study/${subcategoryId}`, {
-        state: { symbol: topicName }, // 📌 symbol을 state로 전달
-      });
+      const path =
+        category === "특별한 상황"
+          ? `/special/study/${subcategoryId}`
+          : `/business/study/${subcategoryId}`;
+
+      navigate(path, { state: { symbol: topicName } });
     } else {
       alert("데이터가 없습니다.");
     }

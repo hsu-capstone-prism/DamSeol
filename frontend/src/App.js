@@ -19,8 +19,8 @@ import AlterPage from "./pages/MainPage/ClassPage/WordPage/AlterPage/AlterPage";
 import AddPage from "./pages/MainPage/ClassPage/WordPage/AddPage/AddPage";
 
 //SentencePage
-//import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
-//import SpecialPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/SpecialPage";
+import BusinessPage from "./pages/MainPage/ClassPage/SentencePage/BusinessPage/BusinessPage";
+import SpecialPage from "./pages/MainPage/ClassPage/SentencePage/SpecialPage/SpecialPage";
 import SenStudyPage from "./pages/MainPage/ClassPage/SentencePage/SenStudyPage";
 //import sentenceData from "./data/sentenceData";
 
@@ -59,8 +59,14 @@ function AppContent() {
 
     //sentence
     { path: "/sentence", element: <SentencePage /> },
+    { path: "/special/study/:subcategoryId", element: <SpecialPage /> },
+    { path: "/business/study/:subcategoryId", element: <BusinessPage /> },
     {
-      path: "/sentence/study/:subcategoryId",
+      path: "/special/study/sentence/:subcategoryId",
+      element: <SenStudyPage />,
+    },
+    {
+      path: "/business/study/sentence/:subcategoryId",
       element: <SenStudyPage />,
     },
 

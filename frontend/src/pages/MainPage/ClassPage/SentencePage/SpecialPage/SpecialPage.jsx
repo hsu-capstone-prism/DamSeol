@@ -66,9 +66,9 @@ const SpecialPage = () => {
 
   useEffect(() => {
     if (specialName && subcategoryMap[specialName]) {
-      navigate(`/sentence/study/${subcategoryMap[specialName]}`, {
+      navigate(`/special/study/sentence/${subcategoryMap[specialName]}`, {
         replace: true,
-        state: { categoryName: specialName }, // "교회에서 대화" 등 전달
+        state: { symbol: specialName }, // "교회에서 대화" 등 전달
       });
     }
   }, [specialName, subcategoryMap, navigate]);
