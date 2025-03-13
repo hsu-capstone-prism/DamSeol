@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
-import "../../../../styles/StudyPage.css";
-import MicButton from "../../../../components/MicButton";
-import ProgressBar from "../../../../components/ProgressBar";
+import "../../../../styles/SenStudyPage.css";
+import MicButton from "../../../../components/SenMicButton";
+import ProgressBar from "../../../../components/SenProgressBar";
 import axios from "axios";
 
 // JWT 토큰 가져오기
@@ -16,7 +16,7 @@ const SenStudyPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
-  const categoryName = location.state?.symbol || "알 수 없음"; // 📌 선택한 카테고리 이름
+  const symbol = location.state?.symbol || "알 수 없음";
 
   // 📌 문장 목록 가져오기
   useEffect(() => {
@@ -29,14 +29,17 @@ const SenStudyPage = () => {
         const token = getAuthToken();
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        console.log("📌 문장 데이터 요청:", `/api/sentences/${subcategoryId}`);
+        console.log(
+          "문장 데이터 요청:",
+          `/api/sentences/subcategory/${subcategoryId}`
+        );
 
         const response = await axios.get(
-          `http://localhost:8080/api/sentences/${subcategoryId}`,
+          `http://localhost:8080/api/sentences/subcategory/${subcategoryId}`,
           { headers }
         );
 
-        console.log("📌 문장 응답:", response.data);
+        console.log("문장 응답:", response.data);
 
         if (response.data.length === 0) {
           setError("해당 서브카테고리에 대한 문장이 없습니다.");
@@ -60,18 +63,14 @@ const SenStudyPage = () => {
 
   return (
     <Layout>
-      <div className="sentence-study">
+      <div className="sen-study">
         <nav className="breadcrumb">
-          <span>문장 학습</span> ➝{" "}
-          <span className="highlight">{categoryName}</span>
+          <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
-        <section className="sentence-display">
+        <section className="sen-display">
           {sentences.length > 0 ? (
             <>
-              <h1 className="sentence">{sentences[selectedIndex].text}</h1>
-              <p className="sentence-translation">
-                [{sentences[selectedIndex].translation}]
-              </p>
+              <h1 className="sen">{sentences[selectedIndex].text}</h1>
             </>
           ) : (
             <p>해당하는 문장이 없습니다.</p>

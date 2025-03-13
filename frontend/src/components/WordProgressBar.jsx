@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/StudyPage.css";
+import "../styles/WordStudyPage.css";
 
-const ProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
+const WordProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   return (
     <div className="progress-bar">
       {Array.from({ length: totalSteps }, (_, index) => (
@@ -19,4 +19,4 @@ const ProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   );
 };
 
-export default ProgressBar;
+export default WordProgressBar;
