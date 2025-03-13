@@ -4,7 +4,7 @@ import "../styles/SenStudyPage.css";
 const SenProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   return (
     <div className="progress-bar">
-      {Array.from({ length: totalSteps }, (_, index) => (
+      {Array.from({ length: Math.min(totalSteps, 5) }, (_, index) => (
         <div
           key={index}
           className={`step ${index < currentStep ? "completed" : ""} ${

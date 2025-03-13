@@ -9,6 +9,13 @@ import axios from "axios";
 // JWT 토큰 가져오기
 const getAuthToken = () => localStorage.getItem("authToken");
 
+// 📌 배열에서 랜덤하게 5개 선택하는 함수
+const getRandomSentences = (arr, count) => {
+  if (arr.length <= count) return arr; // 문장이 5개 이하라면 그대로 반환
+  const shuffled = [...arr].sort(() => 0.5 - Math.random()); // 랜덤 섞기
+  return shuffled.slice(0, count);
+};
+
 const SenStudyPage = () => {
   const { subcategoryId } = useParams();
   const [sentences, setSentences] = useState([]);
@@ -44,7 +51,8 @@ const SenStudyPage = () => {
         if (response.data.length === 0) {
           setError("해당 서브카테고리에 대한 문장이 없습니다.");
         } else {
-          setSentences(response.data);
+          const randomSentences = getRandomSentences(response.data, 5); // 🔹 랜덤으로 5개 선택
+          setSentences(randomSentences);
           setSelectedIndex(0);
         }
       } catch (err) {
@@ -79,7 +87,7 @@ const SenStudyPage = () => {
         <MicButton />
         <ProgressBar
           currentStep={selectedIndex}
-          totalSteps={sentences.length}
+          totalSteps={sentences.length} // 🔹 5개까지만 표시
           onStepClick={(index) => setSelectedIndex(index)}
         />
       </div>

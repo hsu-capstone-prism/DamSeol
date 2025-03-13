@@ -47,7 +47,10 @@ const BusinessPage = () => {
 
         // { "IT 개발자": 47, "마케팅 업무": 48, "영업 업무": 49, ... } 형태의 객체 생성
         const map = businessCategories.reduce((acc, cat) => {
-          acc[cat.name] = cat.id;
+          const businessTopic = businessTopics.find(
+            (b) => b.key === cat.name
+          )?.name;
+          if (businessTopic) acc[businessTopic] = cat.id;
           return acc;
         }, {});
 
@@ -62,10 +65,9 @@ const BusinessPage = () => {
 
   useEffect(() => {
     if (businessName && subcategoryMap[businessName]) {
-      const subcategoryId = subcategoryMap[businessName]; // ID 값 가져오기
-      navigate(`/business/study/${subcategoryId}`, {
+      navigate(`/sentence/study/${subcategoryMap[businessName]}`, {
         replace: true,
-        state: { symbol: businessName }, // 한글 카테고리명 state로 전달
+        state: { categoryName: businessName }, // "IT 개발자" 등 전달
       });
     }
   }, [businessName, subcategoryMap, navigate]);
