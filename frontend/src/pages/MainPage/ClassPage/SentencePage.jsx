@@ -46,7 +46,7 @@ const SentencePage = () => {
           { headers }
         );
 
-        console.log(" Sentence - Subcategory List:", response.data);
+        console.log("Sentence - Subcategory List:", response.data);
 
         // 서브카테고리 데이터를 categoryName 기준으로 정리
         const map = response.data.reduce((acc, subcat) => {
@@ -60,7 +60,7 @@ const SentencePage = () => {
 
         setSubcategoryMap(map);
       } catch (error) {
-        console.error(" Error fetching subcategories:", error);
+        console.error("Error fetching subcategories:", error);
         setError("서브카테고리 데이터를 불러오는 중 오류가 발생했습니다.");
       }
     };
@@ -71,6 +71,7 @@ const SentencePage = () => {
   const handleClick = (subcategoryId, topicName) => {
     if (subcategoryId) {
       navigate(`/sentence/study/${subcategoryId}`, {
+        state: { symbol: topicName }, // symbol을 state로 전달
         state: { symbol: topicName }, // symbol을 state로 전달
       });
     } else {
@@ -85,6 +86,7 @@ const SentencePage = () => {
 
         {error && <p className="error-message">❌ {error}</p>}
 
+        {/* 특별한 상황 */}
         {/* 특별한 상황 */}
         <section className="sentence-learning-section">
           <h2>특별한 상황</h2>
@@ -106,6 +108,7 @@ const SentencePage = () => {
           </div>
         </section>
 
+        {/* 비즈니스 */}
         {/* 비즈니스 */}
         <section className="sentence-learning-section">
           <h2>비즈니스</h2>
