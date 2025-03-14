@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-// 📌 특별한 상황 서브카테고리 매칭 리스트 (한글)
+// 특별한 상황 서브카테고리 매칭 리스트 (한글)
 const specialTopics = [
   { name: "교회에서 대화", key: "Church" },
   { name: "식당에서 주문", key: "RestaurantOrdering" },
@@ -37,7 +37,7 @@ const SpecialPage = () => {
           { headers }
         );
 
-        console.log("📌 Special - Subcategory List:", response.data);
+        console.log("Special - Subcategory List:", response.data);
 
         // Special 카테고리의 서브카테고리 필터링
         const specialCategories = response.data.filter(
@@ -57,7 +57,7 @@ const SpecialPage = () => {
 
         setSubcategoryMap(map);
       } catch (error) {
-        console.error("🚨 Error fetching subcategories:", error);
+        console.error(" Error fetching subcategories:", error);
       }
     };
 

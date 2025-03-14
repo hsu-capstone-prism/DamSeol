@@ -9,7 +9,7 @@ import axios from "axios";
 // JWT 토큰 가져오기
 const getAuthToken = () => localStorage.getItem("authToken");
 
-// 📌 배열에서 랜덤하게 5개 선택하는 함수
+// 배열에서 랜덤하게 5개 선택하는 함수
 const getRandomSentences = (arr, count) => {
   if (arr.length <= count) return arr; // 문장이 5개 이하라면 그대로 반환
   const shuffled = [...arr].sort(() => 0.5 - Math.random()); // 랜덤 섞기
@@ -25,7 +25,7 @@ const SenStudyPage = () => {
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
 
-  // 📌 문장 목록 가져오기
+  // 문장 목록 가져오기
   useEffect(() => {
     if (!subcategoryId) return;
 
@@ -56,7 +56,7 @@ const SenStudyPage = () => {
           setSelectedIndex(0);
         }
       } catch (err) {
-        console.error("🚨 Error fetching sentences:", err);
+        console.error("Error fetching sentences:", err);
         setError("문장 데이터를 불러오는 중 오류가 발생했습니다.");
       } finally {
         setLoading(false);

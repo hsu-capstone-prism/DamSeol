@@ -58,7 +58,7 @@ const VowelPage = () => {
         console.log("📂 Final Vowel Map:", map);
         setSubcategoryMap(map);
       } catch (error) {
-        console.error("🚨 Error fetching subcategories:", error);
+        console.error(" Error fetching subcategories:", error);
         setError("서브카테고리 데이터를 불러오는 중 오류가 발생했습니다.");
       }
     };
