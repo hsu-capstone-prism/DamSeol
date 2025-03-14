@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-// 📌 비즈니스 서브카테고리 매칭 리스트 (한글)
+// 비즈니스 서브카테고리 매칭 리스트 (한글)
 const businessTopics = [
   { name: "IT 개발자", key: "ITDeveloper" },
   { name: "마케팅 업무", key: "Marketing" },
@@ -36,7 +36,7 @@ const BusinessPage = () => {
           { headers }
         );
 
-        console.log("📌 Business - Subcategory List:", response.data);
+        console.log("Business - Subcategory List:", response.data);
 
         // Business 카테고리의 서브카테고리 필터링
         const businessCategories = response.data.filter(

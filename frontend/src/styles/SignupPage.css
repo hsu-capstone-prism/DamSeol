@@ -1,4 +1,3 @@
-/* 회원가입 페이지 전체 */
 .signup-container {
   display: flex;
   flex-direction: column;
@@ -9,7 +8,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* 회원가입 박스 */
 .signup-box {
   background: white;
   padding: 50px;
@@ -20,14 +18,12 @@
   text-align: center;
 }
 
-/* 제목 */
 .signup-title {
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 30px;
 }
 
-/* 입력 필드 */
 .input-group {
   width: 93%;
   margin-bottom: 20px;
@@ -41,7 +37,6 @@ input {
   border-radius: 8px;
 }
 
-/* 버튼 */
 .signup-button {
   padding: 15px 40px;
   font-size: 20px;
@@ -53,7 +48,6 @@ input {
   color: white;
 }
 
-/* 반응형 */
 @media (max-width: 768px) {
   .signup-box {
     width: 95%;

@@ -159,18 +159,16 @@
   background: #f0eeee;
 }
 
-/* 메뉴가 열릴 때 화면을 덮는 overlay */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 999; /* sidebar보다 낮게 설정 */
+  z-index: 999;
   transition: opacity 0.3s ease-in-out;
 }
 
-/* 메뉴가 열려도 헤더 내부 요소 이동 방지 */
 .sidebar.open ~ .header .header-center,
 .sidebar.open ~ .header .header-right {
   transform: none;
