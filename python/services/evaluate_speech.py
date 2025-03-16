@@ -1,13 +1,15 @@
 import os
 import openai
 from openai import OpenAI
-from evaluate_speech import extract_pitch_info, extract_speech_pause_ratio, extract_speech_rate
+from dotenv import load_dotenv
+from services.extract_feature import extract_pitch_info, extract_speech_pause_ratio, extract_speech_rate
 
-os.environ['OPENAI_API_KEY'] = 'sk-4...'
 
-client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY"),
-)
+load_dotenv()
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
+client = OpenAI(api_key=openai_api_key)
 
 
 
@@ -76,9 +78,11 @@ def get_audio_pitch_eval(audio, text, situation=None):
 
   print(f"Evaluating:\n{chat_completion.choices[0].message.content}")
 
+  return chat_completion.choices[0].message.content
 
 
-def get_audio_rhythm_eval(audio_file, text, situation):
+
+def get_audio_rhythm_eval(audio_file, text, situation=None):
   audio_speech_pause_ratio = extract_speech_pause_ratio(audio_file)
   audio_speech_rate = extract_speech_rate(audio_file)
 
@@ -109,19 +113,15 @@ def get_audio_rhythm_eval(audio_file, text, situation):
   - 문맥과 상황을 고려하여 지나치게 빠르거나 느린 경우 부자연스러움 판단  
   - 평가 대상이 청각장애인임을 고려하여 평가 진행  
 
-  답변 양식
-  ```
+  답변 양식은 다음과 같아야 합니다.
   평가: 나쁨 또는 보통 또는 좋음
   점수: 1~5점 (0~5점 사이로 채점한 정량적 점수)
   이유: 위와 같이 평가한 근거를 1줄 정도로 짧고 명확하게 제시할 것. '해요'체로 작성하고 이모티콘을 적절히 사용할 것
-  ```
   
-  ### 예시
-  ```
+  답변 예시:
   평가: 나쁨
   점수: 2/5점
   이유: 긴 문장인데 발화 속도가 8 syllables/sec로 너무 빨라서 듣기 어려워요. 😵
-  ```
   """
 
   assist_prompt = """
@@ -168,3 +168,5 @@ def get_audio_rhythm_eval(audio_file, text, situation):
   )
 
   print(f"Evaluating:\n{chat_completion.choices[0].message.content}")
+
+  return chat_completion.choices[0].message.content

@@ -1,11 +1,12 @@
 import librosa
 import numpy as np
-
+import io
 
 
 def extract_pitch_info(audio_file, sr=16000):
+    audio_data = io.BytesIO(audio_file) 
+    y, sr = librosa.load(audio_data, sr=sr)
 
-    y, sr = librosa.load(audio_file, sr=sr)
     f0, voiced_flag, voiced_probs = librosa.pyin(y, fmin=80, fmax=400)
 
     times = librosa.times_like(f0, sr=sr)
@@ -28,7 +29,8 @@ def extract_speech_rate(audio_file, sr=16000, frame_length=1.0):
     - sr: 샘플링 레이트
     - frame_length: 분석할 시간 구간 (초 단위)
     """
-    y, sr = librosa.load(audio_file, sr=sr)
+    audio_data = io.BytesIO(audio_file) 
+    y, sr = librosa.load(audio_data, sr=sr)
 
     # 온셋(발음 시작 지점) 감지
     onset_env = librosa.onset.onset_strength(y=y, sr=sr)
@@ -58,8 +60,9 @@ def extract_speech_pause_ratio(audio_file, sr=16000, frame_length=1.0, top_db=20
     - frame_length: 분석할 시간 구간 (초 단위)
     - top_db: 무성 구간 판별 임계값 (낮을수록 더 작은 소리도 포함)
     """
-    y = librosa.load(audio_file, sr=sr)[0]
-
+    audio_data = io.BytesIO(audio_file) 
+    y, sr = librosa.load(audio_data, sr=sr)
+    
     total_duration = len(y) / sr  # 전체 오디오 길이
     hop_length = int(librosa.time_to_frames(frame_length, sr=sr))
     times = np.arange(0, total_duration, frame_length)  # 분석할 시간 구간 설정
