@@ -1,10 +1,10 @@
 import React from "react";
-import "../styles/StudyPage.css";
+import "../styles/SenStudyPage.css";
 
-const ProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
+const SenProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   return (
     <div className="progress-bar">
-      {Array.from({ length: totalSteps }, (_, index) => (
+      {Array.from({ length: Math.min(totalSteps, 3) }, (_, index) => (
         <div
           key={index}
           className={`step ${index < currentStep ? "completed" : ""} ${
@@ -19,4 +19,4 @@ const ProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   );
 };
 
-export default ProgressBar;
+export default SenProgressBar;
