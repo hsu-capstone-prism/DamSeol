@@ -47,12 +47,8 @@ public class PracticeService {
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        Long memberId = customUserDetails.getId();
-        System.out.println("test === ");
-        System.out.println(customUserDetails.getPassword());
-        System.out.println(customUserDetails.getId());
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+        String name = customUserDetails.getUsername();
+        Member member = memberRepository.findByName(name);
 
         WordRecord wordRecord = new WordRecord();
         wordRecord.setWord(word);

@@ -63,6 +63,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // Member 객체 생성 및 설정
         Member member = new Member();
+
         member.setName(username);
         member.setPassword("temppw"); // 정확한 비밀번호를 넣을 필요 없음
         member.setRoles(roles); // 변환된 List<Role> 저장

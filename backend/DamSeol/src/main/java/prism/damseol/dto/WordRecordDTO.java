@@ -1,27 +1,24 @@
 package prism.damseol.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import lombok.Getter;
+import prism.damseol.domain.WordRecord;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class WordRecordDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "wordrecord_id")
+
     private Long id;
-
-    @Column(nullable = false)
     private int score;
-
-    @Column(length = 50)
     private String wrongPhon;
-
-    @Column(nullable = false, length = 512)
     private String details;
-
-    @Column(nullable = false)
     private LocalDateTime date;
+
+    public WordRecordDTO(WordRecord wordRecord) {
+        this.id = wordRecord.getId();
+        this.score = wordRecord.getScore();
+        this.wrongPhon = wordRecord.getWrongPhon();
+        this.details = wordRecord.getDetails();
+        this.date = wordRecord.getDate();
+    }
 }

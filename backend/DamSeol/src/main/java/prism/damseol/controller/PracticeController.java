@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import prism.damseol.domain.WordRecord;
+import prism.damseol.dto.WordRecordDTO;
 import prism.damseol.service.PracticeService;
 
 import java.io.IOException;
@@ -22,30 +23,25 @@ public class PracticeController {
     }
 
     @PostMapping("/upload/word/{wordId}")
-    public ResponseEntity<Map<String, Object>> uploadAudio(@PathVariable("wordId") Long wordId,
-                                                           @RequestParam("audio") MultipartFile audioFile) {
-
+    public ResponseEntity<WordRecordDTO> uploadAudio(@PathVariable("wordId") Long wordId,
+                                                     @RequestParam("audio") MultipartFile audioFile) {
         try {
-            // 파일 업로드
+            // 파일 업로드 (fileName은 사용하지 않음)
             String fileName = practiceService.uploadAudioFile(audioFile);
 
             // WordRecord 생성 및 저장
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             WordRecord wordRecord = practiceService.createWordRecord(wordId, authentication);
 
-            // 응답 데이터 구성
-            Map<String, Object> response = Map.of(
-                    "message", "WordRecord 생성 성공!",
-                    "fileName", fileName,
-                    "wordRecord", wordRecord
-            );
-            return ResponseEntity.ok(response);
+            // WordRecordDTO로 변환 후 반환
+            WordRecordDTO wordRecordDTO = new WordRecordDTO(wordRecord);
+            return ResponseEntity.ok(wordRecordDTO);
 
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+            return ResponseEntity.badRequest().build();
         } catch (IOException e) {
             System.out.println("파일 업로드 실패");
-            return ResponseEntity.internalServerError().body(Map.of("message", "파일 저장 실패"));
+            return ResponseEntity.internalServerError().build();
         }
     }
 
