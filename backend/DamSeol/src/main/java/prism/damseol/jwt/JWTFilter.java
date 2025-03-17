@@ -56,7 +56,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = jwtUtil.getUsername(token);
         List<String> roleNames = jwtUtil.getRoles(token); // List<String>으로 역할 이름 가져오기
 
-        // ✅ String → Role 객체 변환
+        // String → Role 객체 변환
         List<Role> roles = roleNames.stream()
                 .map(Role::new) // Role 객체 생성
                 .collect(Collectors.toList());
