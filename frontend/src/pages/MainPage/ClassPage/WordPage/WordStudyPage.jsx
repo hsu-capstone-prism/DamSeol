@@ -79,7 +79,7 @@ const WordStudy = () => {
             <p>해당하는 단어가 없습니다.</p>
           )}
         </section>
-        <MicButton />
+        <MicButton selectedIndex={selectedIndex} />
         <ProgressBar
           currentStep={selectedIndex}
           totalSteps={words.length}
