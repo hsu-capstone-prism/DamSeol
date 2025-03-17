@@ -33,8 +33,12 @@ const WordMicButton = ({ selectedIndex }) => {
         const blob = new Blob(audioChunksRef.current, { type: "audio/wav" });
         const audioUrl = URL.createObjectURL(blob);
 
-        // 파일명 = selectedIndex.wav (예: 0.wav, 1.wav)
-        const fileName = `${selectedIndex}.wav`;
+        // 현재 URL 경로 가져오기
+        const path = window.location.pathname; // 예: /phon/consonant/words/11
+        const cleanPath = path.slice(1).replace(/\//g, "_"); // 예: phon_consonant_words_11
+
+        // 파일명 생성
+        const fileName = `${cleanPath}_${selectedIndex}.wav`;
 
         const link = document.createElement("a");
         link.href = audioUrl;
