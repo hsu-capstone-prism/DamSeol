@@ -23,6 +23,9 @@ public class WordRecord {
     @Column(length = 50)
     private String wrongPhon;
 
+    @Column(length = 50)
+    private String pron;
+
     @Column(nullable = false, length = 512)
     private String details;
 

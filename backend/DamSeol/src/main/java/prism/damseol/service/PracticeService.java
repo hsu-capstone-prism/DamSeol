@@ -50,11 +50,15 @@ public class PracticeService {
         String name = customUserDetails.getUsername();
         Member member = memberRepository.findByName(name);
 
+        /*
+        하드코딩 - 추후에 개발 예정
+         */
         WordRecord wordRecord = new WordRecord();
         wordRecord.setWord(word);
         wordRecord.setMember(member);
         wordRecord.setScore(75);
         wordRecord.setWrongPhon("ㄱ,ㄷ");
+        wordRecord.setPron("낭로");
         wordRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
         wordRecord.setDate(LocalDateTime.now());
 

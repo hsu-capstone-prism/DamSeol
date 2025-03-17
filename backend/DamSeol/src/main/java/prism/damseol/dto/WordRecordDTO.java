@@ -11,6 +11,7 @@ public class WordRecordDTO {
     private Long id;
     private int score;
     private String wrongPhon;
+    private String pron;
     private String details;
     private LocalDateTime date;
 
@@ -18,6 +19,7 @@ public class WordRecordDTO {
         this.id = wordRecord.getId();
         this.score = wordRecord.getScore();
         this.wrongPhon = wordRecord.getWrongPhon();
+        this.pron = wordRecord.getPron();
         this.details = wordRecord.getDetails();
         this.date = wordRecord.getDate();
     }
