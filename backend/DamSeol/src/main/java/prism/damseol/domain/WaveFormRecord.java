@@ -35,8 +35,5 @@ public class WaveFormRecord {
     private Member member;
 
     @OneToMany(mappedBy = "waveFormRecord", cascade = CascadeType.ALL)
-    private List<WordRecord> wordRecords = new ArrayList<>();
-
-    @OneToMany(mappedBy = "waveFormRecord", cascade = CascadeType.ALL)
     private List<SentenceRecord> sentenceRecords = new ArrayList<>();
 }
