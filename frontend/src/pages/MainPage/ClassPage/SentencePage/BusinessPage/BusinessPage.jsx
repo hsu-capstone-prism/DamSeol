@@ -36,7 +36,7 @@ const BusinessPage = () => {
           { headers }
         );
 
-        console.log("Business - Subcategory List:", response.data);
+        console.log(" Business - Subcategory List:", response.data);
 
         // Business 카테고리의 서브카테고리 필터링
         const businessCategories = response.data.filter(
@@ -56,7 +56,7 @@ const BusinessPage = () => {
 
         setSubcategoryMap(map);
       } catch (error) {
-        console.error("🚨 Error fetching subcategories:", error);
+        console.error("Error fetching subcategories:", error);
       }
     };
 

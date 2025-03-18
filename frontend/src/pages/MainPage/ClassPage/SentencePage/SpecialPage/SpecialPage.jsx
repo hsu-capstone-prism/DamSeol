@@ -57,7 +57,7 @@ const SpecialPage = () => {
 
         setSubcategoryMap(map);
       } catch (error) {
-        console.error("🚨 Error fetching subcategories:", error);
+        console.error(" Error fetching subcategories:", error);
       }
     };
 
