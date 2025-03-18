@@ -74,8 +74,11 @@ const WordMicButton = ({
   };
 
   const uploadAudio = async (audioBlob) => {
+    const timestamp = Date.now(); // 현재 timestamp 생성
+    const fileName = `${timestamp}.wav`;
+
     const formData = new FormData();
-    formData.append("audio", audioBlob, "recorded_audio.wav");
+    formData.append("audio", audioBlob, fileName); // 동적으로 파일명 설정
 
     try {
       const token = localStorage.getItem("authToken");
