@@ -26,18 +26,34 @@ public class PracticeService {
     private final MemberRepository memberRepository;
     private final WordRecordRepository wordRecordRepository;
 
+    private static final String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/";
+
     // 1. 파일 업로드 처리
     public String uploadAudioFile(MultipartFile audioFile) throws IOException {
-        if (audioFile.isEmpty()) {
+        if (audioFile == null || audioFile.isEmpty()) {
             throw new IllegalArgumentException("파일이 없습니다.");
         }
 
         String fileName = audioFile.getOriginalFilename();
-        Path path = Paths.get("uploads/" + fileName);
-        Files.createDirectories(path.getParent());
-        Files.write(path, audioFile.getBytes());
+        if (fileName == null || fileName.trim().isEmpty()) {
+            throw new IllegalArgumentException("파일 이름이 유효하지 않습니다.");
+        }
 
-        System.out.println("uploadAudioFile: 파일 업로드 성공!");
+        // Windows에서도 동작하도록 절대 경로 사용
+        Path uploadPath = Paths.get(UPLOAD_DIR);
+        Path filePath = uploadPath.resolve(fileName);
+
+        try {
+            // 디렉토리가 없으면 생성
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            // 파일 저장
+            Files.write(filePath, audioFile.getBytes());
+            System.out.println("uploadAudioFile: 파일 업로드 성공! 경로: " + filePath.toString());
+        } catch (IOException e) {
+            throw new IOException("파일 업로드 실패: " + e.getMessage(), e);
+        }
         return fileName;
     }
 
