@@ -15,6 +15,8 @@ const WordStudy = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [result, setResult] = useState(null);
+  const [isResultVisible, setIsResultVisible] = useState(false);
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음"; // state에서 symbol 가져오기
 
@@ -58,6 +60,11 @@ const WordStudy = () => {
     fetchWords();
   }, [subcategoryId]);
 
+  const handleUploadComplete = (data) => {
+    setResult(data);
+    setIsResultVisible(true);
+  };
+
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
@@ -67,6 +74,7 @@ const WordStudy = () => {
         <nav className="breadcrumb">
           <span>단어 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
+
         <section className="word-display">
           {words.length > 0 ? (
             <>
@@ -78,16 +86,49 @@ const WordStudy = () => {
           ) : (
             <p>해당하는 단어가 없습니다.</p>
           )}
+
+          {isResultVisible && result && (
+            <div className="word-result">
+              <p className="pronunciation-label">000님의 발음</p>
+              <h2 className="user-pronunciation">{result.pron}</h2>
+
+              <div className="result-bottom-container">
+                <div className="learning-suggestions">
+                  <p className="suggestion-title">추천 학습</p>
+                  <div className="suggestion-buttons">
+                    {result.wrongPhon &&
+                      result.wrongPhon.split(",").map((phon, index) => (
+                        <button key={index} className="suggestion-btn">
+                          {phon}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+                <div className="score-container">
+                  <p className="accuracy-label">정확도</p>
+                  <p className="score">{result.score}%</p>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
-        <MicButton
-          selectedIndex={selectedIndex}
-          subcategoryId={subcategoryId}
-          totalWords={words.length}
-        />
+
+        {!isResultVisible && (
+          <MicButton
+            selectedIndex={selectedIndex}
+            subcategoryId={subcategoryId}
+            totalWords={words.length}
+            onUploadComplete={handleUploadComplete}
+          />
+        )}
+
         <ProgressBar
           currentStep={selectedIndex}
           totalSteps={words.length}
-          onStepClick={(index) => setSelectedIndex(index)}
+          onStepClick={(index) => {
+            setSelectedIndex(index);
+            setIsResultVisible(false);
+          }}
         />
       </div>
     </Layout>
