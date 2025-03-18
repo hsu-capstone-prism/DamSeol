@@ -69,7 +69,7 @@ const WordMicButton = ({
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      updateStatus(selectedIndex, "녹음이 완료되었습니다! 업로드 중...");
+      updateStatus(selectedIndex, "");
     }
   };
 
@@ -94,7 +94,6 @@ const WordMicButton = ({
       if (response.ok) {
         const result = await response.json();
         console.log("Upload 성공:", result);
-        updateStatus(selectedIndex, "업로드가 완료되었습니다! 🎉");
         if (onUploadComplete) {
           onUploadComplete(result);
         }
