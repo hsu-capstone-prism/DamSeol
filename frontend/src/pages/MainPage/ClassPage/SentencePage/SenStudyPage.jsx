@@ -11,8 +11,8 @@ const getAuthToken = () => localStorage.getItem("authToken");
 
 // 배열에서 랜덤하게 5개 선택하는 함수
 const getRandomSentences = (arr, count) => {
-  if (arr.length <= count) return arr; // 문장이 5개 이하라면 그대로 반환
-  const shuffled = [...arr].sort(() => 0.5 - Math.random()); // 랜덤 섞기
+  if (arr.length <= count) return arr;
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 };
 
