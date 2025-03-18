@@ -1,8 +1,8 @@
 import React from "react";
 import { FaMicrophone } from "react-icons/fa";
-import "../styles/StudyPage.css";
+import "../styles/SenStudyPage.css";
 
-const MicButton = () => {
+const SenMicButton = () => {
   return (
     <div className="mic-button-container">
       <button className="mic-button">
@@ -13,4 +13,4 @@ const MicButton = () => {
   );
 };
 
-export default MicButton;
+export default SenMicButton;
