@@ -1,21 +1,27 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaMicrophone, FaStop } from "react-icons/fa";
 import "../styles/WordStudyPage.css";
 
-const WordMicButton = ({ selectedIndex }) => {
+const WordMicButton = ({ selectedIndex, subcategoryId, totalWords }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [statusText, setStatusText] = useState("버튼을 눌러서 녹음하기");
+  const [statusList, setStatusList] = useState([]);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+
+  // 총 단어 수만큼 status 배열 초기화
+  useEffect(() => {
+    if (totalWords > 0) {
+      setStatusList(new Array(totalWords).fill("버튼을 눌러서 녹음하기"));
+    }
+  }, [totalWords]);
 
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
       const audioContext = new AudioContext({ sampleRate: 16000 });
       const source = audioContext.createMediaStreamSource(stream);
-
       const processor = audioContext.createScriptProcessor(4096, 1, 1);
+
       source.connect(processor);
       processor.connect(audioContext.destination);
 
@@ -31,24 +37,12 @@ const WordMicButton = ({ selectedIndex }) => {
 
       mediaRecorder.onstop = () => {
         const blob = new Blob(audioChunksRef.current, { type: "audio/wav" });
-        const audioUrl = URL.createObjectURL(blob);
-
-        // 현재 URL 경로 가져오기
-        const path = window.location.pathname; // 예: /phon/consonant/words/11
-        const cleanPath = path.slice(1).replace(/\//g, "_"); // 예: phon_consonant_words_11
-
-        // 파일명 생성
-        const fileName = `${cleanPath}_${selectedIndex}.wav`;
-
-        const link = document.createElement("a");
-        link.href = audioUrl;
-        link.download = fileName;
-        link.click();
+        uploadAudio(blob);
       };
 
       mediaRecorder.start();
       setIsRecording(true);
-      setStatusText("멋진 목소리를 듣고 있어요");
+      updateStatus(selectedIndex, "멋진 목소리를 듣고 있어요");
     } catch (err) {
       console.error("Error accessing microphone", err);
     }
@@ -58,8 +52,49 @@ const WordMicButton = ({ selectedIndex }) => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      setStatusText("녹음이 완료되었습니다!");
+      updateStatus(selectedIndex, "녹음이 완료되었습니다! 업로드 중...");
     }
+  };
+
+  const uploadAudio = async (audioBlob) => {
+    const formData = new FormData();
+    formData.append("audio", audioBlob, "recorded_audio.wav");
+
+    try {
+      const token = localStorage.getItem("authToken");
+
+      const response = await fetch(
+        `http://localhost:8080/api/upload/word/${selectedIndex + 1}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Upload 성공:", result);
+        updateStatus(selectedIndex, "업로드가 완료되었습니다! 🎉");
+      } else {
+        console.error("Upload 실패:", response.status);
+        updateStatus(selectedIndex, "업로드에 실패했습니다. 😢");
+      }
+    } catch (error) {
+      console.error("Upload 오류:", error);
+      updateStatus(selectedIndex, "오류가 발생했습니다.");
+    }
+  };
+
+  // 단어별 status 갱신 함수
+  const updateStatus = (index, message) => {
+    setStatusList((prev) => {
+      const updated = [...prev];
+      updated[index] = message;
+      return updated;
+    });
   };
 
   return (
@@ -74,7 +109,7 @@ const WordMicButton = ({ selectedIndex }) => {
           <FaMicrophone size={50} color="#3366ff" />
         )}
       </button>
-      <p className="mic-text">{statusText}</p>
+      <p className="mic-text">{statusList[selectedIndex]}</p>
     </div>
   );
 };
