@@ -112,7 +112,6 @@ const WordStudy = () => {
             </div>
           )}
         </section>
-
         {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
