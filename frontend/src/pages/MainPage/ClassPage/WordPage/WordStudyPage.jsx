@@ -82,6 +82,7 @@ const WordStudy = () => {
         <MicButton
           selectedIndex={selectedIndex}
           subcategoryId={subcategoryId}
+          totalWords={words.length}
         />
         <ProgressBar
           currentStep={selectedIndex}
