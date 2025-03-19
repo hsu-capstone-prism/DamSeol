@@ -15,11 +15,14 @@ const WordStudy = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
-  const [isResultVisible, setIsResultVisible] = useState(false);
+  const [isResultVisible, setIsResultVisible] = useState(false); // 선택된 결과
+  const [imageSrc, setImageSrc] = useState(null); // 선택된 이미지
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 관리
+  const [selectedPhon, setSelectedPhon] = useState("");
   const [showFinalResult, setShowFinalResult] = useState(false);
 
   const location = useLocation();
-  const symbol = location.state?.symbol || "알 수 없음";
+  const symbol = location.state?.symbol || "알 수 없음"; // state에서 symbol 가져오기
 
   useEffect(() => {
     if (!subcategoryId) return;
@@ -56,6 +59,35 @@ const WordStudy = () => {
   const handleUploadComplete = (data) => {
     setResult(data);
     setIsResultVisible(true);
+  };
+
+  // 모달 열기
+  const openImageModal = async (phon) => {
+    const phonMapping = {
+      ㄱ: "g.png",
+      ㄷ: "d.png",
+    };
+
+    const imageName = phonMapping[phon.trim()];
+    if (!imageName) return;
+
+    try {
+      const token = localStorage.getItem("authToken");
+
+      const response = await axios.get(`http://localhost:8080/${imageName}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: "blob",
+      });
+
+      const imageBlob = URL.createObjectURL(response.data);
+      setImageSrc(imageBlob);
+      setSelectedPhon(phon);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("이미지 로드 실패:", error);
+    }
   };
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
@@ -108,34 +140,38 @@ const WordStudy = () => {
                       <div className="suggestion-buttons">
                         {result.wrongPhon &&
                           result.wrongPhon.split(",").map((phon, index) => (
-                            <button key={index} className="suggestion-btn">
+                            <button
+                              key={index}
+                              className="suggestion-btn"
+                              onClick={() => openImageModal(phon)}
+                            >
                               {phon}
                             </button>
                           ))}
                       </div>
                     </div>
                     <div className="score-container">
+                      {/* 마지막 단어에서만 최종 결과화면 보기 버튼 */}
+                      {selectedIndex === words.length - 1 && (
+                        <button
+                          className="final-result-btn"
+                          onClick={() => setShowFinalResult(true)}
+                        >
+                          최종 결과화면 보기
+                        </button>
+                      )}
+
                       <p className="accuracy-label">정확도</p>
                       <p className="score">{result.score}%</p>
                     </div>
                   </div>
-
-                  {/* 마지막 단어에서만 최종 결과화면 보기 버튼 */}
-                  {selectedIndex === words.length - 1 && (
-                    <button
-                      className="final-result-btn"
-                      onClick={() => setShowFinalResult(true)}
-                    >
-                      최종 결과화면 보기
-                    </button>
-                  )}
                 </div>
               )}
             </>
           )}
         </section>
 
-        {!isResultVisible && !showFinalResult && (
+        {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
             subcategoryId={subcategoryId}
@@ -144,18 +180,35 @@ const WordStudy = () => {
           />
         )}
 
-        {!showFinalResult && (
-          <ProgressBar
-            currentStep={selectedIndex}
-            totalSteps={words.length}
-            onStepClick={(index) => {
-              setSelectedIndex(index);
-              setIsResultVisible(false);
-              setShowFinalResult(false);
-            }}
-          />
-        )}
+        <ProgressBar
+          currentStep={selectedIndex}
+          totalSteps={words.length}
+          onStepClick={(index) => {
+            setSelectedIndex(index);
+            setIsResultVisible(false);
+            setShowFinalResult(false);
+          }}
+        />
       </div>
+      {/* 이미지 모달 창 */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="modal-content">
+            <h2 className="modal-title">{selectedPhon}</h2>
+            <img
+              src={imageSrc}
+              alt="발음 학습 이미지"
+              className="modal-image"
+            />
+            <button
+              className="modal-confirm-btn"
+              onClick={() => setIsModalOpen(false)}
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };
