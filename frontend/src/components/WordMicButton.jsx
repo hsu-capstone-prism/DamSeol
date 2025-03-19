@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaMicrophone, FaStop } from "react-icons/fa";
 import "../styles/WordStudyPage.css";
 
-const WordMicButton = ({ selectedIndex, subcategoryId, totalWords }) => {
+const WordMicButton = ({
+  selectedIndex,
+  subcategoryId,
+  totalWords,
+  onUploadComplete,
+}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [statusList, setStatusList] = useState([]);
   const mediaRecorderRef = useRef(null);
@@ -57,8 +62,11 @@ const WordMicButton = ({ selectedIndex, subcategoryId, totalWords }) => {
   };
 
   const uploadAudio = async (audioBlob) => {
+    const timestamp = Date.now(); // 현재 timestamp 생성
+    const fileName = `${timestamp}.wav`;
+
     const formData = new FormData();
-    formData.append("audio", audioBlob, "recorded_audio.wav");
+    formData.append("audio", audioBlob, fileName); // 동적으로 파일명 설정
 
     try {
       const token = localStorage.getItem("authToken");
@@ -78,6 +86,9 @@ const WordMicButton = ({ selectedIndex, subcategoryId, totalWords }) => {
         const result = await response.json();
         console.log("Upload 성공:", result);
         updateStatus(selectedIndex, "업로드가 완료되었습니다! 🎉");
+        if (onUploadComplete) {
+          onUploadComplete(result);
+        }
       } else {
         console.error("Upload 실패:", response.status);
         updateStatus(selectedIndex, "업로드에 실패했습니다. 😢");
