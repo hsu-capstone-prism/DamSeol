@@ -26,31 +26,28 @@ public class PracticeService {
     private final MemberRepository memberRepository;
     private final WordRecordRepository wordRecordRepository;
 
-    private static final String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/";
-
     // 1. 파일 업로드 처리
-    public String uploadAudioFile(MultipartFile audioFile) throws IOException {
-        if (audioFile == null || audioFile.isEmpty()) {
-            throw new IllegalArgumentException("파일이 없습니다.");
-        }
+    public String uploadAudioFile(MultipartFile audioFile, String name) throws IOException {
+        if (audioFile.isEmpty()) throw new IllegalArgumentException("파일이 없습니다.");
 
         String fileName = audioFile.getOriginalFilename();
-        if (fileName == null || fileName.trim().isEmpty()) {
-            throw new IllegalArgumentException("파일 이름이 유효하지 않습니다.");
-        }
+        if (fileName.trim().isEmpty()) throw new IllegalArgumentException("파일명이 유효하지 않습니다.");
 
-        // Windows에서도 동작하도록 절대 경로 사용
+        int dotIndex = fileName.lastIndexOf(".");
+        String extension = (dotIndex != -1) ? fileName.substring(dotIndex) : "";
+        String baseName = (dotIndex != -1) ? fileName.substring(0, dotIndex) : fileName;
+        fileName = baseName + "_" + name + extension;
+
+        String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/";
         Path uploadPath = Paths.get(UPLOAD_DIR);
         Path filePath = uploadPath.resolve(fileName);
 
         try {
-            // 디렉토리가 없으면 생성
-            if (!Files.exists(uploadPath)) {
+            if (!Files.exists(uploadPath))
                 Files.createDirectories(uploadPath);
-            }
-            // 파일 저장
+
             Files.write(filePath, audioFile.getBytes());
-            System.out.println("uploadAudioFile: 파일 업로드 성공! 경로: " + filePath.toString());
+            System.out.println("파일 업로드 성공!");
         } catch (IOException e) {
             throw new IOException("파일 업로드 실패: " + e.getMessage(), e);
         }
@@ -58,17 +55,16 @@ public class PracticeService {
     }
 
     // 2. WordRecord 생성 및 저장
-    public WordRecord createWordRecord(Long wordId, Authentication authentication) {
+    public WordRecord createWordRecord(Long wordId, String memberName) {
         Word word = wordRepository.findById(wordId)
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
 
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        String name = customUserDetails.getUsername();
-        Member member = memberRepository.findByName(name);
+        Member member = memberRepository.findByName(memberName);
 
         /*
         하드코딩 - 추후에 개발 예정
          */
+
         WordRecord wordRecord = new WordRecord();
         wordRecord.setWord(word);
         wordRecord.setMember(member);
