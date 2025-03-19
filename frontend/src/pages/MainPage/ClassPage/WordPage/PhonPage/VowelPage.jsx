@@ -84,7 +84,7 @@ const VowelPage = () => {
                 </Link>
               ) : (
                 <div className="vowel-box disabled" key={vowel.symbol}>
-                  {vowel.symbol}
+                  {vowel.symbol} 단어
                 </div>
               )
             )}
