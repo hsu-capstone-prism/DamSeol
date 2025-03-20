@@ -5,6 +5,7 @@ import prism.damseol.domain.Word;
 
 @Getter
 public class WordDTO {
+
     private Long id;
     private String text;
     private String wordPron;

@@ -1,18 +1,55 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 추가
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../../styles/LoginPage.css";
 
 const LoginPage = () => {
-  const navigate = useNavigate(); // 페이지 이동을 위한 훅 사용
-
-  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+  const [username, setUsername] = useState(""); // 기존 username 유지
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    if (username && password) {
-      navigate("/main"); // 입력값이 있으면 MainPage로 이동
-    } else {
-      alert("아이디와 비밀번호를 입력하세요.");
+  const handleLogin = async () => {
+    if (!username || !password) {
+      setError("아이디와 비밀번호를 입력하세요.");
+      return;
+    }
+
+    console.log(username);
+    console.log(password);
+
+    try {
+      // URLSearchParams를 사용하여 백엔드가 받을 수 있도록 변환
+      const formData = new URLSearchParams();
+      formData.append("username", username);
+      formData.append("password", password);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/login",
+        formData, // 변경된 데이터 전송 방식
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+      );
+
+      console.log("전체 응답 객체:", response);
+
+      const authHeader = response.headers["authorization"];
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        throw new Error("서버에서 JWT 토큰을 반환하지 않았습니다.");
+      }
+
+      const token = authHeader.split(" ")[1]; // "Bearer <TOKEN>"에서 <TOKEN> 부분만 추출
+      localStorage.setItem("authToken", token);
+      console.log("JWT 토큰 저장 완료:", token);
+
+      navigate("/main"); // 로그인 성공 시 메인 페이지로 이동
+    } catch (error) {
+      console.error("로그인 실패:", error);
+
+      if (error.response) {
+        setError(error.response.data.message || "로그인에 실패하였습니다.");
+      } else {
+        setError("서버에 연결할 수 없습니다.");
+      }
     }
   };
 
@@ -22,7 +59,7 @@ const LoginPage = () => {
         <h2 className="login-title">Login</h2>
         <div className="input-group">
           <input
-            type="text"
+            type="text" // username 입력 유지
             placeholder="아이디"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -36,6 +73,7 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {error && <p className="error-message">{error}</p>}
         <p className="forgot-password">비밀번호를 잊으셨나요?</p>
         <div className="button-group">
           <button className="login-button" onClick={handleLogin}>
