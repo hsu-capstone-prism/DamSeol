@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class WordRecordDTO {
 
     private Long id;
+    private String name;
     private int score;
     private String wrongPhon;
     private String pron;
@@ -17,6 +18,7 @@ public class WordRecordDTO {
 
     public WordRecordDTO(WordRecord wordRecord) {
         this.id = wordRecord.getId();
+        this.name = wordRecord.getMember().getName();
         this.score = wordRecord.getScore();
         this.wrongPhon = wordRecord.getWrongPhon();
         this.pron = wordRecord.getPron();
