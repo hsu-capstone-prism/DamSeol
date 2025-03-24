@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -69,12 +70,38 @@ public class PracticeService {
         wordRecord.setWord(word);
         wordRecord.setMember(member);
         wordRecord.setScore(75);
-        wordRecord.setWrongPhon("ㄱ,ㄷ");
-        wordRecord.setPron("낭로");
+        wordRecord.setPron("낭루"); // correctPron: 날로
+
         wordRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
         wordRecord.setDate(LocalDateTime.now());
 
         return wordRecordRepository.save(wordRecord);
+    }
+
+    // 3. 틀린 발음 설정 및 인덱스 반환
+    public String setWrongPhon(Long wordId, WordRecord wordRecord) {
+        Word word = wordRepository.findById(wordId)
+                .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
+
+        // wordRecord에 틀린 발음 설정
+        List<String> wrongProns = KoreanPronChecker.checkPronunciation(word.getWordPron(), wordRecord.getPron());
+        StringBuilder sb = new StringBuilder();
+        for (String wrongPron : wrongProns) {
+            sb.append(wrongPron);
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        wordRecord.setWrongPhon(sb.toString());
+
+        // 틀린 발음이 포함된 인덱스 반환
+        List<Integer> incorrectPronIndices = KoreanPronChecker.getIncorrectPronIndices(word.getWordPron(), wordRecord.getPron());
+        sb = new StringBuilder();
+        for (Integer incorrectPronIndex : incorrectPronIndices) {
+            sb.append(incorrectPronIndex);
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 
     // 3. SentenceRecord 생성 및 저장

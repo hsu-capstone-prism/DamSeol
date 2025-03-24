@@ -12,6 +12,7 @@ public class WordRecordDTO {
     private String name;
     private int score;
     private String wrongPhon;
+    private String wrongPhonIndices;
     private String pron;
     private String details;
     private LocalDateTime date;
@@ -24,5 +25,9 @@ public class WordRecordDTO {
         this.pron = wordRecord.getPron();
         this.details = wordRecord.getDetails();
         this.date = wordRecord.getDate();
+    }
+
+    public void setWrongPhonIndices(String wrongPhonIndices) {
+        this.wrongPhonIndices = wrongPhonIndices;
     }
 }
