@@ -135,26 +135,48 @@ const WordStudy = () => {
         <section className="word-display">
           {showFinalResult ? (
             <div className="final-result">
-              <h2>최종 결과</h2>
-              <p>정확도 평균: {avgScore}%</p>
-              <p>
-                추천 학습:{" "}
-                {uniqueWrongPhons.length > 0
-                  ? uniqueWrongPhons.join(", ")
-                  : "없음"}
-              </p>
-              <p>세부내용: {allDetails || "내용 없음"}</p>
-
-              <button
-                onClick={() => {
-                  setShowFinalResult(false);
-                  setSelectedIndex(0);
-                  setIsResultVisible(false);
-                }}
-                className="popup-close-btn"
-              >
-                다시 학습하기
-              </button>
+              <h2 className="final-title">{username}님의 최종 결과</h2>
+              <div className="final-content">
+                <div className="final-left">
+                  <p>정확도 평균</p>
+                  <div className="accuracy-bar">
+                    <div
+                      className="accuracy-fill"
+                      style={{ width: `${avgScore}%` }}
+                    >
+                      {avgScore}%
+                    </div>
+                  </div>
+                  <p>
+                    추천 학습 단어{" "}
+                    <div className="final-suggestion-buttons">
+                      {uniqueWrongPhons.length > 0 ? (
+                        uniqueWrongPhons.map((phon, index) => (
+                          <div key={index} className="circle-phon">
+                            {phon}
+                          </div>
+                        ))
+                      ) : (
+                        <span className="no-phon">없음</span>
+                      )}
+                    </div>
+                  </p>
+                </div>
+                <div className="final-right">
+                  <p className="detail-title">세부내용</p>
+                  <p className="detail-text">{allDetails || "내용 없음"}</p>
+                  <button
+                    onClick={() => {
+                      setShowFinalResult(false);
+                      setSelectedIndex(0);
+                      setIsResultVisible(false);
+                    }}
+                    className="popup-close-btn"
+                  >
+                    다시 학습하기
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <>
