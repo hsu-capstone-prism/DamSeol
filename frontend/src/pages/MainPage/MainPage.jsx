@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/MainPage.css";
-import wordImg from "../../images/word.png";
+import wordImg from "../../assets/images/word.png";
+import sentenceImg from "../../assets/images/sentence.png";
+import grammerImg from "../../assets/images/grammer.png";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -19,16 +21,23 @@ const MainPage = () => {
             <img
               src={wordImg}
               alt="단어 학습"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              style={{ width: "100%", height: "120%", objectFit: "contain" }}
             />
           </div>
           <div className="class-box" onClick={() => handleClick("/sentence")}>
-            문장 학습
+            <img
+              src={sentenceImg}
+              alt="문장 학습"
+              style={{ width: "100%", height: "120%", objectFit: "contain" }}
+            />
           </div>
           <div className="class-box" onClick={() => handleClick("/grammer")}>
-            문법 연습
+            <img
+              src={grammerImg}
+              alt="문법 연습"
+              style={{ width: "100%", height: "120%", objectFit: "contain" }}
+            />
           </div>
-          <div className="class-box">...</div>
         </div>
       </section>
       <section className="report-section">
