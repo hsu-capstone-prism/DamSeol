@@ -37,6 +37,7 @@
 
 .class-box {
   min-width: 100px;
+  overflow: hidden;
   width: 400px;
   height: 250px;
   background: #e8f0fe;
