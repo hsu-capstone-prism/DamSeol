@@ -19,7 +19,7 @@ const MainPage = () => {
             <img
               src={wordImg}
               alt="단어 학습"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              style={{ width: "100%", height: "120%", objectFit: "contain" }}
             />
           </div>
           <div className="class-box" onClick={() => handleClick("/sentence")}>
@@ -28,7 +28,6 @@ const MainPage = () => {
           <div className="class-box" onClick={() => handleClick("/grammer")}>
             문법 연습
           </div>
-          <div className="class-box">...</div>
         </div>
       </section>
       <section className="report-section">
