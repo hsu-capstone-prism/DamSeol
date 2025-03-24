@@ -19,11 +19,11 @@ public class SentenceRecord {
     @Column(nullable = false)
     private double score;
 
-    @Column(nullable = false, columnDefinition = "JSON")
-    private String details;
+    @Column(length = 255)
+    private String pron;
 
-    @Column(nullable = false)
-    private int timeSpent;
+    @Column(nullable = false, length = 512)
+    private String details;
 
     @Column(nullable = false)
     private LocalDateTime date;
