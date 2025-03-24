@@ -15,14 +15,17 @@ const WordStudy = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
-  const [isResultVisible, setIsResultVisible] = useState(false); // 선택된 결과
-  const [imageSrc, setImageSrc] = useState(null); // 선택된 이미지
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 관리
+  const [isResultVisible, setIsResultVisible] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPhon, setSelectedPhon] = useState("");
   const [showFinalResult, setShowFinalResult] = useState(false);
 
   const location = useLocation();
-  const symbol = location.state?.symbol || "알 수 없음"; // state에서 symbol 가져오기
+  const symbol = location.state?.symbol || "알 수 없음";
+
+  // 🔔 localStorage에서 username 가져오기
+  const username = localStorage.getItem("username") || "사용자";
 
   useEffect(() => {
     if (!subcategoryId) return;
@@ -61,7 +64,6 @@ const WordStudy = () => {
     setIsResultVisible(true);
   };
 
-  // 모달 열기
   const openImageModal = async (phon) => {
     const phonMapping = {
       ㄱ: "g.png",
@@ -72,7 +74,7 @@ const WordStudy = () => {
     if (!imageName) return;
 
     try {
-      const token = localStorage.getItem("authToken");
+      const token = getAuthToken();
 
       const response = await axios.get(`http://localhost:8080/${imageName}`, {
         headers: {
@@ -131,7 +133,7 @@ const WordStudy = () => {
 
               {isResultVisible && result && (
                 <div className="word-result">
-                  <p className="pronunciation-label">000님의 발음</p>
+                  <p className="pronunciation-label">{username}님의 발음</p>
                   <h2 className="user-pronunciation">{result.pron}</h2>
 
                   <div className="result-bottom-container">
@@ -151,7 +153,6 @@ const WordStudy = () => {
                       </div>
                     </div>
                     <div className="score-container">
-                      {/* 마지막 단어에서만 최종 결과화면 보기 버튼 */}
                       {selectedIndex === words.length - 1 && (
                         <button
                           className="final-result-btn"
@@ -190,7 +191,7 @@ const WordStudy = () => {
           }}
         />
       </div>
-      {/* 이미지 모달 창 */}
+
       {isModalOpen && (
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div className="modal-content">
