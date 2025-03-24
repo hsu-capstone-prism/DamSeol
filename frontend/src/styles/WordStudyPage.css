@@ -44,6 +44,7 @@
   overflow: auto;
   min-width: 400px;
   max-width: 800px;
+  overflow: hidden;
 }
 
 .word {
@@ -189,7 +190,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.06);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -239,4 +240,108 @@
 
 .modal-confirm-btn:hover {
   background-color: #0044aa;
+}
+
+.final-result {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 20px;
+  gap: 10px;
+}
+
+.final-result h2 {
+  color: #4a60f6;
+  font-size: 24px;
+  margin-bottom: 0;
+}
+
+/* 좌우 영역 배치 */
+.final-result-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+  gap: 20px;
+}
+
+/* 공통 타이틀 스타일 */
+.final-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4a60f6;
+}
+
+.final-left,
+.final-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* progress bar */
+.final-left .progress-bar-summary {
+  background-color: #e0e7ff;
+  border-radius: 50px;
+  height: 20px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.final-left .progress-bar-summary > div {
+  height: 100%;
+  background: linear-gradient(90deg, #4a60f6, #6e87f8);
+  border-radius: 50px;
+  transition: width 0.3s ease-in-out;
+}
+
+/* 추천 자모음 */
+.final-left .phon-list {
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.final-left .phon-item {
+  background-color: #a5baff;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+/* 오른쪽 학습팁 영역 */
+.final-right .tip-content {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* 버튼 그룹 */
+.final-result .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.final-result .button-group button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.final-result .button-group .retry-btn {
+  background-color: #4a60f6;
+  color: white;
+}
+
+.final-result .button-group .home-btn {
+  background-color: #e0e7ff;
+  color: #4a60f6;
 }

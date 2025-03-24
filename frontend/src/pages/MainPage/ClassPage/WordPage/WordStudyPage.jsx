@@ -23,7 +23,6 @@ const WordStudy = () => {
 
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
-
   const username = localStorage.getItem("username") || "사용자";
 
   useEffect(() => {
@@ -79,7 +78,6 @@ const WordStudy = () => {
 
     try {
       const token = getAuthToken();
-
       const response = await axios.get(`http://localhost:8080/${imageName}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -96,7 +94,6 @@ const WordStudy = () => {
     }
   };
 
-  // ✅ 평균 및 통합 값 계산
   const getSummaryResult = () => {
     const validResults = resultList.filter(Boolean);
     const totalScore = validResults.reduce((sum, r) => sum + r.score, 0);
@@ -111,13 +108,9 @@ const WordStudy = () => {
 
     const uniqueWrongPhons = [...new Set(allWrongPhons)];
 
-    const allDetails = validResults.map((r) => r.details).join(", ");
+    const allDetails = validResults.map((r) => r.details).join(" \n");
 
-    return {
-      avgScore,
-      uniqueWrongPhons,
-      allDetails,
-    };
+    return { avgScore, uniqueWrongPhons, allDetails };
   };
 
   const { avgScore, uniqueWrongPhons, allDetails } = getSummaryResult();
@@ -135,26 +128,48 @@ const WordStudy = () => {
         <section className="word-display">
           {showFinalResult ? (
             <div className="final-result">
-              <h2>최종 결과</h2>
-              <p>정확도 평균: {avgScore}%</p>
-              <p>
-                추천 학습:{" "}
-                {uniqueWrongPhons.length > 0
-                  ? uniqueWrongPhons.join(", ")
-                  : "없음"}
-              </p>
-              <p>세부내용: {allDetails || "내용 없음"}</p>
+              <h2>{username}님의 학습 결과</h2>
+              <div className="final-result-grid">
+                <div className="final-left">
+                  <p className="final-title">평균 정확도</p>
+                  <div className="progress-bar-summary">
+                    <div style={{ width: `${avgScore}%` }} />
+                  </div>
 
-              <button
-                onClick={() => {
-                  setShowFinalResult(false);
-                  setSelectedIndex(0);
-                  setIsResultVisible(false);
-                }}
-                className="popup-close-btn"
-              >
-                다시 학습하기
-              </button>
+                  <p className="final-title">추천 학습 자·모음</p>
+                  <div className="phon-list">
+                    {uniqueWrongPhons.map((phon, index) => (
+                      <span key={index} className="phon-item">
+                        {phon}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="final-right">
+                  <p className="final-title">학습 팁</p>
+                  <p className="tip-content">{allDetails}</p>
+                </div>
+              </div>
+
+              <div className="button-group">
+                <button
+                  className="retry-btn"
+                  onClick={() => {
+                    setShowFinalResult(false);
+                    setSelectedIndex(0);
+                    setIsResultVisible(false);
+                  }}
+                >
+                  다시 학습하기
+                </button>
+                <button
+                  className="home-btn"
+                  onClick={() => (window.location.href = "/main")}
+                >
+                  학습 화면으로
+                </button>
+              </div>
             </div>
           ) : (
             <>
