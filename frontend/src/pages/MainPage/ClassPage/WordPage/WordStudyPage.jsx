@@ -132,8 +132,13 @@ const WordStudy = () => {
               <div className="final-result-grid">
                 <div className="final-left">
                   <p className="final-title">평균 정확도</p>
-                  <div className="progress-bar-summary">
-                    <div style={{ width: `${avgScore}%` }} />
+                  <div className="accuracy-bar">
+                    <div
+                      className="accuracy-fill"
+                      style={{ width: `${avgScore}%` }}
+                    >
+                      {avgScore}%
+                    </div>
                   </div>
 
                   <p className="final-title">추천 학습 자·모음</p>
