@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/MainPage.css";
+import wordImg from "../../images/word.png";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,11 @@ const MainPage = () => {
         <h2>My Class</h2>
         <div className="class-container">
           <div className="class-box" onClick={() => handleClick("/word")}>
-            단어 학습
+            <img
+              src={wordImg}
+              alt="단어 학습"
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            />
           </div>
           <div className="class-box" onClick={() => handleClick("/sentence")}>
             문장 학습
