@@ -1,16 +1,10 @@
 package prism.damseol.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import prism.damseol.domain.Member;
-import prism.damseol.domain.Word;
-import prism.damseol.domain.WordRecord;
-import prism.damseol.dto.CustomUserDetails;
-import prism.damseol.repository.MemberRepository;
-import prism.damseol.repository.WordRecordRepository;
-import prism.damseol.repository.WordRepository;
+import prism.damseol.domain.*;
+import prism.damseol.repository.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,10 +18,12 @@ import java.util.List;
 public class PracticeService {
 
     private final WordRepository wordRepository;
+    private final SentenceRepository sentenceRepository;
     private final MemberRepository memberRepository;
     private final WordRecordRepository wordRecordRepository;
+    private final SentenceRecordRepository sentenceRecordRepository;
 
-    // 1. 파일 업로드 처리
+    // 음성 파일 업로드 처리
     public String uploadAudioFile(MultipartFile audioFile, String name) throws IOException {
         if (audioFile.isEmpty()) throw new IllegalArgumentException("파일이 없습니다.");
 
@@ -55,7 +51,7 @@ public class PracticeService {
         return fileName;
     }
 
-    // 2. WordRecord 생성 및 저장
+    // WordRecord 생성 및 저장
     public WordRecord createWordRecord(Long wordId, String memberName) {
         Word word = wordRepository.findById(wordId)
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
@@ -78,8 +74,8 @@ public class PracticeService {
         return wordRecordRepository.save(wordRecord);
     }
 
-    // 3. 틀린 발음 설정 및 인덱스 반환
-    public String setWrongPhon(Long wordId, WordRecord wordRecord) {
+    // 틀린 단어 발음 설정 및 인덱스 반환
+    public String setWrongWordPhon(Long wordId, WordRecord wordRecord) {
         Word word = wordRepository.findById(wordId)
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
 
@@ -104,6 +100,41 @@ public class PracticeService {
         return sb.toString();
     }
 
-    // 3. SentenceRecord 생성 및 저장
-    //public SentenceRecord createSentenceRecord(Long sentenceeId, Authentication authentication) {
+    // SentenceRecord 생성 및 저장
+    public SentenceRecord createSentenceRecord(Long sentenceId, String memberName) {
+        Sentence sentence = sentenceRepository.findById(sentenceId)
+                .orElseThrow(() -> new IllegalArgumentException("Sentence not found with id " + sentenceId));
+
+        Member member = memberRepository.findByName(memberName);
+
+        /*
+        하드코딩 - 추후에 개발 예정
+         */
+
+        SentenceRecord sentenceRecord = new SentenceRecord();
+        sentenceRecord.setSentence(sentence);
+        sentenceRecord.setMember(member);
+        sentenceRecord.setScore(75);
+        sentenceRecord.setPron("강아자가 공을 불어왔다");
+        sentenceRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
+        sentenceRecord.setDate(LocalDateTime.now());
+
+        return sentenceRecordRepository.save(sentenceRecord);
+    }
+
+    // 틀린 문장 발음 인덱스 반환
+    public String setWrongSentencePhon(Long sentenceId, SentenceRecord sentenceRecord) {
+        Sentence sentence = sentenceRepository.findById(sentenceId)
+                .orElseThrow(() -> new IllegalArgumentException("Sentence not found with id " + sentenceId));
+
+        // 틀린 발음이 포함된 인덱스 반환
+        List<Integer> incorrectPronIndices = KoreanPronChecker.getIncorrectPronIndices(sentence.getText(), sentenceRecord.getPron());
+        StringBuilder sb = new StringBuilder();
+        for (Integer incorrectPronIndex : incorrectPronIndices) {
+            sb.append(incorrectPronIndex);
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
 }

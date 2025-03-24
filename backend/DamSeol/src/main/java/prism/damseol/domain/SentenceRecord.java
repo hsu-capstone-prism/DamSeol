@@ -17,7 +17,7 @@ public class SentenceRecord {
     private Long id;
 
     @Column(nullable = false)
-    private double score;
+    private int score;
 
     @Column(length = 255)
     private String pron;
