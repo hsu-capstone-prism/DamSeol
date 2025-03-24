@@ -135,12 +135,21 @@ const WordStudy = () => {
                   <div className="accuracy-bar">
                     <div
                       className="accuracy-fill"
-                      style={{ width: `${avgScore}%` }}
+                      style={{
+                        width: `${avgScore}%`,
+                        backgroundColor:
+                          avgScore <= 25
+                            ? "#E9967A"
+                            : avgScore <= 50
+                            ? "#EEE8AA"
+                            : avgScore <= 75
+                            ? "#8FBC8F"
+                            : "#6366f1",
+                      }}
                     >
                       {avgScore}%
                     </div>
                   </div>
-
                   <p className="final-title">추천 학습 자·모음</p>
                   <div className="phon-list">
                     {uniqueWrongPhons.map((phon, index) => (
