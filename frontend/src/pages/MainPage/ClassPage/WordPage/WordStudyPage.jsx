@@ -14,7 +14,7 @@ const WordStudy = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [result, setResult] = useState(null);
+  const [resultList, setResultList] = useState([]);
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +24,6 @@ const WordStudy = () => {
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
 
-  // 🔔 localStorage에서 username 가져오기
   const username = localStorage.getItem("username") || "사용자";
 
   useEffect(() => {
@@ -47,6 +46,7 @@ const WordStudy = () => {
         } else {
           setWords(wordsRes.data);
           setSelectedIndex(0);
+          setResultList(new Array(wordsRes.data.length).fill(null));
         }
       } catch (err) {
         console.error("Error fetching words:", err);
@@ -60,7 +60,11 @@ const WordStudy = () => {
   }, [subcategoryId]);
 
   const handleUploadComplete = (data) => {
-    setResult(data);
+    setResultList((prev) => {
+      const updated = [...prev];
+      updated[selectedIndex] = data;
+      return updated;
+    });
     setIsResultVisible(true);
   };
 
@@ -92,6 +96,32 @@ const WordStudy = () => {
     }
   };
 
+  // ✅ 평균 및 통합 값 계산
+  const getSummaryResult = () => {
+    const validResults = resultList.filter(Boolean);
+    const totalScore = validResults.reduce((sum, r) => sum + r.score, 0);
+    const avgScore = validResults.length
+      ? Math.round(totalScore / validResults.length)
+      : 0;
+
+    const allWrongPhons = validResults
+      .map((r) => r.wrongPhon)
+      .filter(Boolean)
+      .flatMap((wp) => wp.split(",").map((p) => p.trim()));
+
+    const uniqueWrongPhons = [...new Set(allWrongPhons)];
+
+    const allDetails = validResults.map((r) => r.details).join(", ");
+
+    return {
+      avgScore,
+      uniqueWrongPhons,
+      allDetails,
+    };
+  };
+
+  const { avgScore, uniqueWrongPhons, allDetails } = getSummaryResult();
+
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
@@ -106,7 +136,15 @@ const WordStudy = () => {
           {showFinalResult ? (
             <div className="final-result">
               <h2>최종 결과</h2>
-              <p>{result.details}</p>
+              <p>정확도 평균: {avgScore}%</p>
+              <p>
+                추천 학습:{" "}
+                {uniqueWrongPhons.length > 0
+                  ? uniqueWrongPhons.join(", ")
+                  : "없음"}
+              </p>
+              <p>세부내용: {allDetails || "내용 없음"}</p>
+
               <button
                 onClick={() => {
                   setShowFinalResult(false);
@@ -131,25 +169,29 @@ const WordStudy = () => {
                 <p>해당하는 단어가 없습니다.</p>
               )}
 
-              {isResultVisible && result && (
+              {isResultVisible && resultList[selectedIndex] && (
                 <div className="word-result">
                   <p className="pronunciation-label">{username}님의 발음</p>
-                  <h2 className="user-pronunciation">{result.pron}</h2>
+                  <h2 className="user-pronunciation">
+                    {resultList[selectedIndex].pron}
+                  </h2>
 
                   <div className="result-bottom-container">
                     <div className="learning-suggestions">
                       <p className="suggestion-title">추천 학습</p>
                       <div className="suggestion-buttons">
-                        {result.wrongPhon &&
-                          result.wrongPhon.split(",").map((phon, index) => (
-                            <button
-                              key={index}
-                              className="suggestion-btn"
-                              onClick={() => openImageModal(phon)}
-                            >
-                              {phon}
-                            </button>
-                          ))}
+                        {resultList[selectedIndex].wrongPhon &&
+                          resultList[selectedIndex].wrongPhon
+                            .split(",")
+                            .map((phon, index) => (
+                              <button
+                                key={index}
+                                className="suggestion-btn"
+                                onClick={() => openImageModal(phon)}
+                              >
+                                {phon}
+                              </button>
+                            ))}
                       </div>
                     </div>
                     <div className="score-container">
@@ -161,9 +203,10 @@ const WordStudy = () => {
                           최종 결과화면 보기
                         </button>
                       )}
-
                       <p className="accuracy-label">정확도</p>
-                      <p className="score">{result.score}%</p>
+                      <p className="score">
+                        {resultList[selectedIndex].score}%
+                      </p>
                     </div>
                   </div>
                 </div>
