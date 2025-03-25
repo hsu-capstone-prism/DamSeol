@@ -44,8 +44,8 @@ def get_audio_pitch_eval(audio, text, situation=None):
 
   예제:
   평가: 보통 
-  점수: 3/5점  
-  이유: 감탄문이지만 피치 변화가 크지 않아서 덜 자연스러워요. 🤔
+  점수: 4/5점  
+  이유: 감탄문에서 피치 변화가 적절히 이루어져서 자연스럽게 발음되었어요. 👍
   """
 
   assist_prompt = """
@@ -100,9 +100,10 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
     - 7 이상: 너무 빠름 → 청취 난이도가 높아질 가능성이 있음  
 
   2. 발화 중단 비율(Speech Pause Ratio)
-    - 일반적인 비율: 0.3~0.5 (발화 시간 비율)  
-    - 0.7 이상: 지나치게 말을 끊지 않고 발화 → 부자연스러울 수 있음  
-    - 0.2 이하: 지나치게 말을 끊어 말함 → 어색할 수 있음  
+    - 말하는 중이면 1에 가까운 값
+    - 말하는 중이 아니면 0에 가까운 값
+    - 0에 가까운 숫자가 긴 시간(약 2초 이상)동안 이어질 경우 발화가 어색할 정도로 끊어질 가능성이 있음
+    - 정적 시간은 맨 처음과 맨 끝은 제외하고 평가가
 
   3. 문장 길이와 조합 고려
     - 짧은 문장에서 긴 정적(pause)이 많으면 어색할 수 있음  
@@ -119,9 +120,9 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   이유: 위와 같이 평가한 근거를 1줄 정도로 짧고 명확하게 제시할 것. '해요'체로 작성하고 이모티콘을 적절히 사용할 것
   
   답변 예시:
-  평가: 나쁨
-  점수: 2/5점
-  이유: 긴 문장인데 발화 속도가 8 syllables/sec로 너무 빨라서 듣기 어려워요. 😵
+  평가: 좋음
+  점수: 4/5점
+  이유: 문장의 속도가 적절하여 듣기 원활해요! 😊
   """
 
   assist_prompt = """
@@ -136,9 +137,7 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
 
   평가 시 참고 사항:  
   - 문장이 길수록 속도가 너무 빠르면 부자연스럽다.  
-  - 문장이 짧을수록 긴 정적(pause)은 부자연스럽다.  
-  - Speech-Pause Ratio가 0.2 이하라면 말을 지나치게 끊어 말할 가능성이 높다.  
-  - Speech-Pause Ratio가 0.7 이상이면 거의 멈추지 않고 말하여 어색할 수 있다.  
+  - 문장이 짧을수록 긴 정적(pause)은 부자연스럽다.   
   """
 
   user_prompt = f"""
@@ -164,7 +163,7 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   chat_completion = client.chat.completions.create(
       model="gpt-4o",
       messages=messages,
-      temperature = 0.1
+      temperature = 0.2
   )
 
   print(f"Evaluating:\n{chat_completion.choices[0].message.content}")

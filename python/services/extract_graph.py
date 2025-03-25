@@ -1,5 +1,6 @@
 import librosa
 import librosa.display
+import io
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter1d
@@ -11,7 +12,8 @@ def extract_waveform(audio_file, sr=16000, save_path=None):
     """
     오디오 파일에서 웨이브폼을 추출하여 그래프를 생성 
     """
-    y, sr = librosa.load(audio_file, sr=sr)
+    audio_data = io.BytesIO(audio_file)
+    y, sr = librosa.load(audio_data, sr=sr)
     plt.figure(figsize=(12, 4))
     plt.grid(True, linestyle='--', alpha=0.5)
     librosa.display.waveshow(y, sr=sr, color='royalblue', alpha=0.8)
@@ -26,13 +28,14 @@ def extract_waveform(audio_file, sr=16000, save_path=None):
         plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
         plt.close()
     else:
-        return plt
+        print("No save path is provided.")
 
 def extract_pitch_graph(audio_file, sr=16000, frame_step=50, save_path=None, smooth_sigma=2):
     """
     오디오 파일에서 피치 그래프를 추출하여 생성 (부드러운 곡선 적용)
     """
-    y, sr = librosa.load(audio_file, sr=sr)
+    audio_data = io.BytesIO(audio_file)
+    y, sr = librosa.load(audio_data, sr=sr)
     hop_length = int(sr * (frame_step / 1000))  # ms 단위 -> 샘플 개수 변환
     pitches, magnitudes = librosa.piptrack(y=y, sr=sr, hop_length=hop_length)
     pitch_max = np.nanmax(pitches, axis=0)
@@ -59,4 +62,4 @@ def extract_pitch_graph(audio_file, sr=16000, frame_step=50, save_path=None, smo
         plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
         plt.close()
     else:
-        return plt
+        print("No save path is provided.")
