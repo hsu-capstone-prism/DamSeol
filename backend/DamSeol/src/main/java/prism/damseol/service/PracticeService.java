@@ -115,7 +115,7 @@ public class PracticeService {
         sentenceRecord.setSentence(sentence);
         sentenceRecord.setMember(member);
         sentenceRecord.setScore(75);
-        sentenceRecord.setPron("강아자가 공을 불어왔다");
+        sentenceRecord.setPron("고가가 부더럽고 양냠이 잘 배어 있어요");
         sentenceRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
         sentenceRecord.setDate(LocalDateTime.now());
 
@@ -136,7 +136,10 @@ public class PracticeService {
             sb.append(incorrectPronIndex);
             sb.append(",");
         }
-        sb.deleteCharAt(sb.length() - 1);
+
+        if (!sb.isEmpty())
+            sb.deleteCharAt(sb.length() - 1);
+
         return sb.toString();
     }
 }
