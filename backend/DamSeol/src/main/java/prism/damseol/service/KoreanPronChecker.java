@@ -31,6 +31,11 @@ public class KoreanPronChecker {
 
     // 사용자의 발음을 올바른 발음과 비교하여 틀린 부분의 위치를 배열로 반환
     public static List<Integer> getIncorrectPronIndices(String correct, String userInput) {
+        if (correct.length() != userInput.length()) {
+            System.out.println("두 발음의 길이가 다릅니다.");
+            return null;
+        }
+
         List<Integer> incorrectIndices = new ArrayList<>();
 
         for (int i = 0; i < correct.length(); i++) {

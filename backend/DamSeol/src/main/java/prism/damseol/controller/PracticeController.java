@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import prism.damseol.domain.SentenceRecord;
 import prism.damseol.domain.WordRecord;
 import prism.damseol.dto.CustomUserDetails;
-import prism.damseol.dto.SentenceDTO;
 import prism.damseol.dto.SentenceRecordDTO;
 import prism.damseol.dto.WordRecordDTO;
 import prism.damseol.repository.WordRepository;
@@ -36,7 +35,7 @@ public class PracticeController {
 
         try {
             // 1. 파일 업로드 (fileName은 사용하지 않음)
-            String fileName = practiceService.uploadAudioFile(audioFile, memberName);
+            String fileName = practiceService.uploadAudioFile(audioFile);
 
             // 2. WordRecord 생성 및 저장
             WordRecord wordRecord = practiceService.createWordRecord(wordId, memberName);
@@ -67,7 +66,7 @@ public class PracticeController {
         String memberName = customUserDetails.getUsername();
 
         try {
-            String fileName = practiceService.uploadAudioFile(audioFile, memberName);
+            String fileName = practiceService.uploadAudioFile(audioFile);
 
             SentenceRecord sentenceRecord = practiceService.createSentenceRecord(sentenceId, memberName);
 
@@ -76,6 +75,8 @@ public class PracticeController {
 
             SentenceRecordDTO sentenceRecordDTO = new SentenceRecordDTO(sentenceRecord);
             sentenceRecordDTO.setWrongPhonIndices(wrongPhonsIndices);
+            sentenceRecordDTO.setWaveformFileName(fileName.replace("_audio.wav", "_waveform.png"));
+            sentenceRecordDTO.setPitchFileName(fileName.replace("_audio.wav", "_pitch.png"));
 
             return ResponseEntity.ok(sentenceRecordDTO);
 

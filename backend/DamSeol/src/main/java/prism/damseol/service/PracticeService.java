@@ -24,7 +24,7 @@ public class PracticeService {
     private final SentenceRecordRepository sentenceRecordRepository;
 
     // 음성 파일 업로드 처리
-    public String uploadAudioFile(MultipartFile audioFile, String name) throws IOException {
+    public String uploadAudioFile(MultipartFile audioFile) throws IOException {
         if (audioFile.isEmpty()) throw new IllegalArgumentException("파일이 없습니다.");
 
         String fileName = audioFile.getOriginalFilename();
@@ -33,7 +33,7 @@ public class PracticeService {
         int dotIndex = fileName.lastIndexOf(".");
         String extension = (dotIndex != -1) ? fileName.substring(dotIndex) : "";
         String baseName = (dotIndex != -1) ? fileName.substring(0, dotIndex) : fileName;
-        fileName = baseName + "_" + name + extension;
+        fileName = baseName + "_audio" + extension;
 
         String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/audio/";
         Path uploadPath = Paths.get(UPLOAD_DIR);
@@ -128,7 +128,9 @@ public class PracticeService {
                 .orElseThrow(() -> new IllegalArgumentException("Sentence not found with id " + sentenceId));
 
         // 틀린 발음이 포함된 인덱스 반환
-        List<Integer> incorrectPronIndices = KoreanPronChecker.getIncorrectPronIndices(sentence.getText(), sentenceRecord.getPron());
+        // sentence의 마지막 문자('.', '?') 제거
+        List<Integer> incorrectPronIndices = KoreanPronChecker
+                .getIncorrectPronIndices(sentence.getText().substring(0, sentence.getText().length() - 1), sentenceRecord.getPron());
         StringBuilder sb = new StringBuilder();
         for (Integer incorrectPronIndex : incorrectPronIndices) {
             sb.append(incorrectPronIndex);

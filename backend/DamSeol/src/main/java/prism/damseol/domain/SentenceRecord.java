@@ -29,10 +29,6 @@ public class SentenceRecord {
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "waveformrecord_id")
-    private WaveFormRecord waveFormRecord;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
