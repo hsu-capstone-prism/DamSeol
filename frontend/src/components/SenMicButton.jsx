@@ -28,7 +28,6 @@ const SenMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
       const audioContext = new AudioContext({ sampleRate: 16000 });
       const source = audioContext.createMediaStreamSource(stream);
       const processor = audioContext.createScriptProcessor(4096, 1, 1);
-
       source.connect(processor);
       processor.connect(audioContext.destination);
 
@@ -120,6 +119,7 @@ const SenMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
       updateStatus(selectedIndex, "❌ 네트워크 오류");
     }
   };
+
   return (
     <div className="mic-button-container">
       <button

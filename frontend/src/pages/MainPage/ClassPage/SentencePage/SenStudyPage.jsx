@@ -5,6 +5,7 @@ import "../../../../styles/SenStudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
 
+// axios 제거 (사용 안 하므로)
 const getAuthToken = () => localStorage.getItem("authToken");
 
 const getRandomSentences = (arr, count) => {
@@ -17,12 +18,10 @@ const SenStudyPage = () => {
   const { subcategoryId } = useParams();
   const [sentences, setSentences] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [resultList, setResultList] = useState([]);
-  const [isResultVisible, setIsResultVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [uploadResultList, setUploadResultList] = useState([]);
+  const [isResultVisible, setIsResultVisible] = useState(false);
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
   const username = localStorage.getItem("username") || "사용자";
@@ -40,6 +39,7 @@ const SenStudyPage = () => {
           `http://localhost:8080/api/sentences/subcategory/${subcategoryId}`,
           { headers }
         );
+
         const data = await response.json();
 
         if (data.length === 0) {
@@ -79,58 +79,12 @@ const SenStudyPage = () => {
         <nav className="breadcrumb">
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
+
         <section className="sen-display">
           {sentences.length > 0 ? (
             <h1 className="sen">{sentences[selectedIndex].text}</h1>
           ) : (
-            <>
-              {sentences.length > 0 ? (
-                <>
-                  <h1 className="sen">{sentences[selectedIndex].text}</h1>
-                </>
-              ) : (
-                <p>해당하는 문장이 없습니다.</p>
-              )}
-
-              {isResultVisible && resultList[selectedIndex] && (
-                <div className="sen-result">
-                  <p className="pronunciation-label">{username}님의 발음</p>
-                  <h2 className="user-pronunciation">
-                    {resultList[selectedIndex].pron}
-                  </h2>
-
-                  <div className="result-bottom-container">
-                    <div className="learning-suggestions">
-                      <p className="suggestion-title">추천 학습</p>
-                      <div className="suggestion-buttons">
-                        {resultList[selectedIndex].wrongPhon &&
-                          resultList[selectedIndex].wrongPhon
-                            .split(",")
-                            .map((phon, index) => (
-                              <span key={index} className="phon-item">
-                                {phon}
-                              </span>
-                            ))}
-                      </div>
-                    </div>
-                    <div className="score-container">
-                      {selectedIndex === sentences.length - 1 && (
-                        <button
-                          className="final-result-btn"
-                          onClick={() => setShowFinalResult(true)}
-                        >
-                          최종 결과화면 보기
-                        </button>
-                      )}
-                      <p className="accuracy-label">정확도</p>
-                      <p className="score">
-                        {resultList[selectedIndex].score}%
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </>
+            <p>해당하는 문장이 없습니다.</p>
           )}
 
           {isResultVisible && uploadResultList[selectedIndex] && (
@@ -147,7 +101,7 @@ const SenStudyPage = () => {
             </div>
           )}
         </section>
-        totalWords={sentences.length}
+
         {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
@@ -155,6 +109,7 @@ const SenStudyPage = () => {
             onUploadComplete={handleUploadComplete}
           />
         )}
+
         <ProgressBar
           currentStep={selectedIndex}
           totalSteps={sentences.length}
