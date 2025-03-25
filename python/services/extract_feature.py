@@ -4,7 +4,7 @@ import io
 
 
 def extract_pitch_info(audio_file, sr=16000):
-    audio_data = io.BytesIO(audio_file) 
+    audio_data = io.BytesIO(audio_file)
     y, sr = librosa.load(audio_data, sr=sr)
 
     f0, voiced_flag, voiced_probs = librosa.pyin(y, fmin=80, fmax=400)
@@ -21,7 +21,7 @@ def extract_pitch_info(audio_file, sr=16000):
 
 
 
-def extract_speech_rate(audio_file, sr=16000, frame_length=1.0):
+def extract_speech_rate(audio_file, sr=16000, frame_length=0.05):
     """
     음성 데이터에서 초당 발화 속도(Speech Rate)를 계산하는 함수.
 
@@ -35,7 +35,7 @@ def extract_speech_rate(audio_file, sr=16000, frame_length=1.0):
     # 온셋(발음 시작 지점) 감지
     onset_env = librosa.onset.onset_strength(y=y, sr=sr)
 
-    # 1초 단위로 나누기
+    # frame_length 단위로 나누기
     hop_length = int(librosa.time_to_frames(frame_length, sr=sr))
     frames = range(0, len(onset_env), hop_length)
     times = librosa.frames_to_time(frames, sr=sr)
@@ -51,7 +51,7 @@ def extract_speech_rate(audio_file, sr=16000, frame_length=1.0):
 
 
 
-def extract_speech_pause_ratio(audio_file, sr=16000, frame_length=1.0, top_db=20):
+def extract_speech_pause_ratio(audio_file, sr=16000, frame_length=0.05, top_db=20):
     """
     음성 데이터에서 시간별 Speech-Pause Ratio를 계산하는 함수.
 
@@ -87,4 +87,3 @@ def extract_speech_pause_ratio(audio_file, sr=16000, frame_length=1.0, top_db=20
         speech_ratios.append((start_time, speech_duration / frame_length))
 
     return speech_ratios  # [(time, speech_pause_ratio), ...]
-
