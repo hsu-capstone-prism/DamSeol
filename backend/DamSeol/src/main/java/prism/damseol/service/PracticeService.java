@@ -35,7 +35,7 @@ public class PracticeService {
         String baseName = (dotIndex != -1) ? fileName.substring(0, dotIndex) : fileName;
         fileName = baseName + "_" + name + extension;
 
-        String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/";
+        String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/audio/";
         Path uploadPath = Paths.get(UPLOAD_DIR);
         Path filePath = uploadPath.resolve(fileName);
 
