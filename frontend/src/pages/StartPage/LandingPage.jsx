@@ -61,7 +61,7 @@ const LandingPage = () => {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            {/* ✅ X 버튼을 제목과 같은 줄에 배치 */}
+            {/* X 버튼을 제목과 같은 줄에 배치 */}
             <div className="modal-header">
               <h2>담설(談說)이란?</h2>
               <button
