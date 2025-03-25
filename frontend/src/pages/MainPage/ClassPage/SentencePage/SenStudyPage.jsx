@@ -4,7 +4,6 @@ import { useParams, useLocation } from "react-router-dom";
 import "../../../../styles/SenStudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
-import axios from "axios";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -22,8 +21,8 @@ const SenStudyPage = () => {
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showFinalResult, setShowFinalResult] = useState(false);
 
+  const [uploadResultList, setUploadResultList] = useState([]);
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
   const username = localStorage.getItem("username") || "사용자";
@@ -37,19 +36,19 @@ const SenStudyPage = () => {
       try {
         const token = getAuthToken();
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-        const response = await axios.get(
+        const response = await fetch(
           `http://localhost:8080/api/sentences/subcategory/${subcategoryId}`,
           { headers }
         );
+        const data = await response.json();
 
-        if (response.data.length === 0) {
+        if (data.length === 0) {
           setError("해당 서브카테고리에 대한 문장이 없습니다.");
         } else {
-          const selected = getRandomSentences(response.data, 5);
-          setSentences(selected);
+          const randomSentences = getRandomSentences(data, 5);
+          setSentences(randomSentences);
           setSelectedIndex(0);
-          setResultList(new Array(selected.length).fill(null));
+          setUploadResultList(new Array(randomSentences.length).fill(null));
         }
       } catch (err) {
         console.error("Error fetching sentences:", err);
@@ -62,41 +61,14 @@ const SenStudyPage = () => {
     fetchSentences();
   }, [subcategoryId]);
 
-  useEffect(() => {
-    if (sentences[selectedIndex]?.id) {
-      sessionStorage.setItem("sentenceId", sentences[selectedIndex].id);
-    }
-  }, [selectedIndex, sentences]);
-
   const handleUploadComplete = (data) => {
-    setResultList((prev) => {
+    setUploadResultList((prev) => {
       const updated = [...prev];
       updated[selectedIndex] = data;
       return updated;
     });
     setIsResultVisible(true);
   };
-
-  const getSummaryResult = () => {
-    const validResults = resultList.filter(Boolean);
-    const totalScore = validResults.reduce((sum, r) => sum + r.score, 0);
-    const avgScore = validResults.length
-      ? Math.round(totalScore / validResults.length)
-      : 0;
-
-    const allWrongPhons = validResults
-      .map((r) => r.wrongPhon)
-      .filter(Boolean)
-      .flatMap((wp) => wp.split(",").map((p) => p.trim()));
-
-    const uniqueWrongPhons = [...new Set(allWrongPhons)];
-
-    const allDetails = validResults.map((r) => r.details).join(" \n");
-
-    return { avgScore, uniqueWrongPhons, allDetails };
-  };
-
-  const { avgScore, uniqueWrongPhons, allDetails } = getSummaryResult();
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
@@ -107,67 +79,9 @@ const SenStudyPage = () => {
         <nav className="breadcrumb">
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
-
         <section className="sen-display">
-          {showFinalResult ? (
-            <div className="final-result">
-              <h2>{username}님의 학습 결과</h2>
-              <div className="final-result-grid">
-                <div className="final-left">
-                  <p className="final-title">평균 정확도</p>
-                  <div className="accuracy-bar">
-                    <div
-                      className="accuracy-fill"
-                      style={{
-                        width: `${avgScore}%`,
-                        backgroundColor:
-                          avgScore <= 25
-                            ? "#E9967A"
-                            : avgScore <= 50
-                            ? "#EEE8AA"
-                            : avgScore <= 75
-                            ? "#8FBC8F"
-                            : "#6366f1",
-                      }}
-                    >
-                      {avgScore}%
-                    </div>
-                  </div>
-                  <p className="final-title">추천 학습 자·모음</p>
-                  <div className="phon-list">
-                    {uniqueWrongPhons.map((phon, index) => (
-                      <span key={index} className="phon-item">
-                        {phon}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="final-right">
-                  <p className="final-title">학습 팁</p>
-                  <p className="tip-content">{allDetails}</p>
-                </div>
-              </div>
-
-              <div className="button-group">
-                <button
-                  className="retry-btn"
-                  onClick={() => {
-                    setShowFinalResult(false);
-                    setSelectedIndex(0);
-                    setIsResultVisible(false);
-                  }}
-                >
-                  다시 학습하기
-                </button>
-                <button
-                  className="home-btn"
-                  onClick={() => (window.location.href = "/main")}
-                >
-                  학습 화면으로
-                </button>
-              </div>
-            </div>
+          {sentences.length > 0 ? (
+            <h1 className="sen">{sentences[selectedIndex].text}</h1>
           ) : (
             <>
               {sentences.length > 0 ? (
@@ -218,24 +132,35 @@ const SenStudyPage = () => {
               )}
             </>
           )}
-        </section>
 
-        {!isResultVisible && sentences[selectedIndex]?.id && (
+          {isResultVisible && uploadResultList[selectedIndex] && (
+            <div className="sen-result">
+              <p className="pronunciation-label">{username}님의 발음 결과</p>
+              <h2 className="user-pronunciation">
+                {uploadResultList[selectedIndex].pron}
+              </h2>
+              <p className="score-label">정확도</p>
+              <p className="score">{uploadResultList[selectedIndex].score}%</p>
+              <p className="tip-content">
+                {uploadResultList[selectedIndex].details}
+              </p>
+            </div>
+          )}
+        </section>
+        totalWords={sentences.length}
+        {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
-            sentenceId={sentences[selectedIndex].id}
-            totalWords={sentences.length}
+            sentences={sentences}
             onUploadComplete={handleUploadComplete}
           />
         )}
-
         <ProgressBar
           currentStep={selectedIndex}
           totalSteps={sentences.length}
           onStepClick={(index) => {
             setSelectedIndex(index);
             setIsResultVisible(false);
-            setShowFinalResult(false);
           }}
         />
       </div>
