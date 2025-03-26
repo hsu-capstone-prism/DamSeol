@@ -4,7 +4,7 @@ import "../styles/WordStudyPage.css";
 
 const WordMicButton = ({
   selectedIndex,
-  subcategoryId,
+  word,
   totalWords,
   onUploadComplete,
 }) => {
@@ -13,12 +13,19 @@ const WordMicButton = ({
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  // 총 단어 수만큼 status 배열 초기화
   useEffect(() => {
     if (totalWords > 0) {
       setStatusList(new Array(totalWords).fill("버튼을 눌러서 녹음하기"));
     }
   }, [totalWords]);
+
+  const updateStatus = (index, message) => {
+    setStatusList((prev) => {
+      const updated = [...prev];
+      updated[index] = message;
+      return updated;
+    });
+  };
 
   const startRecording = async () => {
     try {
@@ -50,6 +57,7 @@ const WordMicButton = ({
       updateStatus(selectedIndex, "멋진 목소리를 듣고 있어요");
     } catch (err) {
       console.error("Error accessing microphone", err);
+      updateStatus(selectedIndex, "❌ 마이크 접근 오류");
     }
   };
 
@@ -62,17 +70,24 @@ const WordMicButton = ({
   };
 
   const uploadAudio = async (audioBlob) => {
-    const timestamp = Date.now(); // 현재 timestamp 생성
+    if (!word || !word.id || isNaN(word.id)) {
+      console.error("❗ 유효하지 않은 word 객체 또는 ID:", word);
+      updateStatus(selectedIndex, "❌ 단어 정보 오류");
+      return;
+    }
+
+    const wordId = word.id;
+    const timestamp = Date.now();
     const fileName = `${timestamp}.wav`;
 
     const formData = new FormData();
-    formData.append("audio", audioBlob, fileName); // 동적으로 파일명 설정
+    formData.append("audio", audioBlob, fileName);
 
     try {
       const token = localStorage.getItem("authToken");
 
       const response = await fetch(
-        `http://localhost:8080/api/upload/word/${selectedIndex + 1}`,
+        `http://localhost:8080/api/upload/word/${wordId}`,
         {
           method: "POST",
           headers: {
@@ -84,27 +99,16 @@ const WordMicButton = ({
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Upload 성공:", result);
-        if (onUploadComplete) {
-          onUploadComplete(result);
-        }
+        console.log("✅ Upload 성공:", result);
+        onUploadComplete?.(result);
       } else {
-        console.error("Upload 실패:", response.status);
+        console.error("❌ Upload 실패:", response.status);
         updateStatus(selectedIndex, "업로드에 실패했습니다. 😢");
       }
     } catch (error) {
-      console.error("Upload 오류:", error);
+      console.error("❌ Upload 오류:", error);
       updateStatus(selectedIndex, "오류가 발생했습니다.");
     }
-  };
-
-  // 단어별 status 갱신 함수
-  const updateStatus = (index, message) => {
-    setStatusList((prev) => {
-      const updated = [...prev];
-      updated[index] = message;
-      return updated;
-    });
   };
 
   return (

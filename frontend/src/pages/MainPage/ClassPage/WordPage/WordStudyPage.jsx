@@ -247,7 +247,7 @@ const WordStudy = () => {
         {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
-            subcategoryId={subcategoryId}
+            word={words[selectedIndex]}
             totalWords={words.length}
             onUploadComplete={handleUploadComplete}
           />
