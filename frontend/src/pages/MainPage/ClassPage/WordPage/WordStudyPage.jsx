@@ -107,13 +107,34 @@ const WordStudy = () => {
       .flatMap((wp) => wp.split(",").map((p) => p.trim()));
 
     const uniqueWrongPhons = [...new Set(allWrongPhons)];
-
     const allDetails = validResults.map((r) => r.details).join(" \n");
 
     return { avgScore, uniqueWrongPhons, allDetails };
   };
 
   const { avgScore, uniqueWrongPhons, allDetails } = getSummaryResult();
+
+  // 틀린 인덱스 기준으로 발음을 하이라이팅
+  const highlightWrongPron = (text, wrongIndicesStr) => {
+    if (!text || !wrongIndicesStr) return text;
+
+    const wrongIndices = wrongIndicesStr
+      .split(",")
+      .map((i) => parseInt(i, 10))
+      .filter((n) => !isNaN(n));
+
+    return text.split("").map((char, idx) => (
+      <span
+        key={idx}
+        style={{
+          color: wrongIndices.includes(idx) ? "red" : "black",
+          fontWeight: wrongIndices.includes(idx) ? "bold" : "normal",
+        }}
+      >
+        {char}
+      </span>
+    ));
+  };
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
@@ -191,7 +212,7 @@ const WordStudy = () => {
                 <>
                   <h1 className="word">{words[selectedIndex].text}</h1>
                   <p className="word-pronunciation">
-                    [{words[selectedIndex].wordPron}]
+                    [{words[selectedIndex].wrongPhon}]
                   </p>
                 </>
               ) : (
@@ -202,7 +223,10 @@ const WordStudy = () => {
                 <div className="word-result">
                   <p className="pronunciation-label">{username}님의 발음</p>
                   <h2 className="user-pronunciation">
-                    {resultList[selectedIndex].pron}
+                    {highlightWrongPron(
+                      resultList[selectedIndex].pron,
+                      resultList[selectedIndex].wrongPhonIndices
+                    )}
                   </h2>
 
                   <div className="result-bottom-container">
