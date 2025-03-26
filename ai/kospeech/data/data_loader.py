@@ -259,8 +259,8 @@ def split_dataset(config: DictConfig, transcripts_path: str, vocab: Vocabulary):
     trainset_list = list()
 
     if config.train.dataset == 'kspon':
-        train_num = 120000      # 전체 학습시 620000 으로 설정
-        valid_num = 4000        # "2545
+        train_num = 620000      # 전체 학습시 620000 으로 설정
+        valid_num = 2545        # "2545
     elif config.train.dataset == 'libri':
         train_num = 281241
         valid_num = 5567
