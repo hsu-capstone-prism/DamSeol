@@ -212,7 +212,7 @@ const WordStudy = () => {
                 <>
                   <h1 className="word">{words[selectedIndex].text}</h1>
                   <p className="word-pronunciation">
-                    [{words[selectedIndex].wrongPhon}]
+                    [{words[selectedIndex].wordPron}]
                   </p>
                 </>
               ) : (
