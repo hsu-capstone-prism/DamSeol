@@ -19,8 +19,10 @@ import AlterPage from "./pages/MainPage/ClassPage/WordPage/AlterPage/AlterPage";
 import AddPage from "./pages/MainPage/ClassPage/WordPage/AddPage/AddPage";
 
 //SentencePage
-
 import SenStudyPage from "./pages/MainPage/ClassPage/SentencePage/SenStudyPage";
+
+//GrammerPage
+import GramStudyPage from "./pages/MainPage/ClassPage/GrammerPage/GramStudyPage";
 
 function AppContent() {
   const location = useLocation();
@@ -64,6 +66,7 @@ function AppContent() {
 
     //grammer
     { path: "/grammer", element: <GrammerPage /> },
+    { path: "/grammer/study/:subcategoryId", element: <GramStudyPage /> },
   ];
 
   return (
