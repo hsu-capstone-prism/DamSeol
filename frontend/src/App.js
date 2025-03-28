@@ -9,6 +9,7 @@ import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
 import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
+import ProfilePage from "./pages/MainPage/ProfilePage";
 
 //WordPage
 import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage";
@@ -34,6 +35,7 @@ function AppContent() {
     { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
     { path: "/report", element: <ReportPage /> },
+    { path: "/profile", element: <ProfilePage /> },
 
     //word
     { path: "/word", element: <WordPage /> },
