@@ -97,3 +97,16 @@
   background-color: #0056b3;
   color: white;
 }
+
+.image-viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.result-image {
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+}

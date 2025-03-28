@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import "../../../../styles/SenStudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
+import axios from "axios";
 
 // axios 제거 (사용 안 하므로)
 const getAuthToken = () => localStorage.getItem("authToken");
@@ -24,7 +25,8 @@ const SenStudyPage = () => {
   const [isResultVisible, setIsResultVisible] = useState(false);
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
-  const username = localStorage.getItem("username") || "사용자";
+  const [waveformImageSrc, setWaveformImageSrc] = useState(null);
+  const [pitchImageSrc, setPitchImageSrc] = useState(null);
 
   useEffect(() => {
     if (!subcategoryId) return;
@@ -61,13 +63,44 @@ const SenStudyPage = () => {
     fetchSentences();
   }, [subcategoryId]);
 
+  const fetchAnalysisImages = async (waveformImage, pitchImage) => {
+    try {
+      const token = getAuthToken();
+
+      const [waveformRes, pitchRes] = await Promise.all([
+        axios.get(
+          `http://localhost:8080/api/images/waveform/${waveformImage}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            responseType: "blob",
+          }
+        ),
+        axios.get(`http://localhost:8080/api/images/pitch/${pitchImage}`, {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: "blob",
+        }),
+      ]);
+
+      const waveformBlob = URL.createObjectURL(waveformRes.data);
+      const pitchBlob = URL.createObjectURL(pitchRes.data);
+
+      setWaveformImageSrc(waveformBlob);
+      setPitchImageSrc(pitchBlob);
+    } catch (error) {
+      console.error("분석 이미지 불러오기 실패:", error);
+    }
+  };
+
   const handleUploadComplete = (data) => {
-    setUploadResultList((prev) => {
-      const updated = [...prev];
-      updated[selectedIndex] = data;
-      return updated;
-    });
+    const updated = [...uploadResultList];
+    updated[selectedIndex] = {
+      ...data,
+      waveformImage: "sample_waveform.png",
+      pitchImage: "sample_pitch.png",
+    };
+    setUploadResultList(updated);
     setIsResultVisible(true);
+    fetchAnalysisImages("sample_waveform.png", "sample_pitch.png");
   };
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
@@ -87,17 +120,27 @@ const SenStudyPage = () => {
             <p>해당하는 문장이 없습니다.</p>
           )}
 
-          {isResultVisible && uploadResultList[selectedIndex] && (
+          {isResultVisible && (
             <div className="sen-result">
-              <p className="pronunciation-label">{username}님의 발음 결과</p>
               <h2 className="user-pronunciation">
                 {uploadResultList[selectedIndex].pron}
               </h2>
-              <p className="score-label">정확도</p>
-              <p className="score">{uploadResultList[selectedIndex].score}%</p>
-              <p className="tip-content">
-                {uploadResultList[selectedIndex].details}
-              </p>
+              <div className="image-viewer">
+                {waveformImageSrc && (
+                  <img
+                    src={waveformImageSrc}
+                    alt="Waveform 분석 이미지"
+                    className="result-image"
+                  />
+                )}
+                {pitchImageSrc && (
+                  <img
+                    src={pitchImageSrc}
+                    alt="Pitch 분석 이미지"
+                    className="result-image"
+                  />
+                )}
+              </div>
             </div>
           )}
         </section>
