@@ -17,20 +17,16 @@ public class SentenceRecord {
     private Long id;
 
     @Column(nullable = false)
-    private double score;
+    private int score;
 
-    @Column(nullable = false, columnDefinition = "JSON")
+    @Column(length = 255)
+    private String pron;
+
+    @Column(nullable = false, length = 512)
     private String details;
 
     @Column(nullable = false)
-    private int timeSpent;
-
-    @Column(nullable = false)
     private LocalDateTime date;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "waveformrecord_id")
-    private WaveFormRecord waveFormRecord;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
