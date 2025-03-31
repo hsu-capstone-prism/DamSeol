@@ -20,17 +20,22 @@ def upload_audio():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
 
-    file_bytes = file.read()
+    filename = secure_filename(file.filename)
+    file_path = os.path.join('.', 'data', filename)
+    file.save(file_path)
 
-    result_pitch = get_audio_pitch_eval(file_bytes, text, situation)
-    result_rhythm = get_audio_rhythm_eval(file_bytes, text, situation)
+
+    #file_bytes = file.read()
+
+    result_pitch = get_audio_pitch_eval(file_path, text, situation)
+    result_rhythm = get_audio_rhythm_eval(file_path, text, situation)
     result_pronun = evaluate_pronunciation(text, text)
     #TODO: KoSpeech 모델 완성되면 result_pronun 수정
 
     waveform_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'waveform', 'waveform.png')
     pitch_graph_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'pitch', 'pitch.png')
-    extract_waveform(audio_file=file_bytes, save_path=waveform_path)
-    extract_pitch_graph(audio_file=file_bytes, save_path=pitch_graph_path)
+    extract_waveform(audio_path=file_path, save_path=waveform_path)
+    extract_pitch_graph(audio_path=file_path, save_path=pitch_graph_path)
 
     response = jsonify({
         "status": "success", 
