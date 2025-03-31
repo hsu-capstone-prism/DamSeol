@@ -53,6 +53,7 @@
 
 .word-result {
   transition: min-height 0.3s ease-in-out;
+  min-height: 120px;
 }
 
 .word-pronunciation {
@@ -78,12 +79,12 @@
 }
 
 .progress-bar {
-  position: absolute;
+  position: flex;
   justify-content: center;
   bottom: 20px;
   gap: 50px;
   background-color: #f8f9fa;
-  margin-top: -20px;
+  margin-top: 40px;
   padding: 20px;
   width: 100%;
 }

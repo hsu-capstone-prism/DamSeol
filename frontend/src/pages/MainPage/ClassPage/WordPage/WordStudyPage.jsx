@@ -114,7 +114,6 @@ const WordStudy = () => {
 
   const { avgScore, uniqueWrongPhons, allDetails } = getSummaryResult();
 
-  // 틀린 인덱스 기준으로 발음을 하이라이팅
   const highlightWrongPron = (text, wrongIndicesStr) => {
     if (!text || !wrongIndicesStr) return text;
 
@@ -218,52 +217,55 @@ const WordStudy = () => {
               ) : (
                 <p>해당하는 단어가 없습니다.</p>
               )}
+              <div className="word-result">
+                {isResultVisible && resultList[selectedIndex] ? (
+                  <>
+                    <p className="pronunciation-label">{username}님의 발음</p>
+                    <h2 className="user-pronunciation">
+                      {highlightWrongPron(
+                        resultList[selectedIndex].pron,
+                        resultList[selectedIndex].wrongPhonIndices
+                      )}
+                    </h2>
 
-              {isResultVisible && resultList[selectedIndex] && (
-                <div className="word-result">
-                  <p className="pronunciation-label">{username}님의 발음</p>
-                  <h2 className="user-pronunciation">
-                    {highlightWrongPron(
-                      resultList[selectedIndex].pron,
-                      resultList[selectedIndex].wrongPhonIndices
-                    )}
-                  </h2>
-
-                  <div className="result-bottom-container">
-                    <div className="learning-suggestions">
-                      <p className="suggestion-title">추천 학습</p>
-                      <div className="suggestion-buttons">
-                        {resultList[selectedIndex].wrongPhon &&
-                          resultList[selectedIndex].wrongPhon
-                            .split(",")
-                            .map((phon, index) => (
-                              <button
-                                key={index}
-                                className="suggestion-btn"
-                                onClick={() => openImageModal(phon)}
-                              >
-                                {phon}
-                              </button>
-                            ))}
+                    <div className="result-bottom-container">
+                      <div className="learning-suggestions">
+                        <p className="suggestion-title">추천 학습</p>
+                        <div className="suggestion-buttons">
+                          {resultList[selectedIndex].wrongPhon &&
+                            resultList[selectedIndex].wrongPhon
+                              .split(",")
+                              .map((phon, index) => (
+                                <button
+                                  key={index}
+                                  className="suggestion-btn"
+                                  onClick={() => openImageModal(phon)}
+                                >
+                                  {phon}
+                                </button>
+                              ))}
+                        </div>
+                      </div>
+                      <div className="score-container">
+                        {selectedIndex === words.length - 1 && (
+                          <button
+                            className="final-result-btn"
+                            onClick={() => setShowFinalResult(true)}
+                          >
+                            최종 결과화면 보기
+                          </button>
+                        )}
+                        <p className="accuracy-label">정확도</p>
+                        <p className="score">
+                          {resultList[selectedIndex].score}%
+                        </p>
                       </div>
                     </div>
-                    <div className="score-container">
-                      {selectedIndex === words.length - 1 && (
-                        <button
-                          className="final-result-btn"
-                          onClick={() => setShowFinalResult(true)}
-                        >
-                          최종 결과화면 보기
-                        </button>
-                      )}
-                      <p className="accuracy-label">정확도</p>
-                      <p className="score">
-                        {resultList[selectedIndex].score}%
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
+                  </>
+                ) : (
+                  <div style={{ height: "120px" }} />
+                )}
+              </div>
             </>
           )}
         </section>
