@@ -1,6 +1,7 @@
 import librosa
 import librosa.display
 import io
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter1d
@@ -12,6 +13,7 @@ def extract_waveform(audio_path, sr=16000, save_path=None):
     """
     오디오 파일에서 웨이브폼을 추출하여 그래프를 생성 
     """
+
     y, sr = librosa.load(audio_path, sr=sr)
     plt.figure(figsize=(12, 4))
     plt.grid(True, linestyle='--', alpha=0.5)
@@ -24,10 +26,15 @@ def extract_waveform(audio_path, sr=16000, save_path=None):
     plt.gca().set_facecolor('white')  # 배경을 흰색으로 설정
     
     if save_path:
+        save_dir = os.path.dirname(save_path)
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+
         plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
         plt.close()
     else:
         print("No save path is provided.")
+
 
 def extract_pitch_graph(audio_path, sr=16000, frame_step=50, save_path=None, smooth_sigma=2):
     """
@@ -57,6 +64,10 @@ def extract_pitch_graph(audio_path, sr=16000, frame_step=50, save_path=None, smo
     plt.grid(True, linestyle='--', alpha=0.5)
     
     if save_path:
+        save_dir = os.path.dirname(save_path)
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+
         plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
         plt.close()
     else:
