@@ -3,9 +3,8 @@ import numpy as np
 import io
 
 
-def extract_pitch_info(audio_file, sr=16000):
-    audio_data = io.BytesIO(audio_file)
-    y, sr = librosa.load(audio_data, sr=sr)
+def extract_pitch_info(audio_path, sr=16000):
+    y, sr = librosa.load(audio_path, sr=sr)
 
     f0, voiced_flag, voiced_probs = librosa.pyin(y, fmin=80, fmax=400)
 
@@ -21,7 +20,7 @@ def extract_pitch_info(audio_file, sr=16000):
 
 
 
-def extract_speech_rate(audio_file, sr=16000, frame_length=0.05):
+def extract_speech_rate(audio_path, sr=16000, frame_length=0.05):
     """
     음성 데이터에서 초당 발화 속도(Speech Rate)를 계산하는 함수.
 
@@ -29,8 +28,7 @@ def extract_speech_rate(audio_file, sr=16000, frame_length=0.05):
     - sr: 샘플링 레이트
     - frame_length: 분석할 시간 구간 (초 단위)
     """
-    audio_data = io.BytesIO(audio_file) 
-    y, sr = librosa.load(audio_data, sr=sr)
+    y, sr = librosa.load(audio_path, sr=sr)
 
     # 온셋(발음 시작 지점) 감지
     onset_env = librosa.onset.onset_strength(y=y, sr=sr)
@@ -51,7 +49,7 @@ def extract_speech_rate(audio_file, sr=16000, frame_length=0.05):
 
 
 
-def extract_speech_pause_ratio(audio_file, sr=16000, frame_length=0.05, top_db=20):
+def extract_speech_pause_ratio(audio_path, sr=16000, frame_length=0.05, top_db=20):
     """
     음성 데이터에서 시간별 Speech-Pause Ratio를 계산하는 함수.
 
@@ -60,8 +58,7 @@ def extract_speech_pause_ratio(audio_file, sr=16000, frame_length=0.05, top_db=2
     - frame_length: 분석할 시간 구간 (초 단위)
     - top_db: 무성 구간 판별 임계값 (낮을수록 더 작은 소리도 포함)
     """
-    audio_data = io.BytesIO(audio_file) 
-    y, sr = librosa.load(audio_data, sr=sr)
+    y, sr = librosa.load(audio_path, sr=sr)
     
     total_duration = len(y) / sr  # 전체 오디오 길이
     hop_length = int(librosa.time_to_frames(frame_length, sr=sr))

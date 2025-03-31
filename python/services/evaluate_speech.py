@@ -11,6 +11,8 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=openai_api_key)
 
+model = 'gpt-4o'
+temperature = 0.2
 
 
 def get_audio_pitch_eval(audio, text, situation=None):
@@ -71,9 +73,9 @@ def get_audio_pitch_eval(audio, text, situation=None):
   ]
 
   chat_completion = client.chat.completions.create(
-      model="gpt-4o",
+      model=model,
       messages=messages,
-      temperature = 0.2
+      temperature = temperature
   )
 
   print(f"Evaluating:\n{chat_completion.choices[0].message.content}")
@@ -161,9 +163,9 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   ]
 
   chat_completion = client.chat.completions.create(
-      model="gpt-4o",
+      model=model,
       messages=messages,
-      temperature = 0.2
+      temperature = temperature
   )
 
   print(f"Evaluating:\n{chat_completion.choices[0].message.content}")
