@@ -4,9 +4,9 @@ from werkzeug.utils import secure_filename
 from services.evaluate_speech import get_audio_pitch_eval, get_audio_rhythm_eval
 from services.evaluate_pron import evaluate_pronunciation
 from services.extract_graph import extract_waveform, extract_pitch_graph
+from services.get_pronun import get_pronun
 
 api_blueprint = Blueprint('api', __name__)
-
 
 @api_blueprint.route('/upload-audio', methods=['POST'])
 def upload_audio():
@@ -26,10 +26,11 @@ def upload_audio():
 
 
     #file_bytes = file.read()
+    user_pronun = get_pronun(file_path)
 
-    result_pitch = get_audio_pitch_eval(file_path, text, situation)
-    result_rhythm = get_audio_rhythm_eval(file_path, text, situation)
-    result_pronun = evaluate_pronunciation(text, text)
+    result_pronun = evaluate_pronunciation(text, user_pronun)
+    result_pitch = get_audio_pitch_eval(file_path, user_pronun, situation)
+    result_rhythm = get_audio_rhythm_eval(file_path, user_pronun, situation)
     #TODO: KoSpeech 모델 완성되면 result_pronun 수정
 
     waveform_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'waveform', 'waveform.png')
