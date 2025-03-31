@@ -21,6 +21,8 @@ public class SubcategoryController {
     // 서브카테고리 목록 가져오기
     @GetMapping
     public List<SubcategoryDTO> getAllSubcategories() {
+        
         return subcategoryService.getAllSubcategories();
+
     }
 }
