@@ -31,33 +31,62 @@ public class KoreanPronChecker {
 
     // 사용자의 발음을 올바른 발음과 비교하여 틀린 부분의 위치를 배열로 반환
     public static List<Integer> getIncorrectPronIndices(String correct, String userInput) {
-        if (correct.length() != userInput.length()) {
-            System.out.println("두 발음의 길이가 다릅니다.");
-            return null;
-        }
-
         List<Integer> incorrectIndices = new ArrayList<>();
+        int correctIndex = 0, userIndex = 0;
 
-        for (int i = 0; i < correct.length(); i++) {
-            if (correct.charAt(i) != userInput.charAt(i))
-                incorrectIndices.add(i);
+        while (userIndex < userInput.length()) {
+            char correctChar = correct.charAt(correctIndex);
+            char userChar = userInput.charAt(userIndex);
+
+            if (Character.isWhitespace(correctChar) || !Character.isLetterOrDigit(correctChar)) {
+                correctIndex++; // 공백 및 문장부호 건너뛰기
+                continue;
+            } else if (Character.isWhitespace(userChar) || !Character.isLetterOrDigit(userChar)) {
+                userIndex++;
+                continue;
+            }
+
+            if (correctChar != userChar) {
+                incorrectIndices.add(userIndex);
+            }
+
+            correctIndex++;
+            userIndex++;
         }
+
         return incorrectIndices;
     }
 
     public static List<String> checkPronunciation(String correct, String userInput) {
         List<String> list = new ArrayList<>();
+        int correctIndex = 0, userIndex = 0;
 
-        for (int i = 0; i < correct.length(); i++) {
-            String[] correctPhons = decomposeKorean(correct.charAt(i));
-            String[] userPhons = decomposeKorean(userInput.charAt(i));
+        while (userIndex < userInput.length() && correctIndex < correct.length()) {
+            char correctChar = correct.charAt(correctIndex);
+            char userChar = userInput.charAt(userIndex);
 
-            for (int j = 0; j < correctPhons.length; j++) {
-                if (!correctPhons[j].equals(userPhons[j])) {
-                    list.add(correctPhons[j]);
-                    System.out.println("잘못 발음한 부분: '" + correct.charAt(i) + "'에서 '" + correctPhons[j] + "' 대신 '" + userPhons[j] + "' 발음함");
+            if (Character.isWhitespace(correctChar) || !Character.isLetterOrDigit(correctChar)) {
+                correctIndex++; // 공백 및 문장부호 건너뛰기
+                continue;
+            } else if (Character.isWhitespace(userChar) || !Character.isLetterOrDigit(userChar)) {
+                userIndex++;
+                continue;
+            }
+
+            String[] correctPhons = decomposeKorean(correctChar);
+            String[] userPhons = decomposeKorean(userChar);
+
+            for (int j = 0; j < Math.max(correctPhons.length, userPhons.length); j++) {
+                String correctPhon = j < correctPhons.length ? correctPhons[j] : "";
+                String userPhon = j < userPhons.length ? userPhons[j] : "";
+
+                if (!correctPhon.equals(userPhon)) {
+                    list.add(correctPhon);
+                    System.out.println("잘못 발음한 부분: '" + correctChar + "'에서 '" + correctPhon + "' 대신 '" + userPhon + "' 발음함");
                 }
             }
+            correctIndex++;
+            userIndex++;
         }
         return list;
     }
