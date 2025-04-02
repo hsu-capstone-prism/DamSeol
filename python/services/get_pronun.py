@@ -4,10 +4,15 @@ import os
 
 def get_pronun(audio_path):
   script_dir = os.path.abspath("./services/kospeech_model")
+  audio_path = os.path.abspath(audio_path)
+
+  print("kospeech file path: ", audio_path)
+  print("is audio file exist: ", os.path.exists(audio_path))
+
   cmd = [
       sys.executable,
       "./bin/inference.py",
-      "--audio_path", "../../test2.wav",
+      "--audio_path", audio_path,
       "--model_path", "./outputs/model.pt" 
   ]
 
