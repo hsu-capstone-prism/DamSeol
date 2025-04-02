@@ -123,23 +123,20 @@ public class PracticeService {
     }
 
     // 틀린 문장 발음 인덱스 반환
-//    public String setWrongSentencePhon(Long sentenceId, SentenceRecord sentenceRecord) {
-//        Sentence sentence = sentenceRepository.findById(sentenceId)
-//                .orElseThrow(() -> new IllegalArgumentException("Sentence not found with id " + sentenceId));
-//
-//        // 틀린 발음이 포함된 인덱스 반환
-//        // sentence의 마지막 문자('.', '?') 제거
-//        List<Integer> incorrectPronIndices = KoreanPronChecker
-//                .getIncorrectPronIndices(sentence.getText().substring(0, sentence.getText().length() - 1), sentenceRecord.getPron());
-//        StringBuilder sb = new StringBuilder();
-//        for (Integer incorrectPronIndex : incorrectPronIndices) {
-//            sb.append(incorrectPronIndex);
-//            sb.append(",");
-//        }
-//
-//        if (!sb.isEmpty())
-//            sb.deleteCharAt(sb.length() - 1);
-//
-//        return sb.toString();
-//    }
+    public String setWrongSentencePhon(Long sentenceId, SentenceRecord sentenceRecord) {
+        Sentence sentence = sentenceRepository.findById(sentenceId)
+                .orElseThrow(() -> new IllegalArgumentException("Sentence not found with id " + sentenceId));
+
+        // 틀린 발음이 포함된 인덱스 반환
+        // sentence의 마지막 문자('.', '?') 제거
+        List<Integer> incorrectPronIndices = KoreanPronChecker
+                .getIncorrectPronIndices(sentence.getText().substring(0, sentence.getText().length() - 1), sentenceRecord.getPron());
+        StringBuilder sb = new StringBuilder();
+        for (Integer incorrectPronIndex : incorrectPronIndices) {
+            sb.append(incorrectPronIndex);
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
 }
