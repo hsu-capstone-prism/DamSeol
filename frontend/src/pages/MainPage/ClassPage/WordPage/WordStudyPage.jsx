@@ -146,16 +146,6 @@ const WordStudy = () => {
         </nav>
 
         <section className="word-display">
-          {/* 단어와 발음기호 위치 통일 */}
-          {words.length > 0 && (
-            <>
-              <h1 className="word">{words[selectedIndex].text}</h1>
-              <p className="word-pronunciation">
-                [{words[selectedIndex].wordPron}]
-              </p>
-            </>
-          )}
-
           {showFinalResult ? (
             <div className="final-result">
               <h2>{username}님의 학습 결과</h2>
@@ -217,6 +207,16 @@ const WordStudy = () => {
             </div>
           ) : (
             <>
+              {words.length > 0 ? (
+                <>
+                  <h1 className="word">{words[selectedIndex].text}</h1>
+                  <p className="word-pronunciation">
+                    [{words[selectedIndex].wordPron}]
+                  </p>
+                </>
+              ) : (
+                <p>해당하는 단어가 없습니다.</p>
+              )}
               <div className="word-result">
                 {isResultVisible && resultList[selectedIndex] ? (
                   <>
@@ -270,7 +270,7 @@ const WordStudy = () => {
           )}
         </section>
 
-        {!isResultVisible && !showFinalResult && (
+        {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
             word={words[selectedIndex]}
