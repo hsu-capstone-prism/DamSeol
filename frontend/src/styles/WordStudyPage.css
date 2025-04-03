@@ -53,7 +53,7 @@
 
 .word-result {
   transition: min-height 0.3s ease-in-out;
-  min-height: 120px;
+  min-height: 0px;
 }
 
 .word-pronunciation {

@@ -263,7 +263,7 @@ const WordStudy = () => {
                     </div>
                   </>
                 ) : (
-                  <div style={{ height: "120px" }} />
+                  <div style={{ height: "80px" }} />
                 )}
               </div>
             </>
