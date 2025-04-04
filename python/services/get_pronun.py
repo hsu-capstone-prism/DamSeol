@@ -1,14 +1,14 @@
 import subprocess
 import sys
 import os
+import re
 
 def get_pronun(audio_path):
   script_dir = os.path.abspath("./services/kospeech_model")
   inference_dir = os.path.abspath("./services/kospeech_model/bin/inference.py")
   audio_path = os.path.abspath(audio_path)
 
-  print("kospeech file path: ", audio_path)
-  print("is audio file exist: ", os.path.exists(audio_path))
+  print("input speech file path: ", audio_path)
 
   cmd = [
       sys.executable,
@@ -26,6 +26,18 @@ def get_pronun(audio_path):
     print("kospeech error: ", e.stderr)
     output = "Error"
 
+  clean_output = get_clean_text(output)
   
-  
-  return output
+  return clean_output
+
+def get_clean_text(text):
+  # 대괄호, 따옴표, 개행 문자 제거
+  text = text.strip("[]'\n")
+
+  # <sos> 태그 제거
+  text = text.replace("<sos>", "")
+
+  # 중복 공백 제거
+  text = re.sub(r'\s+', ' ', text) 
+
+  return text

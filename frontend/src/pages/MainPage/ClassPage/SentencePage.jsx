@@ -90,11 +90,11 @@ const SentencePage = () => {
         {/* 특별한 상황 */}
         <section className="sentence-learning-section">
           <h2>특별한 상황</h2>
-          <div className="box-container">
+          <div className="sentence-box-container">
             {specialTopics.map((topic) => (
               <div
                 key={topic.key}
-                className="box"
+                className="sentence-box"
                 onClick={() =>
                   handleClick(
                     subcategoryMap["Special"]?.[topic.key],
@@ -112,11 +112,11 @@ const SentencePage = () => {
         {/* 비즈니스 */}
         <section className="sentence-learning-section">
           <h2>비즈니스</h2>
-          <div className="box-container">
+          <div className="sentence-box-container">
             {businessTopics.map((topic) => (
               <div
                 key={topic.key}
-                className="box"
+                className="sentence-box"
                 onClick={() =>
                   handleClick(
                     subcategoryMap["Business"]?.[topic.key],

@@ -33,17 +33,20 @@ const WordPage = () => {
 
         <section className="word-learning-section">
           <h2>음운</h2>
-          <div className="box-container">
-            <div className="box" onClick={() => navigate("/phon/vowel")}>
+          <div className="word-box-container">
+            <div className="word-box" onClick={() => navigate("/phon/vowel")}>
               모음
             </div>
-            <div className="box" onClick={() => navigate("/phon/consonant")}>
+            <div
+              className="word-box"
+              onClick={() => navigate("/phon/consonant")}
+            >
               자음
             </div>
             {phonTopics.map((phon) => (
               <div
                 key={phon.key}
-                className="box"
+                className="word-box"
                 onClick={() =>
                   navigate("/phon/study", { state: { phonName: phon.name } })
                 }
@@ -51,18 +54,15 @@ const WordPage = () => {
                 {phon.name}
               </div>
             ))}
-            <div className="box">..</div>
-            <div className="box">..</div>
-            <div className="box">..</div>
           </div>
         </section>
         <section className="word-learning-section">
           <h2>음운 변동</h2>
-          <div className="box-container">
+          <div className="word-box-container">
             {alterTopics.map((alter) => (
               <div
                 key={alter.key}
-                className="box"
+                className="word-box"
                 onClick={() =>
                   navigate("/alter/study", { state: { alterName: alter.name } })
                 }
@@ -70,17 +70,15 @@ const WordPage = () => {
                 {alter.name}
               </div>
             ))}
-            <div className="box">..</div>
-            <div className="box">..</div>
           </div>
         </section>
         <section className="word-learning-section">
           <h2>사잇소리 현상</h2>
-          <div className="box-container">
+          <div className="word-box-container">
             {addTopics.map((add) => (
               <div
                 key={add.key}
-                className="box"
+                className="word-box"
                 onClick={() =>
                   navigate("/add/study", { state: { addName: add.name } })
                 }

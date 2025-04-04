@@ -16,22 +16,22 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   padding: 40px;
   border-radius: 12px;
-  width: 100%;
-  max-width: 1000px;
+  overflow-x: auto;
+  white-space: nowrap;
   text-align: center;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.box-container {
-  display: flex;
-  flex-wrap: wrap;
+.grammer-box-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-.box {
-  flex: 1 1 150px;
-  min-width: 150px;
-  max-width: 200px;
+.grammer-box {
+  width: 80%;
   background-color: #e8f0fe;
   border-radius: 10px;
   padding: 25px;
@@ -43,6 +43,6 @@
   transition: background-color 0.3s ease;
 }
 
-.box:hover {
+.grammer-box:hover {
   background-color: #dbe4f3;
 }

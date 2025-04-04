@@ -3,8 +3,11 @@ import librosa.display
 import io
 import os
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from scipy.ndimage import gaussian_filter1d
+
+matplotlib.use('Agg')
 
 # 실행 명령어 예시
 # python3 -c 'import extract_graph; extract_graph.extract_waveform("sample.wav", save_path="waveform.png"); extract_graph.extract_pitch_graph("sample.wav", frame_step=50, save_path="pitch.png")'
