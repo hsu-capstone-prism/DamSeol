@@ -38,7 +38,7 @@ public class PracticeController {
             String fileName = practiceService.uploadAudioFile(audioFile);
 
             // 2. WordRecord 생성 및 저장
-            WordRecord wordRecord = practiceService.createWordRecord(wordId, memberName);
+            WordRecord wordRecord = practiceService.createWordRecord(wordId, memberName, audioFile);
 
             // 3. 틀린 발음 설정 및 인덱스 반환
             String wrongPhonsIndices = practiceService.setWrongWordPhon(wordId, wordRecord);
