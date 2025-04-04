@@ -1,5 +1,6 @@
 import os
 import openai
+import json
 from openai import OpenAI
 from dotenv import load_dotenv
 from services.extract_feature import extract_pitch_info, extract_speech_pause_ratio, extract_speech_rate
@@ -38,16 +39,19 @@ def get_audio_pitch_eval(audio, text, situation=None):
   - 일반인이 들었을 때 어색한 정도를 객관적인 관점에서 평가하십시오.
   - 평가 대상이 청각장애인임을 고려하여 평가를 진행하십시오.
 
-  답변은 다음 양식을 따라야 합니다.
+  응답은 반드시 json 양식을 따라야 하며, 출력에 백틱이나 따옴표는 포함하지 않아야 합니다.
 
   평가: 나쁨 또는 보통 또는 좋음
   점수: 1~5점 (0~5점 사이로 채점한 정량적 점수)
   이유: 위와 같이 평가한 근거를 1줄 정도로 짧고 명확하게 제시할 것. '해요'체로 작성하고 이모티콘을 적절히 사용할 것
 
   예제:
-  평가: 보통 
-  점수: 4/5점  
-  이유: 감탄문에서 피치 변화가 적절히 이루어져서 자연스럽게 발음되었어요. 👍
+  {
+    "pitch_assess": 좋음
+    "pitch_score": 4/5점
+    "pitch_reason": 감탄문에서 피치 변화가 적절히 이루어져서 자연스럽게 발음되었어요. 👍
+  }
+
   """
 
   assist_prompt = """
@@ -72,15 +76,24 @@ def get_audio_pitch_eval(audio, text, situation=None):
       { "role": "assistant", "content": assist_prompt},
   ]
 
-  chat_completion = client.chat.completions.create(
+  response = client.chat.completions.create(
       model=model,
       messages=messages,
       temperature = temperature
   )
 
-  print(f"Evaluating:\n{chat_completion.choices[0].message.content}")
+  response_message = response.choices[0].message.content
 
-  return chat_completion.choices[0].message.content
+  print("사용자 Pitch 평가 ----")
+  print(response_message)
+
+  try:
+    response_json = json.loads(response_message)
+  except json.JSONDecodeError:
+    print("JSONDecodeError: Invalid JSON format in response.")
+    response_json = response_message
+
+  return response_json
 
 
 
@@ -116,15 +129,18 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   - 문맥과 상황을 고려하여 지나치게 빠르거나 느린 경우 부자연스러움 판단  
   - 평가 대상이 청각장애인임을 고려하여 평가 진행  
 
-  답변 양식은 다음과 같아야 합니다.
+  응답은 반드시 json 양식을 따라야 하며, 출력에 백틱이나 따옴표는 포함하지 않아야 합니다.
   평가: 나쁨 또는 보통 또는 좋음
   점수: 1~5점 (0~5점 사이로 채점한 정량적 점수)
   이유: 위와 같이 평가한 근거를 1줄 정도로 짧고 명확하게 제시할 것. '해요'체로 작성하고 이모티콘을 적절히 사용할 것
   
   답변 예시:
-  평가: 좋음
-  점수: 4/5점
-  이유: 문장의 속도가 적절하여 듣기 원활해요! 😊
+  {
+    "rhythm_assess": 보통
+    "rhythm_score": 3/5점
+    "rhythm_reason": 발화 속도가 조금 느려요. 발음 속도를 조금 더 빠르게 연습해보세요. 😊
+  }
+
   """
 
   assist_prompt = """
@@ -162,12 +178,21 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
       { "role": "assistant", "content": assist_prompt},
   ]
 
-  chat_completion = client.chat.completions.create(
+  response = client.chat.completions.create(
       model=model,
       messages=messages,
       temperature = temperature
   )
 
-  print(f"Evaluating:\n{chat_completion.choices[0].message.content}")
+  response_message = response.choices[0].message.content
 
-  return chat_completion.choices[0].message.content
+  print("사용자 Rhythm 평가 ----")
+  print(response_message)
+
+  try:
+    response_json = json.loads(response_message)
+  except json.JSONDecodeError:
+    print("JSONDecodeError: Invalid JSON format in response.")
+    response_json = response_message
+
+  return response_json

@@ -13,52 +13,60 @@ api_blueprint = Blueprint('api', __name__)
 def upload_audio():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
-
+    
+    
+    mode = request.form.get('mode', None)
     file = request.files['file']
     text = request.form.get('text', None)
     situation = request.form.get('situation', None)
 
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
+    
+    if mode not in ['sentence', 'word']:
+        return jsonify({"error": "Invalid mode"}), 400
 
     filename = secure_filename(file.filename)
     file_path = os.path.join('.', 'data', filename)
     file.save(file_path)
 
-
     #file_bytes = file.read()
-    user_pronun = get_pronun(file_path)
+    user_pronun = get_pronun(file_path)            
 
     result_pronun = evaluate_pronunciation(text, user_pronun)
-    result_pitch = get_audio_pitch_eval(file_path, user_pronun, situation)
-    result_rhythm = get_audio_rhythm_eval(file_path, user_pronun, situation)
-    #TODO: KoSpeech 모델 완성되면 result_pronun 수정
 
-    waveform_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'waveform', os.path.splitext(filename)[0] + '_waveform.png')
-    pitch_graph_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'pitch', os.path.splitext(filename)[0] + '_pitch.png')
-    extract_waveform(audio_path=file_path, save_path=waveform_path)
-    extract_pitch_graph(audio_path=file_path, save_path=pitch_graph_path)
+    if mode == 'sentence':
+        result_pitch = get_audio_pitch_eval(file_path, user_pronun, situation)
+        result_rhythm = get_audio_rhythm_eval(file_path, user_pronun, situation)
 
-    response = Response(
-        json.dumps({
-            "status": "success", 
-            "pitch": result_pitch, 
-            "rhythm": result_rhythm, 
-            "pronun": result_pronun, 
-            "waveform_path": waveform_path, 
-            "pitch_graph_path": pitch_graph_path
-        }, ensure_ascii=False),
-        content_type='application/json; charset=utf-8'
-    )
-    return response
+        waveform_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'waveform', os.path.splitext(filename)[0] + '_waveform.png')
+        pitch_graph_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'pitch', os.path.splitext(filename)[0] + '_pitch.png')
+        extract_waveform(audio_path=file_path, save_path=waveform_path)
+        extract_pitch_graph(audio_path=file_path, save_path=pitch_graph_path)
 
-@api_blueprint.route('/eval-pronun', methods=['POST'])
-def eval_pronun():
-    text_original = request.form.get('text_original', None)
-    text_input = request.form.get('text_input', None)
+        response = Response(
+            json.dumps({
+                "status": "success", 
+                "user_pronun": user_pronun,       # 사용자가 발음한 문장 STT(String)
+                "pitch": result_pitch,              # Pitch 평가 결과(Json)
+                "rhythm": result_rhythm,            # Rhythm 평가 결과(Json)
+                "pronun": result_pronun,            # 발음 평가 결과(Json)
+                "waveform_path": waveform_path,         # 웨이브폼 이미지 경로
+                "pitch_graph_path": pitch_graph_path    # 피치 그래프 이미지 경로
+            }, ensure_ascii=False),
+            content_type='application/json; charset=utf-8'
+        )
 
-    result = evaluate_pronunciation(text_original, text_input)
+    elif mode == 'word':
+        reponse = Response(
+            json.dumps({
+                "status": "success", 
+                "user_pronun": user_pronun,   # 사용자가 발음한 단어 STT(String)
+                "pronun": result_pronun         # 발음 평가 결과(Json)
+            }, ensure_ascii=False),
+            content_type='application/json; charset=utf-8'
+        )
 
-    response = jsonify({"status": "success", "result": result})
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    else:
+        return jsonify({"error": "Invalid mode"}), 400
     return response

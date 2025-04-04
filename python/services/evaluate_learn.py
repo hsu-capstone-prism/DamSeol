@@ -13,7 +13,7 @@ client = OpenAI(api_key=openai_api_key)
 model = 'gpt-4o'
 temperature = 0.2
 
-def evaluate_learn(eval_texts):
+def evaluate_sentence(eval_texts):
   """
   LLM으로 평가된 학습 데이터들을 기반으로 전반적인 학습 조언 제시
   """
