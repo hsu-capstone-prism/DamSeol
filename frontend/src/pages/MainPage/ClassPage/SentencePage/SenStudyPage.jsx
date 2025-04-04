@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
 import "../../../../styles/SenStudyPage.css";
@@ -6,10 +6,9 @@ import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
 import axios from "axios";
 
-// JWT 토큰 가져오기
+// axios 제거 (사용 안 하므로)
 const getAuthToken = () => localStorage.getItem("authToken");
 
-// 배열에서 랜덤하게 5개 선택하는 함수
 const getRandomSentences = (arr, count) => {
   if (arr.length <= count) return arr;
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
@@ -22,10 +21,13 @@ const SenStudyPage = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [uploadResultList, setUploadResultList] = useState([]);
+  const [isResultVisible, setIsResultVisible] = useState(false);
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
+  const [waveformImageSrc, setWaveformImageSrc] = useState(null);
+  const [pitchImageSrc, setPitchImageSrc] = useState(null);
 
-  // 문장 목록 가져오기
   useEffect(() => {
     if (!subcategoryId) return;
 
@@ -35,25 +37,20 @@ const SenStudyPage = () => {
       try {
         const token = getAuthToken();
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-        console.log(
-          "문장 데이터 요청:",
-          `/api/sentences/subcategory/${subcategoryId}`
-        );
-
-        const response = await axios.get(
+        const response = await fetch(
           `http://localhost:8080/api/sentences/subcategory/${subcategoryId}`,
           { headers }
         );
 
-        console.log("문장 응답:", response.data);
+        const data = await response.json();
 
-        if (response.data.length === 0) {
+        if (data.length === 0) {
           setError("해당 서브카테고리에 대한 문장이 없습니다.");
         } else {
-          const randomSentences = getRandomSentences(response.data, 5); // 🔹 랜덤으로 5개 선택
+          const randomSentences = getRandomSentences(data, 5);
           setSentences(randomSentences);
           setSelectedIndex(0);
+          setUploadResultList(new Array(randomSentences.length).fill(null));
         }
       } catch (err) {
         console.error("Error fetching sentences:", err);
@@ -66,6 +63,46 @@ const SenStudyPage = () => {
     fetchSentences();
   }, [subcategoryId]);
 
+  const fetchAnalysisImages = async (waveformImage, pitchImage) => {
+    try {
+      const token = getAuthToken();
+
+      const [waveformRes, pitchRes] = await Promise.all([
+        axios.get(
+          `http://localhost:8080/api/images/waveform/${waveformImage}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            responseType: "blob",
+          }
+        ),
+        axios.get(`http://localhost:8080/api/images/pitch/${pitchImage}`, {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: "blob",
+        }),
+      ]);
+
+      const waveformBlob = URL.createObjectURL(waveformRes.data);
+      const pitchBlob = URL.createObjectURL(pitchRes.data);
+
+      setWaveformImageSrc(waveformBlob);
+      setPitchImageSrc(pitchBlob);
+    } catch (error) {
+      console.error("분석 이미지 불러오기 실패:", error);
+    }
+  };
+
+  const handleUploadComplete = (data) => {
+    const updated = [...uploadResultList];
+    updated[selectedIndex] = {
+      ...data,
+      waveformImage: "sample_waveform.png",
+      pitchImage: "sample_pitch.png",
+    };
+    setUploadResultList(updated);
+    setIsResultVisible(true);
+    fetchAnalysisImages("sample_waveform.png", "sample_pitch.png");
+  };
+
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
@@ -75,20 +112,54 @@ const SenStudyPage = () => {
         <nav className="breadcrumb">
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
+
         <section className="sen-display">
           {sentences.length > 0 ? (
-            <>
-              <h1 className="sen">{sentences[selectedIndex].text}</h1>
-            </>
+            <h1 className="sen">{sentences[selectedIndex].text}</h1>
           ) : (
             <p>해당하는 문장이 없습니다.</p>
           )}
+
+          {isResultVisible && (
+            <div className="sen-result">
+              <h2 className="user-pronunciation">
+                {uploadResultList[selectedIndex].pron}
+              </h2>
+              <div className="image-viewer">
+                {waveformImageSrc && (
+                  <img
+                    src={waveformImageSrc}
+                    alt="Waveform 분석 이미지"
+                    className="result-image"
+                  />
+                )}
+                {pitchImageSrc && (
+                  <img
+                    src={pitchImageSrc}
+                    alt="Pitch 분석 이미지"
+                    className="result-image"
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </section>
-        <MicButton />
+
+        {!isResultVisible && (
+          <MicButton
+            selectedIndex={selectedIndex}
+            sentences={sentences}
+            onUploadComplete={handleUploadComplete}
+          />
+        )}
+
         <ProgressBar
           currentStep={selectedIndex}
-          totalSteps={sentences.length} // 🔹 5개까지만 표시
-          onStepClick={(index) => setSelectedIndex(index)}
+          totalSteps={sentences.length}
+          onStepClick={(index) => {
+            setSelectedIndex(index);
+            setIsResultVisible(false);
+          }}
         />
       </div>
     </Layout>
