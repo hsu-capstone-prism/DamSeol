@@ -47,9 +47,9 @@ def get_audio_pitch_eval(audio, text, situation=None):
 
   예제:
   {
-    "pitch_assess": 좋음
-    "pitch_score": 4/5점
-    "pitch_reason": 감탄문에서 피치 변화가 적절히 이루어져서 자연스럽게 발음되었어요. 👍
+    "pitch_assess": "좋음",
+    "pitch_score": "4/5점",
+    "pitch_reason": "감탄문에서 피치 변화가 적절히 이루어져서 자연스럽게 발음되었어요. 👍"
   }
 
   """
@@ -136,9 +136,9 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   
   답변 예시:
   {
-    "rhythm_assess": 보통
-    "rhythm_score": 3/5점
-    "rhythm_reason": 발화 속도가 조금 느려요. 발음 속도를 조금 더 빠르게 연습해보세요. 😊
+    "rhythm_assess": "보통",
+    "rhythm_score": "3/5점",
+    "rhythm_reason": "발화 속도가 조금 느려요. 발음 속도를 조금 더 빠르게 연습해보세요. 😊"
   }
 
   """
