@@ -21,10 +21,16 @@ def upload_audio():
     situation = request.form.get('situation', None)
 
     if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+        return jsonify({
+            "status": "error",
+            "error": "No selected file"
+            }), 400
     
     if mode not in ['sentence', 'word']:
-        return jsonify({"error": "Invalid mode"}), 400
+        return jsonify({
+            "status": "error",
+            "error": "Invalid mode"
+            }), 400
 
     filename = secure_filename(file.filename)
     file_path = os.path.join('.', 'data', filename)
@@ -36,7 +42,10 @@ def upload_audio():
     result_pronun = evaluate_pronunciation(text, user_pronun)
 
     if not isinstance(result_pronun, dict):
-        return jsonify({"error": "Invalid pronunciation evaluation result"}), 400
+        return jsonify({
+            "status": "retry",
+            "error": "Invalid pronunciation evaluation result"
+            }), 503
 
     if mode == 'sentence':
         result_pitch = get_audio_pitch_eval(file_path, user_pronun, situation)
@@ -48,10 +57,16 @@ def upload_audio():
         extract_pitch_graph(audio_path=file_path, save_path=pitch_graph_path)
 
         if not isinstance(result_pitch, dict):
-            return jsonify({"error": "Invalid pitch evaluation result"}), 400
+            return jsonify({
+                "status": "retry",
+                "error": "Invalid pitch evaluation result"
+                }), 503
         
         if not isinstance(result_rhythm, dict):
-            return jsonify({"error": "Invalid rhythm evaluation result"}), 400
+            return jsonify({
+                "status": "retry",
+                "error": "Invalid rhythm evaluation result"
+                }), 503
 
         response = Response(
             json.dumps({
