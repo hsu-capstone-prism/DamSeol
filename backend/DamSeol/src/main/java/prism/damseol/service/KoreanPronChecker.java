@@ -34,7 +34,7 @@ public class KoreanPronChecker {
         List<Integer> incorrectIndices = new ArrayList<>();
         int correctIndex = 0, userIndex = 0;
 
-        while (userIndex < userInput.length()) {
+        while (userIndex < userInput.length() && correctIndex < correct.length()) {
             char correctChar = correct.charAt(correctIndex);
             char userChar = userInput.charAt(userIndex);
 
