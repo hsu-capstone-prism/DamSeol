@@ -35,7 +35,8 @@ def upload_audio():
 
     result_pronun = evaluate_pronunciation(text, user_pronun)
 
-    
+    if not isinstance(result_pronun, dict):
+        return jsonify({"error": "Invalid pronunciation evaluation result"}), 400
 
     if mode == 'sentence':
         result_pitch = get_audio_pitch_eval(file_path, user_pronun, situation)
@@ -45,6 +46,12 @@ def upload_audio():
         pitch_graph_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'pitch', os.path.splitext(filename)[0] + '_pitch.png')
         extract_waveform(audio_path=file_path, save_path=waveform_path)
         extract_pitch_graph(audio_path=file_path, save_path=pitch_graph_path)
+
+        if not isinstance(result_pitch, dict):
+            return jsonify({"error": "Invalid pitch evaluation result"}), 400
+        
+        if not isinstance(result_rhythm, dict):
+            return jsonify({"error": "Invalid rhythm evaluation result"}), 400
 
         response = Response(
             json.dumps({
@@ -60,7 +67,7 @@ def upload_audio():
         )
 
     elif mode == 'word':
-        reponse = Response(
+        response = Response(
             json.dumps({
                 "status": "success", 
                 "user_pronun": user_pronun,   # 사용자가 발음한 단어 STT(String)
