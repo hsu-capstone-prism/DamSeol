@@ -1,5 +1,6 @@
 import os
-from flask import Blueprint, request, jsonify
+import json
+from flask import Blueprint, request, jsonify, Response
 from werkzeug.utils import secure_filename
 from services.evaluate_speech import get_audio_pitch_eval, get_audio_rhythm_eval
 from services.evaluate_pron import evaluate_pronunciation
@@ -33,19 +34,22 @@ def upload_audio():
     result_rhythm = get_audio_rhythm_eval(file_path, user_pronun, situation)
     #TODO: KoSpeech 모델 완성되면 result_pronun 수정
 
-    waveform_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'waveform', 'waveform.png')
-    pitch_graph_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'pitch', 'pitch.png')
+    waveform_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'waveform', os.path.splitext(filename)[0] + '_waveform.png')
+    pitch_graph_path=os.path.join('..', 'backend', 'DamSeol', 'uploads', 'pitch', os.path.splitext(filename)[0] + '_pitch.png')
     extract_waveform(audio_path=file_path, save_path=waveform_path)
     extract_pitch_graph(audio_path=file_path, save_path=pitch_graph_path)
 
-    response = jsonify({
-        "status": "success", 
-        "pitch": result_pitch, 
-        "rhythm": result_rhythm, 
-        "pronun": result_pronun, 
-        "waveform_path": waveform_path, 
-        "pitch_graph_path": pitch_graph_path})
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    response = Response(
+        json.dumps({
+            "status": "success", 
+            "pitch": result_pitch, 
+            "rhythm": result_rhythm, 
+            "pronun": result_pronun, 
+            "waveform_path": waveform_path, 
+            "pitch_graph_path": pitch_graph_path
+        }, ensure_ascii=False),
+        content_type='application/json; charset=utf-8'
+    )
     return response
 
 @api_blueprint.route('/eval-pronun', methods=['POST'])
