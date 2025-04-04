@@ -71,10 +71,10 @@ public class PracticeController {
             SentenceRecord sentenceRecord = practiceService.createSentenceRecord(sentenceId, memberName);
 
             // 틀린 발음 인덱스 반환
-            String wrongPhonsIndices = practiceService.setWrongSentencePhon(sentenceId, sentenceRecord);
+            // String wrongPhonsIndices = practiceService.setWrongSentencePhon(sentenceId, sentenceRecord);
 
             SentenceRecordDTO sentenceRecordDTO = new SentenceRecordDTO(sentenceRecord);
-            sentenceRecordDTO.setWrongPhonIndices(wrongPhonsIndices);
+            //sentenceRecordDTO.setWrongPhonIndices(wrongPhonsIndices);
             sentenceRecordDTO.setWaveformFileName(fileName.replace("_audio.wav", "_waveform.png"));
             sentenceRecordDTO.setPitchFileName(fileName.replace("_audio.wav", "_pitch.png"));
 

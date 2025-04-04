@@ -11,7 +11,7 @@ public class SentenceRecordDTO {
     private Long id;
     private String name;
     private int score;
-    private String wrongPhonIndices;
+//    private String wrongPhonIndices;
     private String pron;
     private String details;
     private String waveformFileName;
@@ -27,9 +27,9 @@ public class SentenceRecordDTO {
         this.date = sentenceRecord.getDate();
     }
 
-    public void setWrongPhonIndices(String wrongPhonIndices) {
-        this.wrongPhonIndices = wrongPhonIndices;
-    }
+//    public void setWrongPhonIndices(String wrongPhonIndices) {
+//        this.wrongPhonIndices = wrongPhonIndices;
+//    }
 
     public void setPitchFileName(String pitchFileName) {
         this.pitchFileName = pitchFileName;
