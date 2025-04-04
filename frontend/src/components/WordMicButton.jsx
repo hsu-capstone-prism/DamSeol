@@ -29,11 +29,16 @@ const WordMicButton = ({
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          channelCount: 1,
+          sampleRate: 16000,
+        },
+      });
       const audioContext = new AudioContext({ sampleRate: 16000 });
       const source = audioContext.createMediaStreamSource(stream);
-      const processor = audioContext.createScriptProcessor(4096, 1, 1);
 
+      const processor = audioContext.createScriptProcessor(4096, 1, 1);
       source.connect(processor);
       processor.connect(audioContext.destination);
 

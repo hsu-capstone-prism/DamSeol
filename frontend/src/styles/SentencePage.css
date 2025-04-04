@@ -20,6 +20,8 @@
   white-space: nowrap;
   text-align: center;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sentence-learning-section h2 {
@@ -31,15 +33,13 @@
 }
 
 .sentence-box-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
 .sentence-box {
-  flex: 1 1 150px;
-  min-width: 200px;
-  max-width: 200px;
+  width: 80%;
   background-color: #e8f0fe;
   border-radius: 10px;
   padding: 25px;
