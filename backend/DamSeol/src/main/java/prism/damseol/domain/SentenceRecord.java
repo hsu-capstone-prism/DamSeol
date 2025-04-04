@@ -17,7 +17,13 @@ public class SentenceRecord {
     private Long id;
 
     @Column(nullable = false)
-    private int score;
+    private int correction;
+
+    @Column(nullable = false)
+    private int pitch_score;
+
+    @Column(nullable = false)
+    private int rhythm_score;
 
     @Column(length = 255)
     private String pron;

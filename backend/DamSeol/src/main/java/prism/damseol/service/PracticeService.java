@@ -1,10 +1,13 @@
 package prism.damseol.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import prism.damseol.domain.*;
 import prism.damseol.repository.*;
+import prism.damseol.service.ai.AiAnalysisService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +25,7 @@ public class PracticeService {
     private final MemberRepository memberRepository;
     private final WordRecordRepository wordRecordRepository;
     private final SentenceRecordRepository sentenceRecordRepository;
+    private AiAnalysisService aiAnalysisService;
 
     // 음성 파일 업로드 처리
     public String uploadAudioFile(MultipartFile audioFile) throws IOException {
@@ -101,22 +105,47 @@ public class PracticeService {
     }
 
     // SentenceRecord 생성 및 저장
-    public SentenceRecord createSentenceRecord(Long sentenceId, String memberName) {
+    public SentenceRecord createSentenceRecord(Long sentenceId, String memberName, MultipartFile audioFile) throws IOException {
         Sentence sentence = sentenceRepository.findById(sentenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Sentence not found with id " + sentenceId));
 
         Member member = memberRepository.findByName(memberName);
 
-        /*
-        하드코딩 - 추후에 개발 예정
-         */
+        //AI
+        JsonNode aiResponse = aiAnalysisService.analyzeSentence(audioFile, sentence.getText());
+
+        // 분석 결과 파싱
+        String userPronun = aiResponse.get("user_pronun").asText();
+        String details = aiResponse.get("pronun").get("reason").asText();  // 예시
+
+        int correction = aiResponse.get("pronun").get("correction").asInt();
+
+        // pitch_score와 rhythm_score는 "2/5점" 형식이므로 문자열로 받고, 파싱 필요
+        String pitchScoreStr = aiResponse.get("pitch").get("pitch_score").asText();   // 예: "2/5점"
+        String rhythmScoreStr = aiResponse.get("rhythm").get("rhythm_score").asText(); // 예: "1/5점"
+
+        // 숫자 부분만 추출 (예: "2/5점" → 2, 5)
+        int pitch_score = parseScorePercentage(pitchScoreStr);
+        int rhythm_score = parseScorePercentage(rhythmScoreStr);
+//        String waveformPath = aiResponse.get("waveform_path").asText();
+//        String pitchPath = aiResponse.get("pitch_graph_path").asText();
+
 
         SentenceRecord sentenceRecord = new SentenceRecord();
+//        sentenceRecord.setSentence(sentence);
+//        sentenceRecord.setMember(member);
+//        sentenceRecord.setScore(75);
+//        sentenceRecord.setPron("강아자가 공을부 얼왔다");
+//        sentenceRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
+//        sentenceRecord.setDate(LocalDateTime.now());
+
         sentenceRecord.setSentence(sentence);
         sentenceRecord.setMember(member);
-        sentenceRecord.setScore(75);
-        sentenceRecord.setPron("강아자가 공을부 얼왔다");
-        sentenceRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
+        sentenceRecord.setPron(userPronun);
+        sentenceRecord.setDetails(details);
+        sentenceRecord.setCorrection(correction);
+        sentenceRecord.setPitch_score(pitch_score);
+        sentenceRecord.setRhythm_score(rhythm_score);
         sentenceRecord.setDate(LocalDateTime.now());
 
         return sentenceRecordRepository.save(sentenceRecord);
@@ -138,5 +167,22 @@ public class PracticeService {
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
+    }
+
+    private static int parseScorePercentage(String scoreStr) {
+        try {
+            // 점수 문자열에서 숫자 부분만 분리
+            String[] parts = scoreStr.replace("점", "").split("/");
+            if (parts.length == 2) {
+                int numerator = Integer.parseInt(parts[0].trim());
+                int denominator = Integer.parseInt(parts[1].trim());
+                if (denominator != 0) {
+                    return (int) ((numerator * 100.0) / denominator);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // 디버깅용
+        }
+        return 0; // 파싱 실패 시 0점 반환
     }
 }
