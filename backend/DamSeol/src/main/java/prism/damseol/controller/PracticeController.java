@@ -68,7 +68,7 @@ public class PracticeController {
         try {
             String fileName = practiceService.uploadAudioFile(audioFile);
 
-            SentenceRecord sentenceRecord = practiceService.createSentenceRecord(sentenceId, memberName);
+            SentenceRecord sentenceRecord = practiceService.createSentenceRecord(sentenceId, memberName, audioFile);
 
             // 틀린 발음 인덱스 반환
             // String wrongPhonsIndices = practiceService.setWrongSentencePhon(sentenceId, sentenceRecord);

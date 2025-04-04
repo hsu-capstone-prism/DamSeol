@@ -1,10 +1,13 @@
 package prism.damseol.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import prism.damseol.domain.*;
 import prism.damseol.repository.*;
+import prism.damseol.service.ai.AiAnalysisService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +25,7 @@ public class PracticeService {
     private final MemberRepository memberRepository;
     private final WordRecordRepository wordRecordRepository;
     private final SentenceRecordRepository sentenceRecordRepository;
+    private AiAnalysisService aiAnalysisService;
 
     // 음성 파일 업로드 처리
     public String uploadAudioFile(MultipartFile audioFile) throws IOException {
@@ -101,22 +105,36 @@ public class PracticeService {
     }
 
     // SentenceRecord 생성 및 저장
-    public SentenceRecord createSentenceRecord(Long sentenceId, String memberName) {
+    public SentenceRecord createSentenceRecord(Long sentenceId, String memberName, MultipartFile audioFile) throws IOException {
         Sentence sentence = sentenceRepository.findById(sentenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Sentence not found with id " + sentenceId));
 
         Member member = memberRepository.findByName(memberName);
 
-        /*
-        하드코딩 - 추후에 개발 예정
-         */
+        //AI
+        JsonNode aiResponse = aiAnalysisService.analyzeSentence(audioFile, sentence.getText());
+
+        // 분석 결과 파싱
+        String userPronun = aiResponse.get("user_pronun").asText();
+        String details = aiResponse.get("pronun").get("reason").asText();  // 예시
+        int correction = aiResponse.get("pronun").get("correction").asInt();
+//        String waveformPath = aiResponse.get("waveform_path").asText();
+//        String pitchPath = aiResponse.get("pitch_graph_path").asText();
+
 
         SentenceRecord sentenceRecord = new SentenceRecord();
+//        sentenceRecord.setSentence(sentence);
+//        sentenceRecord.setMember(member);
+//        sentenceRecord.setScore(75);
+//        sentenceRecord.setPron("강아자가 공을부 얼왔다");
+//        sentenceRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
+//        sentenceRecord.setDate(LocalDateTime.now());
+
         sentenceRecord.setSentence(sentence);
         sentenceRecord.setMember(member);
-        sentenceRecord.setScore(75);
-        sentenceRecord.setPron("강아자가 공을부 얼왔다");
-        sentenceRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
+        sentenceRecord.setPron(userPronun);
+        sentenceRecord.setDetails(details);
+        sentenceRecord.setScore(correction);
         sentenceRecord.setDate(LocalDateTime.now());
 
         return sentenceRecordRepository.save(sentenceRecord);
