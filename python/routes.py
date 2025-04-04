@@ -35,6 +35,8 @@ def upload_audio():
 
     result_pronun = evaluate_pronunciation(text, user_pronun)
 
+    
+
     if mode == 'sentence':
         result_pitch = get_audio_pitch_eval(file_path, user_pronun, situation)
         result_rhythm = get_audio_rhythm_eval(file_path, user_pronun, situation)
