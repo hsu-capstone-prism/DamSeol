@@ -91,7 +91,7 @@ def get_audio_pitch_eval(audio, text, situation=None):
     response_json = json.loads(response_message)
   except json.JSONDecodeError:
     print("JSONDecodeError: Invalid JSON format in response.")
-    response_json = "Error"
+    response_json = "Invalid: " + response_message
 
   return response_json
 
@@ -193,6 +193,6 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
     response_json = json.loads(response_message)
   except json.JSONDecodeError:
     print("JSONDecodeError: Invalid JSON format in response.")
-    response_json = "Error"
+    response_json = "Invalid: " + response_message
 
   return response_json
