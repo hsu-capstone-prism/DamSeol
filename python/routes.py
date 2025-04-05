@@ -119,11 +119,6 @@ def feedback():
     
     if mode == 'sentence':
         response = evaluate_sentence(text)
-        if not isinstance(response, dict):
-            return jsonify({
-                "status": "retry",
-                "error": "Invalid sentence evaluation result"
-                }), 503
     elif mode == 'word':
         response = evaluate_word(text)
     elif mode == 'test_word':
