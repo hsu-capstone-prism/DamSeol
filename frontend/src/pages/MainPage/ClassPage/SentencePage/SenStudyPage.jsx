@@ -6,7 +6,6 @@ import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
 import axios from "axios";
 
-// axios 제거 (사용 안 하므로)
 const getAuthToken = () => localStorage.getItem("authToken");
 
 const getRandomSentences = (arr, count) => {
