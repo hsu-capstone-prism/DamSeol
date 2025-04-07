@@ -76,7 +76,6 @@ def evaluate_pronunciation(text_original, text_input):
         response_json = json.loads(response_message)
     except json.JSONDecodeError:
         print("JSONDecodeError: Invalid JSON format in response.")
-        response_json = response_message
-
+        response_json = "Invalid: " + response_message
 
     return response_json

@@ -56,27 +56,38 @@ public class PracticeService {
     }
 
     // WordRecord 생성 및 저장
-    public WordRecord createWordRecord(Long wordId, String memberName) {
+    public WordRecord createWordRecord(Long wordId, String memberName, MultipartFile audioFile) throws IOException {
         Word word = wordRepository.findById(wordId)
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
 
         Member member = memberRepository.findByName(memberName);
 
-        /*
-        하드코딩 - 추후에 개발 예정
-         */
+        // AI 분석
+        JsonNode aiResponse = aiAnalysisService.analyzeWord(audioFile, word.getWordPron());
+
+        String userPronun = aiResponse.get("user_pronun").asText();
+        String pronunReason = aiResponse.get("pronun").get("advice").asText();
+        int correction = aiResponse.get("pronun").get("correction").asInt();
 
         WordRecord wordRecord = new WordRecord();
+//        wordRecord.setWord(word);
+//        wordRecord.setMember(member);
+//        wordRecord.setScore(75);
+//        wordRecord.setPron("낭루"); // correctPron: 날로
+//
+//        wordRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
+//        wordRecord.setDate(LocalDateTime.now());
+
         wordRecord.setWord(word);
         wordRecord.setMember(member);
-        wordRecord.setScore(75);
-        wordRecord.setPron("낭루"); // correctPron: 날로
-
-        wordRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
+        wordRecord.setPron(userPronun);
+        wordRecord.setDetails(pronunReason);
+        wordRecord.setScore(correction);
         wordRecord.setDate(LocalDateTime.now());
 
         return wordRecordRepository.save(wordRecord);
     }
+
 
     // 틀린 단어 발음 설정 및 인덱스 반환
     public String setWrongWordPhon(Long wordId, WordRecord wordRecord) {
@@ -116,7 +127,12 @@ public class PracticeService {
 
         // 분석 결과 파싱
         String userPronun = aiResponse.get("user_pronun").asText();
-        String details = aiResponse.get("pronun").get("reason").asText();  // 예시
+        String pronunReason = aiResponse.get("pronun").get("advice").asText();
+        String pitchReason = aiResponse.get("pitch").get("pitch_reason").asText();
+        String rhythmReason = aiResponse.get("rhythm").get("rhythm_reason").asText();
+
+        String details = pronunReason + " " + pitchReason + " " + rhythmReason;
+//        String details = aiResponse.get("pronun").get("reason").asText();  // 예시
 
         int correction = aiResponse.get("pronun").get("correction").asInt();
 
