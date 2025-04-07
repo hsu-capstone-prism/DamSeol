@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify, Response
 from werkzeug.utils import secure_filename
 from services.evaluate_speech import get_audio_pitch_eval, get_audio_rhythm_eval
 from services.evaluate_pron import evaluate_pronunciation
+from services.evaluate_learn import evaluate_sentence, evaluate_word, test_sentence, test_word
 from services.extract_graph import extract_waveform, extract_pitch_graph
 from services.get_pronun import get_pronun
 
@@ -20,7 +21,7 @@ def upload_audio():
     text = request.form.get('text', None)
     situation = request.form.get('situation', None)
 
-    if file.filename == '':
+    if file.filename == '' or file is None:
         return jsonify({
             "status": "error",
             "error": "No selected file"
@@ -44,7 +45,7 @@ def upload_audio():
     if not isinstance(result_pronun, dict):
         return jsonify({
             "status": "retry",
-            "error": "Invalid pronunciation evaluation result"
+            "error": result_pronun
             }), 503
 
     if mode == 'sentence':
@@ -59,13 +60,13 @@ def upload_audio():
         if not isinstance(result_pitch, dict):
             return jsonify({
                 "status": "retry",
-                "error": "Invalid pitch evaluation result"
+                "error": result_pitch
                 }), 503
         
         if not isinstance(result_rhythm, dict):
             return jsonify({
                 "status": "retry",
-                "error": "Invalid rhythm evaluation result"
+                "error": result_rhythm
                 }), 503
 
         response = Response(
@@ -92,5 +93,45 @@ def upload_audio():
         )
 
     else:
-        return jsonify({"error": "Invalid mode"}), 400
-    return response
+        return jsonify({
+            "status": "error",
+            "error": "Invalid mode"
+            }), 400
+    return response, 200
+
+
+@api_blueprint.route('/feedback', methods=['POST'])
+def feedback():
+    mode = request.form.get('mode', None)
+    text = request.form.get('text', None)
+    
+    if mode not in ['sentence', 'word', 'test_word', 'test_sentence']:
+        return jsonify({
+            "status": "error",
+            "error": "Invalid mode"
+            }), 400
+    
+    if mode in ['sentence', 'word'] and text is None:
+        return jsonify({
+            "status": "error",
+            "error": "No text provided"
+            }), 400
+    
+    if mode == 'sentence':
+        response = evaluate_sentence(text)
+    elif mode == 'word':
+        response = evaluate_word(text)
+    elif mode == 'test_word':
+        response = test_word()
+    elif mode == 'test_sentence':
+        response = test_sentence()
+
+    response = Response(
+        json.dumps({
+            "status": "success", 
+            "response": response
+        }, ensure_ascii=False),
+        content_type='application/json; charset=utf-8'
+    )
+
+    return response, 200
