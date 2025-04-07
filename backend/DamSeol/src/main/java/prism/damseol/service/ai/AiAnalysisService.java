@@ -61,11 +61,11 @@ public class AiAnalysisService {
         }
     }
 
-    public JsonNode summarizeFeedback(String text) {
+    public JsonNode summarizeFeedback(String text, String mode) {
         String url = "http://127.0.0.1:5000/feedback";
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("mode", "sentence");
+        body.add("mode", mode);
         body.add("text", text);
 
         HttpHeaders headers = new HttpHeaders();

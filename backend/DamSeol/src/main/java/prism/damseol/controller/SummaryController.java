@@ -7,13 +7,18 @@ import prism.damseol.service.ai.AiAnalysisService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/summarize")
 public class SummaryController {
 
     private final AiAnalysisService aiAnalysisService;
 
-    @PostMapping("/summarize")
-    public JsonNode summarize(@RequestParam("text") String text) {
-        return aiAnalysisService.summarizeFeedback(text);
+    @PostMapping("/sentence")
+    public JsonNode summarizeSentence(@RequestParam("text") String text) {
+        return aiAnalysisService.summarizeFeedback(text, "sentence");
+    }
+
+    @PostMapping("/word")
+    public JsonNode summarizeWord(@RequestParam("text") String text) {
+        return aiAnalysisService.summarizeFeedback(text, "word");
     }
 }
