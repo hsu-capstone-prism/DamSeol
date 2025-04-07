@@ -37,3 +37,6 @@ out/
 .vscode/
 
 uploads/
+
+# application config
+src/main/resources/application.properties
