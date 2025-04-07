@@ -5,6 +5,7 @@ env/
 .env/
 .env
 
+data/
 outputs/
 
 *.log
@@ -17,6 +18,7 @@ outputs/
 *.bin
 *.zip
 *.idea
+*.wav
 
 experiment/
 experiment/*

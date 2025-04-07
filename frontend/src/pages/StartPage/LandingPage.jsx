@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/LandingPage.css"; // CSS 적용
+import "../../styles/LandingPage.css";
+import reportVideo from "../../assets/videos/report.mp4";
+import scoreVideo from "../../assets/videos/score.mp4";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -150,7 +152,18 @@ const LandingPage = () => {
               받을 수 있습니다.
             </p>
           </div>
-          <div className="feature-placeholder">이미지 자리</div>
+          <div className="feature-placeholder">
+            <video
+              src={scoreVideo}
+              width="100%"
+              height="100%"
+              muted
+              autoPlay
+              loop
+              playsInline
+              style={{ borderRadius: "10px", objectFit: "cover" }}
+            />
+          </div>
         </div>
 
         {/* 2. 학습 보고서 제공 */}
@@ -165,7 +178,18 @@ const LandingPage = () => {
               사용자의 학습 데이터를 통계적으로 분석하여 학습 방향을 제시합니다.
             </p>
           </div>
-          <div className="feature-placeholder">이미지 자리</div>
+          <div className="feature-placeholder">
+            <video
+              src={reportVideo}
+              width="100%"
+              height="100%"
+              muted
+              autoPlay
+              loop
+              playsInline
+              style={{ borderRadius: "10px", objectFit: "cover" }}
+            />
+          </div>
         </div>
 
         {/* 3. 게임형 콘텐츠 */}

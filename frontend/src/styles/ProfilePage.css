@@ -1,0 +1,87 @@
+.mypage-container {
+  margin-top: 90px;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-bottom: 50px;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f5f7ff;
+  box-sizing: border-box;
+}
+
+.mypage-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.mypage-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.mypage-content {
+  display: flex;
+  gap: 40px;
+}
+
+.mypage-left,
+.mypage-right {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.mypage-left h3,
+.mypage-right h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.highlight {
+  color: #3d5afe;
+  font-weight: bold;
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pronunciation-feedback {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 30px;
+}
+
+.pronunciation-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.accuracy-circle {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.circle {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border: 3px solid #3d5afe;
+  border-radius: 50%;
+  font-weight: bold;
+  color: #3d5afe;
+  font-size: 18px;
+  box-sizing: border-box;
+}

@@ -47,8 +47,14 @@ const Header = () => {
           <div className="profile-menu">
             <ul className="profile-options">
               <li>
-                <button className="profile-option">👤 내 프로필</button>
+                <button
+                  className="profile-option"
+                  onClick={() => handleNavigate("/profile")}
+                >
+                  👤 내 프로필
+                </button>
               </li>
+
               <li>
                 <button className="profile-option">⚙ 환경설정</button>
               </li>
