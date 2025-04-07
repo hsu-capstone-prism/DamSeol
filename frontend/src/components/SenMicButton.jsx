@@ -30,7 +30,6 @@ const SenMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
           sampleRate: 16000,
         },
       });
-
       const audioContext = new AudioContext({ sampleRate: 16000 });
       const source = audioContext.createMediaStreamSource(stream);
 
