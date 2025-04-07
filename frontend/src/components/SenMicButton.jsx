@@ -12,7 +12,7 @@ const SenMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
     if (sentences.length > 0) {
       setStatusList(new Array(sentences.length).fill("버튼을 눌러서 녹음하기"));
     }
-  }, [sentences]);
+  }, [sentences.length]);
 
   const updateStatus = (index, message) => {
     setStatusList((prev) => {
@@ -24,9 +24,16 @@ const SenMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          channelCount: 1,
+          sampleRate: 16000,
+        },
+      });
+
       const audioContext = new AudioContext({ sampleRate: 16000 });
       const source = audioContext.createMediaStreamSource(stream);
+
       const processor = audioContext.createScriptProcessor(4096, 1, 1);
       source.connect(processor);
       processor.connect(audioContext.destination);
@@ -73,33 +80,20 @@ const SenMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
     }
 
     const sentenceId = sentence.id;
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
+    const filename = `${Date.now()}.wav`;
 
     const formData = new FormData();
-    const filename = `${Date.now()}.wav`;
     formData.append("audio", audioBlob, filename);
 
     const endpoint = `http://localhost:8080/api/upload/sentence/${sentenceId}`;
 
-    console.log("===========================");
-    console.log("🎯 업로드 시도 시작");
-    console.log("🆔 sentenceId:", sentenceId);
-    console.log("🎧 파일 이름:", filename);
-    console.log("🔐 Authorization 헤더:", token);
-    console.log("📡 요청 경로:", endpoint);
-    console.log("===========================");
-
     try {
+      const token = localStorage.getItem("authToken");
+
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          // Content-Type은 FormData일 경우 자동 설정됨, 작성하면 안 됨
         },
         body: formData,
       });
