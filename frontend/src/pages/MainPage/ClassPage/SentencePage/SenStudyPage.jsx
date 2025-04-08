@@ -22,12 +22,17 @@ const SenStudyPage = () => {
   const [error, setError] = useState(null);
   const [uploadResultList, setUploadResultList] = useState([]);
   const [isResultVisible, setIsResultVisible] = useState(false);
-  const location = useLocation();
-  const symbol = location.state?.symbol || "알 수 없음";
   const [waveformImageSrc, setWaveformImageSrc] = useState(null);
   const [pitchImageSrc, setPitchImageSrc] = useState(null);
   const [showWaveformPopup, setShowWaveformPopup] = useState(false);
   const [showPitchPopup, setShowPitchPopup] = useState(false);
+
+  const [showFinalResult, setShowFinalResult] = useState(false);
+  const [summaryTip, setSummaryTip] = useState("");
+
+  const location = useLocation();
+  const symbol = location.state?.symbol || "알 수 없음";
+  const username = localStorage.getItem("username") || "사용자";
 
   useEffect(() => {
     if (!subcategoryId) return;
@@ -63,6 +68,45 @@ const SenStudyPage = () => {
 
     fetchSentences();
   }, [subcategoryId]);
+
+  const getSummaryResult = () => {
+    const validResults = uploadResultList.filter(Boolean);
+    const totalScore = validResults.reduce((sum, r) => sum + r.score, 0);
+    const avgScore = validResults.length
+      ? Math.round(totalScore / validResults.length)
+      : 0;
+
+    const allDetails = validResults.map((r) => r.details).join("\n");
+    return { avgScore, allDetails };
+  };
+
+  const fetchSummaryTip = async () => {
+    const { allDetails } = getSummaryResult();
+
+    try {
+      const token = getAuthToken();
+      const formData = new FormData();
+      formData.append("text", allDetails);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/summarize/sentence",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setSummaryTip(response.data.response || "요약 결과가 없습니다.");
+    } catch (error) {
+      console.error("요약 API 오류:", error);
+      setSummaryTip("요약을 가져오는 데 실패했습니다.");
+    } finally {
+      setShowFinalResult(true);
+    }
+  };
 
   const fetchAnalysisImages = async (waveformImage, pitchImage) => {
     try {
@@ -105,76 +149,115 @@ const SenStudyPage = () => {
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
-
   return (
     <Layout>
       <div className="sen-study">
         <nav className="breadcrumb">
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
-        <section className="sen-display">
-          {sentences.length > 0 ? (
-            <h1 className="sen">{sentences[selectedIndex].text}</h1>
-          ) : (
-            <p>해당하는 문장이 없습니다.</p>
-          )}
 
-          {isResultVisible && uploadResultList[selectedIndex] ? (
-            <div className="sen-result">
-              <h2 className="sen-user-pronunciation">
-                {uploadResultList[selectedIndex].pron}
-              </h2>
-              {uploadResultList[selectedIndex].details && (
-                <p className="sen-details">
-                  {uploadResultList[selectedIndex]?.details?.replace(
-                    /\. /g,
-                    ".\n"
-                  )}
-                </p>
-              )}
-
-              <div className="sen-result-bottom-container">
-                <div className="sen-button-group">
-                  <button onClick={() => setShowWaveformPopup(true)}>
-                    Waveform 보기
-                  </button>
-                  <button onClick={() => setShowPitchPopup(true)}>
-                    Pitch 보기
-                  </button>
-                </div>
-                <div className="sen-score-container">
-                  {selectedIndex === sentences.length - 1 && (
-                    <button
-                      className="sen-final-result-btn"
-                      onClick={() => alert("최종 결과 화면 준비중")}
-                    >
-                      최종 결과화면 보기
-                    </button>
-                  )}
-                </div>
+        {showFinalResult ? (
+          <div className="sen-final-result">
+            <h2>{username}님의 문장 학습 결과</h2>
+            <div className="sen-final-result-grid">
+              <div className="sen-final-left">
+                <p className="sen-final-title">발음 정확도 차트</p>
+                <div className="chart-placeholder">📊 차트 준비 중...</div>
+              </div>
+              <div className="sen-final-right">
+                <p className="sen-final-title">학습 팁</p>
+                <p className="sen-tip-content">{summaryTip}</p>
               </div>
             </div>
-          ) : (
-            <div style={{ height: "80px" }} />
-          )}
-        </section>
-        {!isResultVisible && (
-          <MicButton
-            selectedIndex={selectedIndex}
-            sentences={sentences}
-            onUploadComplete={handleUploadComplete}
-          />
+            <div className="sen-final-button-group">
+              <button
+                className="sen-retry-btn"
+                onClick={() => {
+                  setShowFinalResult(false);
+                  setSelectedIndex(0);
+                  setIsResultVisible(false);
+                  setSummaryTip("");
+                }}
+              >
+                다시 학습하기
+              </button>
+              <button
+                className="sen-home-btn"
+                onClick={() => (window.location.href = "/main")}
+              >
+                학습 화면으로
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <section className="sen-display">
+              {sentences.length > 0 ? (
+                <h1 className="sen">{sentences[selectedIndex].text}</h1>
+              ) : (
+                <p>해당하는 문장이 없습니다.</p>
+              )}
+
+              {isResultVisible && uploadResultList[selectedIndex] ? (
+                <div className="sen-result">
+                  <h2 className="sen-user-pronunciation">
+                    {uploadResultList[selectedIndex].pron}
+                  </h2>
+                  {uploadResultList[selectedIndex].details && (
+                    <p className="sen-details">
+                      {uploadResultList[selectedIndex]?.details?.replace(
+                        /\. /g,
+                        ".\n"
+                      )}
+                    </p>
+                  )}
+                  <div className="sen-result-bottom-container">
+                    <div className="sen-button-group">
+                      <button onClick={() => setShowWaveformPopup(true)}>
+                        Waveform 보기
+                      </button>
+                      <button onClick={() => setShowPitchPopup(true)}>
+                        Pitch 보기
+                      </button>
+                    </div>
+                    <div className="sen-score-container">
+                      {selectedIndex === 2 && (
+                        <button
+                          className="sen-final-result-btn"
+                          onClick={fetchSummaryTip}
+                        >
+                          최종 결과화면 보기
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ height: "80px" }} />
+              )}
+            </section>
+
+            {!isResultVisible && (
+              <MicButton
+                selectedIndex={selectedIndex}
+                sentences={sentences}
+                onUploadComplete={handleUploadComplete}
+              />
+            )}
+
+            <ProgressBar
+              currentStep={selectedIndex}
+              totalSteps={sentences.length}
+              onStepClick={(index) => {
+                setSelectedIndex(index);
+                setIsResultVisible(false);
+                setShowWaveformPopup(false);
+                setShowPitchPopup(false);
+              }}
+            />
+          </>
         )}
-        <ProgressBar
-          currentStep={selectedIndex}
-          totalSteps={sentences.length}
-          onStepClick={(index) => {
-            setSelectedIndex(index);
-            setIsResultVisible(false);
-            setShowWaveformPopup(false);
-            setShowPitchPopup(false);
-          }}
-        />
+
         {showWaveformPopup && waveformImageSrc && (
           <div className="popup-overlay">
             <div className="popup-content">
