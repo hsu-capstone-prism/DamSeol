@@ -98,6 +98,7 @@
   color: white;
 }
 
+/* 결과 화면 */
 .image-viewer {
   display: flex;
   flex-direction: column;
@@ -109,4 +110,43 @@
   height: 150px;
   border: 1px solid #ccc;
   border-radius: 12px;
+}
+
+.image-button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.image-toggle-btn {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #4a60f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.image-toggle-btn:hover {
+  background-color: #003cb3;
+}
+
+.sen-final-result-btn {
+  position: relative;
+  top: 20px;
+  background-color: #3366cc;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sen-final-result-btn:hover {
+  background-color: #0044aa;
 }

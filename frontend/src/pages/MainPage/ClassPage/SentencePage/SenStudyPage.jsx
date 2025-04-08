@@ -140,6 +140,17 @@ const SenStudyPage = () => {
                   />
                 )}
               </div>
+
+              <div className="score-container">
+                {selectedIndex === sentences.length - 1 && (
+                  <button
+                    className="sen-final-result-btn"
+                    onClick={() => alert("최종 결과 화면 준비중")}
+                  >
+                    최종 결과화면 보기
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </section>
