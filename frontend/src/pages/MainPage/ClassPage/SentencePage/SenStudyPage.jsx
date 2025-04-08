@@ -26,6 +26,8 @@ const SenStudyPage = () => {
   const symbol = location.state?.symbol || "알 수 없음";
   const [waveformImageSrc, setWaveformImageSrc] = useState(null);
   const [pitchImageSrc, setPitchImageSrc] = useState(null);
+  const [showWaveformPopup, setShowWaveformPopup] = useState(false);
+  const [showPitchPopup, setShowPitchPopup] = useState(false);
 
   useEffect(() => {
     if (!subcategoryId) return;
@@ -124,21 +126,15 @@ const SenStudyPage = () => {
               <h2 className="user-pronunciation">
                 {uploadResultList[selectedIndex].pron}
               </h2>
-              <div className="image-viewer">
-                {waveformImageSrc && (
-                  <img
-                    src={waveformImageSrc}
-                    alt="Waveform 분석 이미지"
-                    className="result-image"
-                  />
-                )}
-                {pitchImageSrc && (
-                  <img
-                    src={pitchImageSrc}
-                    alt="Pitch 분석 이미지"
-                    className="result-image"
-                  />
-                )}
+
+              {/* 버튼 */}
+              <div className="button-group">
+                <button onClick={() => setShowWaveformPopup(true)}>
+                  Waveform 보기
+                </button>
+                <button onClick={() => setShowPitchPopup(true)}>
+                  Pitch 보기
+                </button>
               </div>
             </div>
           )}
@@ -158,8 +154,40 @@ const SenStudyPage = () => {
           onStepClick={(index) => {
             setSelectedIndex(index);
             setIsResultVisible(false);
+            setShowWaveformPopup(false);
+            setShowPitchPopup(false);
           }}
         />
+
+        {/* Waveform 팝업 */}
+        {showWaveformPopup && waveformImageSrc && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <button
+                className="popup-close"
+                onClick={() => setShowWaveformPopup(false)}
+              >
+                X
+              </button>
+              <img src={waveformImageSrc} alt="Waveform 분석 이미지" />
+            </div>
+          </div>
+        )}
+
+        {/* Pitch 팝업 */}
+        {showPitchPopup && pitchImageSrc && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <button
+                className="popup-close"
+                onClick={() => setShowPitchPopup(false)}
+              >
+                X
+              </button>
+              <img src={pitchImageSrc} alt="Pitch 분석 이미지" />
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
