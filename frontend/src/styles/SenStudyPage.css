@@ -200,3 +200,24 @@
   cursor: pointer;
   color: #333;
 }
+
+.sen-final-result-btn {
+  align-self: flex-end;
+  margin-left: auto;
+  background-color: #3366cc;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sen-final-result-btn:hover {
+  background-color: #1559c7;
+}
+
+.chart-wrapper {
+  max-width: 350px;
+  margin: 0 auto;
+}
