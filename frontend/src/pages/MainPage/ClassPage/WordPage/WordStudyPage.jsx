@@ -133,7 +133,7 @@ const WordStudy = () => {
         }
       );
 
-      console.log("요약 API 응답 확인:", response.data);
+      console.log("word요약 API 응답 확인:", response.data);
 
       setSummaryTip(response.data.response || "요약 결과가 없습니다.");
       setShowFinalResult(true);
