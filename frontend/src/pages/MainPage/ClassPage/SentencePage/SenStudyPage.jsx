@@ -5,6 +5,26 @@ import "../../../../styles/SenStudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
 import axios from "axios";
+import { Radar } from "react-chartjs-2";
+
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -26,9 +46,9 @@ const SenStudyPage = () => {
   const [pitchImageSrc, setPitchImageSrc] = useState(null);
   const [showWaveformPopup, setShowWaveformPopup] = useState(false);
   const [showPitchPopup, setShowPitchPopup] = useState(false);
-
   const [showFinalResult, setShowFinalResult] = useState(false);
   const [summaryTip, setSummaryTip] = useState("");
+  const [finalChartData, setFinalChartData] = useState(null);
 
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
@@ -71,18 +91,26 @@ const SenStudyPage = () => {
 
   const getSummaryResult = () => {
     const validResults = uploadResultList.filter(Boolean);
-    const totalScore = validResults.reduce((sum, r) => sum + r.score, 0);
-    const avgScore = validResults.length
-      ? Math.round(totalScore / validResults.length)
-      : 0;
-
+    const avg = (key) => {
+      const sum = validResults.reduce((total, r) => total + (r[key] || 0), 0);
+      return validResults.length ? Math.round(sum / validResults.length) : 0;
+    };
+    const avgCorrection = avg("correction");
+    const avgPitch = avg("pitch_score");
+    const avgRhythm = avg("rhythm_score");
     const allDetails = validResults.map((r) => r.details).join("\n");
-    return { avgScore, allDetails };
+
+    return {
+      allDetails,
+      avgCorrection,
+      avgPitch,
+      avgRhythm,
+    };
   };
 
   const fetchSummaryTip = async () => {
-    const { allDetails } = getSummaryResult();
-
+    const { allDetails, avgCorrection, avgPitch, avgRhythm } =
+      getSummaryResult();
     try {
       const token = getAuthToken();
       const formData = new FormData();
@@ -100,6 +128,7 @@ const SenStudyPage = () => {
       );
 
       setSummaryTip(response.data.response || "요약 결과가 없습니다.");
+      setFinalChartData({ avgCorrection, avgPitch, avgRhythm });
     } catch (error) {
       console.error("요약 API 오류:", error);
       setSummaryTip("요약을 가져오는 데 실패했습니다.");
@@ -111,7 +140,6 @@ const SenStudyPage = () => {
   const fetchAnalysisImages = async (waveformImage, pitchImage) => {
     try {
       const token = getAuthToken();
-
       const [waveformRes, pitchRes] = await Promise.all([
         axios.get(
           `http://localhost:8080/api/images/waveform/${waveformImage}`,
@@ -125,12 +153,59 @@ const SenStudyPage = () => {
           responseType: "blob",
         }),
       ]);
-
       setWaveformImageSrc(URL.createObjectURL(waveformRes.data));
       setPitchImageSrc(URL.createObjectURL(pitchRes.data));
     } catch (error) {
       console.error("분석 이미지 불러오기 실패:", error);
     }
+  };
+
+  const renderRadarChart = () => {
+    if (!finalChartData) return null;
+    const radarData = {
+      labels: ["정확도", "리듬", "피치"],
+      datasets: [
+        {
+          label: "평균 점수",
+          data: [
+            finalChartData.avgCorrection,
+            finalChartData.avgRhythm,
+            finalChartData.avgPitch,
+          ],
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 2,
+        },
+      ],
+    };
+    const radarOptions = {
+      responsive: false,
+      scales: {
+        r: {
+          min: 0,
+          max: 100,
+          ticks: {
+            stepSize: 20,
+            color: "#333",
+          },
+          pointLabels: {
+            font: {
+              size: 14,
+            },
+          },
+        },
+      },
+    };
+    return (
+      <div style={{ margin: "0 auto" }}>
+        <Radar
+          data={radarData}
+          options={radarOptions}
+          width={300}
+          height={300}
+        />
+      </div>
+    );
   };
 
   const handleUploadComplete = (data) => {
@@ -149,6 +224,7 @@ const SenStudyPage = () => {
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
+
   return (
     <Layout>
       <div className="sen-study">
@@ -158,18 +234,23 @@ const SenStudyPage = () => {
 
         {showFinalResult ? (
           <div className="sen-final-result">
-            <h2>{username}님의 문장 학습 결과</h2>
+            <h2 style={{ textAlign: "center" }}>
+              {username}님의 문장 학습 결과
+            </h2>
             <div className="sen-final-result-grid">
               <div className="sen-final-left">
                 <p className="sen-final-title">발음 정확도 차트</p>
-                <div className="chart-placeholder">📊 차트 준비 중...</div>
+                {renderRadarChart()}
               </div>
               <div className="sen-final-right">
                 <p className="sen-final-title">학습 팁</p>
                 <p className="sen-tip-content">{summaryTip}</p>
               </div>
             </div>
-            <div className="sen-final-button-group">
+            <div
+              className="sen-final-button-group"
+              style={{ justifyContent: "center" }}
+            >
               <button
                 className="sen-retry-btn"
                 onClick={() => {
@@ -177,6 +258,7 @@ const SenStudyPage = () => {
                   setSelectedIndex(0);
                   setIsResultVisible(false);
                   setSummaryTip("");
+                  setFinalChartData(null);
                 }}
               >
                 다시 학습하기
@@ -271,6 +353,7 @@ const SenStudyPage = () => {
             </div>
           </div>
         )}
+
         {showPitchPopup && pitchImageSrc && (
           <div className="popup-overlay">
             <div className="popup-content">
