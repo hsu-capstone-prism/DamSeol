@@ -113,7 +113,6 @@ const SenStudyPage = () => {
         <nav className="breadcrumb">
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
-
         <section className="sen-display">
           {sentences.length > 0 ? (
             <h1 className="sen">{sentences[selectedIndex].text}</h1>
@@ -121,36 +120,45 @@ const SenStudyPage = () => {
             <p>해당하는 문장이 없습니다.</p>
           )}
 
-          {isResultVisible && (
+          {isResultVisible && uploadResultList[selectedIndex] ? (
             <div className="sen-result">
-              <h2 className="user-pronunciation">
+              <h2 className="sen-user-pronunciation">
                 {uploadResultList[selectedIndex].pron}
               </h2>
+              {uploadResultList[selectedIndex].details && (
+                <p className="sen-details">
+                  {uploadResultList[selectedIndex]?.details?.replace(
+                    /\. /g,
+                    ".\n"
+                  )}
+                </p>
+              )}
 
-              {/* 버튼 */}
-              <div className="button-group">
-                <button onClick={() => setShowWaveformPopup(true)}>
-                  Waveform 보기
-                </button>
-                <button onClick={() => setShowPitchPopup(true)}>
-                  Pitch 보기
-                </button>
-              </div>
-
-              <div className="score-container">
-                {selectedIndex === sentences.length - 1 && (
-                  <button
-                    className="sen-final-result-btn"
-                    onClick={() => alert("최종 결과 화면 준비중")}
-                  >
-                    최종 결과화면 보기
+              <div className="sen-result-bottom-container">
+                <div className="sen-button-group">
+                  <button onClick={() => setShowWaveformPopup(true)}>
+                    Waveform 보기
                   </button>
-                )}
+                  <button onClick={() => setShowPitchPopup(true)}>
+                    Pitch 보기
+                  </button>
+                </div>
+                <div className="score-container">
+                  {selectedIndex === sentences.length - 1 && (
+                    <button
+                      className="sen-final-result-btn"
+                      onClick={() => alert("최종 결과 화면 준비중")}
+                    >
+                      최종 결과화면 보기
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
+          ) : (
+            <div style={{ height: "80px" }} />
           )}
         </section>
-
         {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
@@ -158,7 +166,6 @@ const SenStudyPage = () => {
             onUploadComplete={handleUploadComplete}
           />
         )}
-
         <ProgressBar
           currentStep={selectedIndex}
           totalSteps={sentences.length}
@@ -169,8 +176,6 @@ const SenStudyPage = () => {
             setShowPitchPopup(false);
           }}
         />
-
-        {/* Waveform 팝업 */}
         {showWaveformPopup && waveformImageSrc && (
           <div className="popup-overlay">
             <div className="popup-content">
@@ -184,8 +189,6 @@ const SenStudyPage = () => {
             </div>
           </div>
         )}
-
-        {/* Pitch 팝업 */}
         {showPitchPopup && pitchImageSrc && (
           <div className="popup-overlay">
             <div className="popup-content">
