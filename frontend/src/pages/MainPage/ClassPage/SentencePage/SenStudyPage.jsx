@@ -82,11 +82,8 @@ const SenStudyPage = () => {
         }),
       ]);
 
-      const waveformBlob = URL.createObjectURL(waveformRes.data);
-      const pitchBlob = URL.createObjectURL(pitchRes.data);
-
-      setWaveformImageSrc(waveformBlob);
-      setPitchImageSrc(pitchBlob);
+      setWaveformImageSrc(URL.createObjectURL(waveformRes.data));
+      setPitchImageSrc(URL.createObjectURL(pitchRes.data));
     } catch (error) {
       console.error("분석 이미지 불러오기 실패:", error);
     }
@@ -96,12 +93,14 @@ const SenStudyPage = () => {
     const updated = [...uploadResultList];
     updated[selectedIndex] = {
       ...data,
-      waveformImage: "sample_waveform.png",
-      pitchImage: "sample_pitch.png",
+      waveformImage: data.waveformFileName,
+      pitchImage: data.pitchFileName,
     };
     setUploadResultList(updated);
     setIsResultVisible(true);
-    fetchAnalysisImages("sample_waveform.png", "sample_pitch.png");
+    if (data.waveformFileName && data.pitchFileName) {
+      fetchAnalysisImages(data.waveformFileName, data.pitchFileName);
+    }
   };
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
@@ -126,21 +125,35 @@ const SenStudyPage = () => {
               <h2 className="user-pronunciation">
                 {uploadResultList[selectedIndex].pron}
               </h2>
-              <div className="image-viewer">
-                {waveformImageSrc && (
-                  <img
-                    src={waveformImageSrc}
-                    alt="Waveform 분석 이미지"
-                    className="result-image"
-                  />
-                )}
-                {pitchImageSrc && (
-                  <img
-                    src={pitchImageSrc}
-                    alt="Pitch 분석 이미지"
-                    className="result-image"
-                  />
-                )}
+
+              {uploadResultList[selectedIndex].details && (
+                <p className="sen-details">
+                  {uploadResultList[selectedIndex]?.details?.replace(
+                    /\. /g,
+                    ".\n"
+                  )}
+                </p>
+              )}
+
+              <div className="sen-result-bottom-container">
+                <div className="sen-button-group">
+                  <button onClick={() => setShowWaveformPopup(true)}>
+                    Waveform 보기
+                  </button>
+                  <button onClick={() => setShowPitchPopup(true)}>
+                    Pitch 보기
+                  </button>
+                </div>
+                <div className="sen-score-container">
+                  {selectedIndex === sentences.length - 1 && (
+                    <button
+                      className="sen-final-result-btn"
+                      onClick={() => alert("최종 결과 화면 준비중")}
+                    >
+                      최종 결과화면 보기
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
