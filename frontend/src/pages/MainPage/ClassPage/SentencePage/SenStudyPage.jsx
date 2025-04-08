@@ -113,6 +113,7 @@ const SenStudyPage = () => {
         <nav className="breadcrumb">
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
+
         <section className="sen-display">
           {sentences.length > 0 ? (
             <h1 className="sen">{sentences[selectedIndex].text}</h1>
@@ -120,45 +121,31 @@ const SenStudyPage = () => {
             <p>해당하는 문장이 없습니다.</p>
           )}
 
-          {isResultVisible && uploadResultList[selectedIndex] ? (
+          {isResultVisible && (
             <div className="sen-result">
-              <h2 className="sen-user-pronunciation">
+              <h2 className="user-pronunciation">
                 {uploadResultList[selectedIndex].pron}
               </h2>
-              {uploadResultList[selectedIndex].details && (
-                <p className="sen-details">
-                  {uploadResultList[selectedIndex]?.details?.replace(
-                    /\. /g,
-                    ".\n"
-                  )}
-                </p>
-              )}
-
-              <div className="sen-result-bottom-container">
-                <div className="sen-button-group">
-                  <button onClick={() => setShowWaveformPopup(true)}>
-                    Waveform 보기
-                  </button>
-                  <button onClick={() => setShowPitchPopup(true)}>
-                    Pitch 보기
-                  </button>
-                </div>
-                <div className="score-container">
-                  {selectedIndex === sentences.length - 1 && (
-                    <button
-                      className="sen-final-result-btn"
-                      onClick={() => alert("최종 결과 화면 준비중")}
-                    >
-                      최종 결과화면 보기
-                    </button>
-                  )}
-                </div>
+              <div className="image-viewer">
+                {waveformImageSrc && (
+                  <img
+                    src={waveformImageSrc}
+                    alt="Waveform 분석 이미지"
+                    className="result-image"
+                  />
+                )}
+                {pitchImageSrc && (
+                  <img
+                    src={pitchImageSrc}
+                    alt="Pitch 분석 이미지"
+                    className="result-image"
+                  />
+                )}
               </div>
             </div>
-          ) : (
-            <div style={{ height: "80px" }} />
           )}
         </section>
+
         {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
@@ -166,42 +153,15 @@ const SenStudyPage = () => {
             onUploadComplete={handleUploadComplete}
           />
         )}
+
         <ProgressBar
           currentStep={selectedIndex}
           totalSteps={sentences.length}
           onStepClick={(index) => {
             setSelectedIndex(index);
             setIsResultVisible(false);
-            setShowWaveformPopup(false);
-            setShowPitchPopup(false);
           }}
         />
-        {showWaveformPopup && waveformImageSrc && (
-          <div className="popup-overlay">
-            <div className="popup-content">
-              <button
-                className="popup-close"
-                onClick={() => setShowWaveformPopup(false)}
-              >
-                X
-              </button>
-              <img src={waveformImageSrc} alt="Waveform 분석 이미지" />
-            </div>
-          </div>
-        )}
-        {showPitchPopup && pitchImageSrc && (
-          <div className="popup-overlay">
-            <div className="popup-content">
-              <button
-                className="popup-close"
-                onClick={() => setShowPitchPopup(false)}
-              >
-                X
-              </button>
-              <img src={pitchImageSrc} alt="Pitch 분석 이미지" />
-            </div>
-          </div>
-        )}
       </div>
     </Layout>
   );
