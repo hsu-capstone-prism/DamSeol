@@ -197,13 +197,16 @@ const SenStudyPage = () => {
       },
     };
     return (
-      <div style={{ margin: "0 auto" }}>
+      <div style={{ margin: "0 auto", textAlign: "center" }}>
         <Radar
           data={radarData}
           options={radarOptions}
           width={300}
           height={300}
         />
+        <p style={{ marginTop: "15px", fontSize: "18px", color: "#333" }}>
+          평균 정확도 : <strong>{finalChartData.avgCorrection}%</strong>
+        </p>
       </div>
     );
   };
