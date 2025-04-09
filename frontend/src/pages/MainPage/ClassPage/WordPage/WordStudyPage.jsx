@@ -70,8 +70,17 @@ const WordStudy = () => {
 
   const openImageModal = async (phon) => {
     const phonMapping = {
-      ㄱ: "g.png",
-      ㄷ: "d.png",
+      ㄴ: "n.png",
+      ㄹ: "r.png",
+      ㅁ: "m.png",
+      ㅂ: "b.png",
+      ㅅ: "s.png",
+      ㅈ: "j.png",
+      ㅊ: "ch.png",
+      ㅋ: "k.png",
+      ㅌ: "t.png",
+      ㅍ: "p.png",
+      ㅎ: "h.png",
     };
 
     const imageName = phonMapping[phon.trim()];

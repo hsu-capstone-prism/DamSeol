@@ -221,9 +221,10 @@
 }
 
 .modal-image {
-  max-width: 80%;
-  height: auto;
+  width: 300px;
+  height: 400px;
   margin-bottom: 20px;
+  object-fit: contain;
 }
 
 .modal-confirm-btn {
