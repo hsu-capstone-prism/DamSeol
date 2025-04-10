@@ -66,14 +66,16 @@ public class PracticeService {
         JsonNode aiResponse = aiAnalysisService.analyzeWord(audioFile, word.getWordPron());
 
         String userPronun = aiResponse.get("user_pronun").asText();
-        String pronunReason = aiResponse.get("pronun").get("advice").asText();
+        String advice = aiResponse.get("pronun").get("advice").asText();
+        String reason = aiResponse.get("pronun").get("reason").asText();
         int correction = aiResponse.get("pronun").get("correction").asInt();
 
         WordRecord wordRecord = WordRecord.builder()
                 .word(word)
                 .member(member)
                 .pron(userPronun)
-                .details(pronunReason)
+                .evaluation(advice)
+                .analysis(reason)
                 .score(correction)
                 .date(LocalDateTime.now())
                 .build();
@@ -118,13 +120,14 @@ public class PracticeService {
         //AI
         JsonNode aiResponse = aiAnalysisService.analyzeSentence(audioFile, sentence.getText());
 
-        // 분석 결과 파싱
         String userPronun = aiResponse.get("user_pronun").asText();
-        String pronunReason = aiResponse.get("pronun").get("advice").asText();
+
+        String advice = aiResponse.get("pronun").get("advice").asText();
         String pitchReason = aiResponse.get("pitch").get("pitch_reason").asText();
         String rhythmReason = aiResponse.get("rhythm").get("rhythm_reason").asText();
 
-        String details = pronunReason + " " + pitchReason + " " + rhythmReason;
+        String reason = aiResponse.get("pronun").get("reason").asText();
+
         int correction = aiResponse.get("pronun").get("correction").asInt();
         String pitchScoreStr = aiResponse.get("pitch").get("pitch_score").asText();   // 예: "2/5점"
         String rhythmScoreStr = aiResponse.get("rhythm").get("rhythm_score").asText(); // 예: "1/5점"
@@ -137,7 +140,8 @@ public class PracticeService {
                 .sentence(sentence)
                 .member(member)
                 .pron(userPronun)
-                .details(details)
+                .evaluation(advice + " " + pitchReason + " " + rhythmReason)
+                .analysis(reason)
                 .correction(correction)
                 .pitch_score(pitch_score)
                 .rhythm_score(rhythm_score)

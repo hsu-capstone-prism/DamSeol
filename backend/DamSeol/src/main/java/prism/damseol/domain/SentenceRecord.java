@@ -30,7 +30,10 @@ public class SentenceRecord {
     private String pron;
 
     @Column(nullable = false, length = 512)
-    private String details;
+    private String evaluation;
+
+    @Column(nullable = false, length = 255)
+    private String analysis;
 
     @Column(nullable = false)
     private LocalDateTime date;

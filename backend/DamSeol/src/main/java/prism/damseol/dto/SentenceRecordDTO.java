@@ -16,7 +16,8 @@ public class SentenceRecordDTO {
     private int rhythm_score;
 //    private String wrongPhonIndices;
     private String pron;        //사용자 발음
-    private String details;     //평가
+    private String evaluation;
+    private String analysis;
     private String waveformFileName;
     private String pitchFileName;
     private LocalDateTime date;
@@ -28,7 +29,8 @@ public class SentenceRecordDTO {
         this.pitch_score = sentenceRecord.getPitch_score();
         this.rhythm_score = sentenceRecord.getRhythm_score();
         this.pron = sentenceRecord.getPron();
-        this.details = sentenceRecord.getDetails();
+        this.evaluation = sentenceRecord.getEvaluation();
+        this.analysis = sentenceRecord.getAnalysis();
         this.date = sentenceRecord.getDate();
     }
 
