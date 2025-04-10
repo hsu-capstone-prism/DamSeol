@@ -60,4 +60,28 @@ public class AiAnalysisService {
             throw new RuntimeException("AI 서버 통신 실패: " + response.getStatusCode());
         }
     }
+
+    public JsonNode summarizeFeedback(String text, String mode) {
+        String url = "http://127.0.0.1:5000/feedback";
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("mode", mode);
+        body.add("text", text);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            try {
+                return objectMapper.readTree(response.getBody());
+            } catch (IOException e) {
+                throw new RuntimeException("JSON 파싱 실패", e);
+            }
+        } else {
+            throw new RuntimeException("요약 요청 실패: " + response.getStatusCode());
+        }
+    }
 }

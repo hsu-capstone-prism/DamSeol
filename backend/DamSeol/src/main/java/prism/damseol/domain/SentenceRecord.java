@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SentenceRecord {
 
     @Id
@@ -41,4 +42,6 @@ public class SentenceRecord {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sentence_id")
     private Sentence sentence;
+
+
 }

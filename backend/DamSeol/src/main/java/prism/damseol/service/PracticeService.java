@@ -69,21 +69,14 @@ public class PracticeService {
         String pronunReason = aiResponse.get("pronun").get("advice").asText();
         int correction = aiResponse.get("pronun").get("correction").asInt();
 
-        WordRecord wordRecord = new WordRecord();
-//        wordRecord.setWord(word);
-//        wordRecord.setMember(member);
-//        wordRecord.setScore(75);
-//        wordRecord.setPron("낭루"); // correctPron: 날로
-//
-//        wordRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
-//        wordRecord.setDate(LocalDateTime.now());
-
-        wordRecord.setWord(word);
-        wordRecord.setMember(member);
-        wordRecord.setPron(userPronun);
-        wordRecord.setDetails(pronunReason);
-        wordRecord.setScore(correction);
-        wordRecord.setDate(LocalDateTime.now());
+        WordRecord wordRecord = WordRecord.builder()
+                .word(word)
+                .member(member)
+                .pron(userPronun)
+                .details(pronunReason)
+                .score(correction)
+                .date(LocalDateTime.now())
+                .build();
 
         return wordRecordRepository.save(wordRecord);
     }
@@ -132,37 +125,24 @@ public class PracticeService {
         String rhythmReason = aiResponse.get("rhythm").get("rhythm_reason").asText();
 
         String details = pronunReason + " " + pitchReason + " " + rhythmReason;
-//        String details = aiResponse.get("pronun").get("reason").asText();  // 예시
-
         int correction = aiResponse.get("pronun").get("correction").asInt();
-
-        // pitch_score와 rhythm_score는 "2/5점" 형식이므로 문자열로 받고, 파싱 필요
         String pitchScoreStr = aiResponse.get("pitch").get("pitch_score").asText();   // 예: "2/5점"
         String rhythmScoreStr = aiResponse.get("rhythm").get("rhythm_score").asText(); // 예: "1/5점"
 
         // 숫자 부분만 추출 (예: "2/5점" → 2, 5)
         int pitch_score = parseScorePercentage(pitchScoreStr);
         int rhythm_score = parseScorePercentage(rhythmScoreStr);
-//        String waveformPath = aiResponse.get("waveform_path").asText();
-//        String pitchPath = aiResponse.get("pitch_graph_path").asText();
 
-
-        SentenceRecord sentenceRecord = new SentenceRecord();
-//        sentenceRecord.setSentence(sentence);
-//        sentenceRecord.setMember(member);
-//        sentenceRecord.setScore(75);
-//        sentenceRecord.setPron("강아자가 공을부 얼왔다");
-//        sentenceRecord.setDetails("발화 속도 정보가 없어 평가가 어렵지만, 발화 중단 비율이 0.448%로 적절해요 ✅");
-//        sentenceRecord.setDate(LocalDateTime.now());
-
-        sentenceRecord.setSentence(sentence);
-        sentenceRecord.setMember(member);
-        sentenceRecord.setPron(userPronun);
-        sentenceRecord.setDetails(details);
-        sentenceRecord.setCorrection(correction);
-        sentenceRecord.setPitch_score(pitch_score);
-        sentenceRecord.setRhythm_score(rhythm_score);
-        sentenceRecord.setDate(LocalDateTime.now());
+        SentenceRecord sentenceRecord = SentenceRecord.builder()
+                .sentence(sentence)
+                .member(member)
+                .pron(userPronun)
+                .details(details)
+                .correction(correction)
+                .pitch_score(pitch_score)
+                .rhythm_score(rhythm_score)
+                .date(LocalDateTime.now())
+                .build();
 
         return sentenceRecordRepository.save(sentenceRecord);
     }
