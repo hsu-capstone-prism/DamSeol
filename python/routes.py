@@ -8,6 +8,7 @@ from services.evaluate_learn import evaluate_sentence, evaluate_word, test_sente
 from services.extract_graph import extract_waveform, extract_pitch_graph
 from services.get_pronun import get_pronun
 
+
 api_blueprint = Blueprint('api', __name__)
 
 @api_blueprint.route('/upload-audio', methods=['POST'])
@@ -38,7 +39,9 @@ def upload_audio():
     file.save(file_path)
 
     #file_bytes = file.read()
-    user_pronun = get_pronun(file_path)            
+    user_pronun = get_pronun(file_path)
+    if mode == 'word':
+        user_pronun = user_pronun.replace('.', '')
 
     result_pronun = evaluate_pronunciation(text, user_pronun)
 
