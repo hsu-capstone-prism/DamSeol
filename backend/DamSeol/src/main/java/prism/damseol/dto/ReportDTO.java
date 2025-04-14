@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ReportDTO {
+    private double avgAccuracy;         // 정확도 평균
     private double avgWordAccuracy;     // 단어 정확도 평균
     private double avgSentenceAccuracy; // 문장 정확도 평균
     private double avgPitchScore;       // 피치 점수 평균

@@ -3,12 +3,14 @@ package prism.damseol.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import prism.damseol.domain.*;
-import prism.damseol.dto.ReportDTO;
-import prism.damseol.dto.SentenceScoreDTO;
-import prism.damseol.dto.WordScoreDTO;
+import prism.damseol.dto.*;
 import prism.damseol.repository.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,21 +25,37 @@ public class ReportService {
         if (member == null)
             throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
 
-        // 단어 정확도 평균
+        // 단어 정확도 점수 목록
         List<WordRecord> wordRecords = wordRecordRepository.findAllByMember(member);
-        double avgWordAccuracy = wordRecords.stream()
-                .mapToInt(WordRecord::getScore)
-                .average()
-                .orElse(0.0);
+        List<Integer> wordScores = wordRecords.stream()
+                .map(WordRecord::getScore)
+                .toList();
 
-        // 문장 레코드들
+        // 문장 정확도 점수 목록
         List<SentenceRecord> sentenceRecords = sentenceRecordRepository.findAllByMember(member);
+        List<Integer> sentenceScores = sentenceRecords.stream()
+                .map(SentenceRecord::getCorrection)
+                .toList();
 
-        double avgSentenceAccuracy = sentenceRecords.stream()
-                .mapToInt(SentenceRecord::getCorrection)
+        // 단어 평균
+        double avgWordAccuracy = wordScores.stream()
+                .mapToInt(Integer::intValue)
                 .average()
                 .orElse(0.0);
 
+        // 문장 평균
+        double avgSentenceAccuracy = sentenceScores.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
+
+        // 전체 정확도 평균
+        int totalCount = wordScores.size() + sentenceScores.size();
+        double avgAccuracy = totalCount == 0 ? 0.0 :
+                (wordScores.stream().mapToInt(Integer::intValue).sum()
+                        + sentenceScores.stream().mapToInt(Integer::intValue).sum()) / (double) totalCount;
+
+        // 피치, 리듬 평균
         double avgPitchScore = sentenceRecords.stream()
                 .mapToInt(SentenceRecord::getPitch_score)
                 .average()
@@ -49,10 +67,81 @@ public class ReportService {
                 .orElse(0.0);
 
         return ReportDTO.builder()
+                .avgAccuracy(avgAccuracy)
                 .avgWordAccuracy(avgWordAccuracy)
                 .avgSentenceAccuracy(avgSentenceAccuracy)
                 .avgPitchScore(avgPitchScore)
                 .avgRhythmScore(avgRhythmScore)
                 .build();
+    }
+
+    public ReportListDTO getWeeklyReportByMember(String memberName) {
+        Member member = memberRepository.findByName(memberName);
+        if (member == null)
+            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+
+        List<WordRecord> wordRecords = wordRecordRepository.findAllByMember(member);
+        List<SentenceRecord> sentenceRecords = sentenceRecordRepository.findAllByMember(member);
+
+        List<WeeklyReportDTO> weeklyReports = List.of(0, 1, 2, 3).stream()
+                .map(weekOffset -> {
+                    LocalDateTime startOfWeek = getStartOfWeek(weekOffset);
+                    LocalDateTime endOfWeek = getEndOfWeek(weekOffset);
+
+                    List<WordRecord> wordsInWeek = wordRecords.stream()
+                            .filter(w -> w.getDate().isAfter(startOfWeek) && w.getDate().isBefore(endOfWeek))
+                            .toList();
+
+                    List<SentenceRecord> sentencesInWeek = sentenceRecords.stream()
+                            .filter(s -> s.getDate().isAfter(startOfWeek) && s.getDate().isBefore(endOfWeek))
+                            .toList();
+
+                    double avgWordAccuracy = wordsInWeek.stream()
+                            .mapToInt(WordRecord::getScore)
+                            .average()
+                            .orElse(0.0);
+
+                    double avgSentenceAccuracy = sentencesInWeek.stream()
+                            .mapToInt(SentenceRecord::getCorrection)
+                            .average()
+                            .orElse(0.0);
+
+                    double avgPitchScore = sentencesInWeek.stream()
+                            .mapToInt(SentenceRecord::getPitch_score)
+                            .average()
+                            .orElse(0.0);
+
+                    double avgRhythmScore = sentencesInWeek.stream()
+                            .mapToInt(SentenceRecord::getRhythm_score)
+                            .average()
+                            .orElse(0.0);
+
+                    return WeeklyReportDTO.builder()
+                            .weekOffset(weekOffset)
+                            .avgWordAccuracy(avgWordAccuracy)
+                            .avgSentenceAccuracy(avgSentenceAccuracy)
+                            .avgPitchScore(avgPitchScore)
+                            .avgRhythmScore(avgRhythmScore)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return ReportListDTO.builder()
+                .weeklyReports(weeklyReports)
+                .build();
+    }
+
+    private LocalDateTime getStartOfWeek(int weeksAgo) {
+        return LocalDate.now()
+                .minusWeeks(weeksAgo)
+                .with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY))
+                .atStartOfDay();
+    }
+
+    private LocalDateTime getEndOfWeek(int weeksAgo) {
+        return LocalDate.now()
+                .minusWeeks(weeksAgo)
+                .with(TemporalAdjusters.nextOrSame(java.time.DayOfWeek.SUNDAY))
+                .atTime(23, 59, 59);
     }
 }
