@@ -96,10 +96,14 @@ public class ReportService {
                             .filter(s -> s.getDate().isAfter(startOfWeek) && s.getDate().isBefore(endOfWeek))
                             .toList();
 
-                    double avgWordAccuracy = wordsInWeek.stream()
-                            .mapToInt(WordRecord::getScore)
-                            .average()
-                            .orElse(0.0);
+                    // 🔥 avgAccuracy 계산
+                    int totalWordScoreSum = wordsInWeek.stream().mapToInt(WordRecord::getScore).sum();
+                    int totalSentenceCorrectionSum = sentencesInWeek.stream().mapToInt(SentenceRecord::getCorrection).sum();
+                    int totalCount = wordsInWeek.size() + sentencesInWeek.size();
+
+                    double avgAccuracy = totalCount > 0
+                            ? (totalWordScoreSum + totalSentenceCorrectionSum) / (double) totalCount
+                            : 0.0;
 
                     double avgSentenceAccuracy = sentencesInWeek.stream()
                             .mapToInt(SentenceRecord::getCorrection)
@@ -118,7 +122,7 @@ public class ReportService {
 
                     return WeeklyReportDTO.builder()
                             .weekOffset(weekOffset)
-                            .avgWordAccuracy(avgWordAccuracy)
+                            .avgAccuracy(avgAccuracy)
                             .avgSentenceAccuracy(avgSentenceAccuracy)
                             .avgPitchScore(avgPitchScore)
                             .avgRhythmScore(avgRhythmScore)
