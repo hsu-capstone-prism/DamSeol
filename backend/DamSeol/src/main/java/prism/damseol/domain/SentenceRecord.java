@@ -45,6 +45,4 @@ public class SentenceRecord {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sentence_id")
     private Sentence sentence;
-
-
 }
