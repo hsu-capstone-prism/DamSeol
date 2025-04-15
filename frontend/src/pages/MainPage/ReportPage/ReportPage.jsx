@@ -25,14 +25,15 @@ ChartJS.register(
   LinearScale
 );
 
-// 인증 토큰 가져오기
 const getAuthToken = () => localStorage.getItem("authToken");
 
 const ReportPage = () => {
   const [scoreData, setScoreData] = useState(null);
+  const [weeklyChartData, setWeeklyChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // 현재 점수 데이터
   useEffect(() => {
     const fetchScores = async () => {
       try {
@@ -64,33 +65,64 @@ const ReportPage = () => {
     fetchScores();
   }, []);
 
-  const weeklyData = {
-    labels: ["1주차", "2주차", "3주차", "4주차"],
-    datasets: [
-      {
-        label: "발음",
-        data: [4.3, 2.5, 3.0, 5.0],
-        borderColor: "#0056b3",
-        backgroundColor: "rgba(0, 86, 179, 0.2)",
-        fill: false,
-      },
-      {
-        label: "음정",
-        data: [2.4, 4.4, 3.8, 2.8],
-        borderColor: "#ff8c00",
-        backgroundColor: "rgba(255, 140, 0, 0.2)",
-        fill: false,
-      },
-      {
-        label: "리듬",
-        data: [4.5, 3.0, 4.2, 4.8],
-        borderColor: "#008000",
-        backgroundColor: "rgba(0, 128, 0, 0.2)",
-        fill: false,
-      },
-    ],
-  };
+  // 주차별 데이터
+  useEffect(() => {
+    const fetchWeeklyData = async () => {
+      try {
+        const token = getAuthToken();
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
+        const response = await axios.get(
+          "http://localhost:8080/api/report/weekly",
+          { headers }
+        );
+
+        const weeklyReports = response.data.weeklyReports ?? [];
+
+        const sortedReports = [...weeklyReports].sort(
+          (a, b) => a.weekOffset - b.weekOffset
+        );
+
+        const labels = sortedReports.map((r) => `${r.weekOffset + 1}주차`);
+        const accuracy = sortedReports.map((r) => r.avgAccuracy ?? 0);
+        const pitch = sortedReports.map((r) => r.avgPitchScore ?? 0);
+        const rhythm = sortedReports.map((r) => r.avgRhythmScore ?? 0);
+
+        setWeeklyChartData({
+          labels,
+          datasets: [
+            {
+              label: "발음",
+              data: accuracy,
+              borderColor: "#0056b3",
+              backgroundColor: "rgba(0, 86, 179, 0.2)",
+              fill: false,
+            },
+            {
+              label: "음정",
+              data: pitch,
+              borderColor: "#ff8c00",
+              backgroundColor: "rgba(255, 140, 0, 0.2)",
+              fill: false,
+            },
+            {
+              label: "리듬",
+              data: rhythm,
+              borderColor: "#008000",
+              backgroundColor: "rgba(0, 128, 0, 0.2)",
+              fill: false,
+            },
+          ],
+        });
+      } catch (err) {
+        console.error("주차별 데이터 요청 실패:", err);
+      }
+    };
+
+    fetchWeeklyData();
+  }, []);
+
+  // Radar Chart
   const radarChartData = scoreData && {
     labels: ["정확도", "리듬", "피치"],
     datasets: [
@@ -119,9 +151,7 @@ const ReportPage = () => {
           color: "#333",
         },
         pointLabels: {
-          font: {
-            size: 14,
-          },
+          font: { size: 14 },
         },
       },
     },
@@ -138,7 +168,8 @@ const ReportPage = () => {
   };
 
   const getRhythmFeedback = (score) => {
-    if (score <= 40) return "리듬이 불안정해요. 천천히 또박또박 연습해보세요!";
+    if (score <= 40)
+      return "리듬이 불안정해요. 천천히 또박또박 연습해보세요! 🐢";
     if (score <= 70)
       return "다소 높은 편이에요. 리듬에 더 신경 써보면 좋아요. 🎵";
     return "안정적인 리듬이에요! 👍";
@@ -146,8 +177,8 @@ const ReportPage = () => {
 
   const getPitchFeedback = (score) => {
     if (score <= 40)
-      return "피치 조절이 어려운 편이에요. 단어 끝을 또렷하게 말해보세요!";
-    if (score <= 70) return "다소 높아요. 억양을 조금 줄여볼까요?";
+      return "피치 조절이 어려운 편이에요. 단어 끝을 또렷하게 말해보세요! 🎯";
+    if (score <= 70) return "다소 높아요. 억양을 조금 줄여볼까요? 📉";
     return "전반적으로 양호해요. 👍";
   };
 
@@ -161,7 +192,11 @@ const ReportPage = () => {
       <section className="report-learning-section">
         <h2>주차별 정확도 추이</h2>
         <div className="chart-container">
-          <Line data={weeklyData} />
+          {weeklyChartData ? (
+            <Line data={weeklyChartData} />
+          ) : (
+            <p>📈 주차별 데이터를 불러오는 중...</p>
+          )}
         </div>
       </section>
 
@@ -171,10 +206,13 @@ const ReportPage = () => {
             <Radar
               data={radarChartData}
               options={radarChartOptions}
-              width={400}
-              height={400}
+              width={300}
+              height={300}
             />
           )}
+          <p style={{ marginTop: "15px", fontSize: "18px", color: "#333" }}>
+            평균 정확도 : <strong>{scoreData.accuracy.toFixed(1)}%</strong>
+          </p>
         </div>
 
         <div className="feedback-box">
