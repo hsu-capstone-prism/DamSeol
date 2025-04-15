@@ -4,7 +4,7 @@ import json
 from openai import OpenAI
 from dotenv import load_dotenv
 from services.extract_feature import extract_pitch_info, extract_speech_pause_ratio, extract_speech_rate
-
+from services.extract_json import extract_contents
 
 load_dotenv()
 
@@ -38,10 +38,7 @@ def get_audio_pitch_eval(audio, text, situation=None):
   - 음성을 평가할 때에는 오직 음정(pitch)에 대한 정보만 반영하십시오.
   - 일반인이 들었을 때 어색한 정도를 객관적인 관점에서 평가하십시오.
   - 평가 대상이 청각장애인임을 고려하여 평가를 진행하십시오.
-<<<<<<< HEAD
   - 일반인이 이해할 수 있도록 어려운 표현 대신 간단하고 명료한 표현을 사용할 것
-=======
->>>>>>> parent of 82421dd (clear cache)
 
   응답은 반드시 json 양식을 따라야 하며, 출력에 백틱이나 따옴표는 포함하지 않아야 합니다.
 
@@ -87,6 +84,8 @@ def get_audio_pitch_eval(audio, text, situation=None):
   )
 
   response_message = response.choices[0].message.content
+
+  response_message = extract_contents(response_message)
 
   print("사용자 Pitch 평가 ----")
   print(response_message)
@@ -190,6 +189,8 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   )
 
   response_message = response.choices[0].message.content
+
+  response_message = extract_contents(response_message)
 
   print("사용자 Rhythm 평가 ----")
   print(response_message)

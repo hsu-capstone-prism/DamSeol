@@ -3,7 +3,7 @@ import openai
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
-
+from extract_json import extract_contents
 
 load_dotenv()
 
@@ -71,6 +71,8 @@ def evaluate_pronunciation(text_original, text_input):
 
     print("사용자 Pronunciation 평가 ----")
     print(response_message)
+
+    response_message = extract_contents(response_message)
 
     try:
         response_json = json.loads(response_message)
