@@ -98,10 +98,10 @@ const SenStudyPage = () => {
     const avgCorrection = avg("correction");
     const avgPitch = avg("pitch_score");
     const avgRhythm = avg("rhythm_score");
-    const allDetails = validResults.map((r) => r.details).join("\n");
+    const allEvaluations = validResults.map((r) => r.evaluation).join("\n");
 
     return {
-      allDetails,
+      allDetails: allEvaluations,
       avgCorrection,
       avgPitch,
       avgRhythm,
@@ -288,12 +288,9 @@ const SenStudyPage = () => {
                   <h2 className="sen-user-pronunciation">
                     {uploadResultList[selectedIndex].pron}
                   </h2>
-                  {uploadResultList[selectedIndex].details && (
+                  {uploadResultList[selectedIndex].analysis && (
                     <p className="sen-details">
-                      {uploadResultList[selectedIndex]?.details?.replace(
-                        /\. /g,
-                        ".\n"
-                      )}
+                      {uploadResultList[selectedIndex].analysis}
                     </p>
                   )}
                   <div className="sen-result-bottom-container">
