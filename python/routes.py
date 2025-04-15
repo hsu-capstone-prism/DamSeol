@@ -8,10 +8,6 @@ from services.evaluate_learn import evaluate_sentence, evaluate_word, test_sente
 from services.extract_graph import extract_waveform, extract_pitch_graph
 from services.get_pronun import get_pronun
 
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 82421dd (clear cache)
 api_blueprint = Blueprint('api', __name__)
 
 @api_blueprint.route('/upload-audio', methods=['POST'])
