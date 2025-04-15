@@ -3,7 +3,7 @@ import openai
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
-from extract_json import extract_contents
+from services.extract_json import extract_contents
 
 load_dotenv()
 
