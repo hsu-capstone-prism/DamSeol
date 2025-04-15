@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Radar, Line } from "react-chartjs-2";
-import axios from "axios";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -12,6 +11,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import axios from "axios";
 import "../../../styles/ReportPage.css";
 
 ChartJS.register(
@@ -97,6 +97,7 @@ const ReportPage = () => {
               borderColor: "#0056b3",
               backgroundColor: "rgba(0, 86, 179, 0.2)",
               fill: false,
+              spanGaps: false,
             },
             {
               label: "음정",
@@ -104,6 +105,7 @@ const ReportPage = () => {
               borderColor: "#ff8c00",
               backgroundColor: "rgba(255, 140, 0, 0.2)",
               fill: false,
+              spanGaps: false,
             },
             {
               label: "리듬",
@@ -111,6 +113,7 @@ const ReportPage = () => {
               borderColor: "#008000",
               backgroundColor: "rgba(0, 128, 0, 0.2)",
               fill: false,
+              spanGaps: false,
             },
           ],
         });
@@ -157,6 +160,67 @@ const ReportPage = () => {
     },
   };
 
+  const lineChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 10,
+        right: 10,
+      },
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        ticks: {
+          stepSize: 10, // ✅ 10 단위 눈금
+          color: "#333",
+          font: {
+            size: 14,
+          },
+          padding: 8,
+        },
+        title: {
+          display: true,
+          text: "점수 (%)",
+          color: "#555",
+          font: {
+            size: 16,
+          },
+        },
+        grid: {
+          color: "#e0e0e0",
+        },
+      },
+      x: {
+        offset: true,
+        min: 0.01,
+        ticks: {
+          color: "#333",
+          font: { size: 14 },
+          padding: 10,
+        },
+        grid: {
+          display: false,
+          drawTicks: true,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: "#444",
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
+  };
+
   // 피드백
   const getAccuracyFeedback = (score) => {
     if (score <= 30) return "매우 낮은 편이에요. 기본 발음부터 다시 익혀봐요!";
@@ -193,12 +257,17 @@ const ReportPage = () => {
         <h2>주차별 정확도 추이</h2>
         <div className="chart-container">
           {weeklyChartData ? (
-            <Line data={weeklyChartData} />
+            <Line
+              data={weeklyChartData}
+              options={lineChartOptions}
+              height={400}
+            />
           ) : (
             <p>📈 주차별 데이터를 불러오는 중...</p>
           )}
         </div>
       </section>
+
       <section className="report-learning-section feedback-section">
         <div style={{ margin: "0 auto", textAlign: "center" }}>
           {radarChartData && (
