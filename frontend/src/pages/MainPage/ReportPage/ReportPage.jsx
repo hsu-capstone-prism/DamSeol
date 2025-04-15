@@ -33,7 +33,7 @@ const ReportPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 현재 점수 데이터
+  // 평균 점수
   useEffect(() => {
     const fetchScores = async () => {
       try {
@@ -79,14 +79,14 @@ const ReportPage = () => {
 
         const weeklyReports = response.data.weeklyReports ?? [];
 
-        const sortedReports = [...weeklyReports].sort(
+        const sorted = [...weeklyReports].sort(
           (a, b) => a.weekOffset - b.weekOffset
         );
 
-        const labels = sortedReports.map((r) => `${r.weekOffset + 1}주차`);
-        const accuracy = sortedReports.map((r) => r.avgAccuracy ?? 0);
-        const pitch = sortedReports.map((r) => r.avgPitchScore ?? 0);
-        const rhythm = sortedReports.map((r) => r.avgRhythmScore ?? 0);
+        const labels = sorted.map((r) => `${r.weekOffset + 1}주차`);
+        const accuracy = sorted.map((r) => r.avgAccuracy ?? 0);
+        const pitch = sorted.map((r) => r.avgPitchScore ?? 0);
+        const rhythm = sorted.map((r) => r.avgRhythmScore ?? 0);
 
         setWeeklyChartData({
           labels,
@@ -157,28 +157,26 @@ const ReportPage = () => {
     },
   };
 
-  // 피드백
+  // 피드백 함수
   const getAccuracyFeedback = (score) => {
     if (score <= 30) return "매우 낮은 편이에요. 기본 발음부터 다시 익혀봐요!";
     if (score <= 50)
       return "낮은 편이에요. 조금 더 큰 목소리로 또렷하게 발음해보세요.";
     if (score <= 70)
-      return "괜찮은 편이에요! 조금만 더 연습해보면 좋아질 거예요. 💪";
+      return "괜찮은 편이에요! 조금만 더 연습해보면 좋아질 거예요.";
     return "훌륭해요! 😊";
   };
 
   const getRhythmFeedback = (score) => {
-    if (score <= 40)
-      return "리듬이 불안정해요. 천천히 또박또박 연습해보세요! 🐢";
-    if (score <= 70)
-      return "다소 높은 편이에요. 리듬에 더 신경 써보면 좋아요. 🎵";
+    if (score <= 40) return "리듬이 불안정해요. 천천히 또박또박 연습해보세요!";
+    if (score <= 70) return "다소 높은 편이에요. 리듬에 더 신경 써보면 좋아요.";
     return "안정적인 리듬이에요! 👍";
   };
 
   const getPitchFeedback = (score) => {
     if (score <= 40)
-      return "피치 조절이 어려운 편이에요. 단어 끝을 또렷하게 말해보세요! 🎯";
-    if (score <= 70) return "다소 높아요. 억양을 조금 줄여볼까요? 📉";
+      return "피치 조절이 어려운 편이에요. 단어 끝을 또렷하게 말해보세요!";
+    if (score <= 70) return "다소 높아요. 억양을 조금 줄여볼까요?";
     return "전반적으로 양호해요. 👍";
   };
 
@@ -189,17 +187,58 @@ const ReportPage = () => {
     <div className="report-container">
       <h1 className="section-title">Report</h1>
 
+      {/* 주차별 정확도 추이 */}
       <section className="report-learning-section">
         <h2>주차별 정확도 추이</h2>
-        <div className="chart-container">
+        <div className="chart-container" style={{ height: "350px" }}>
           {weeklyChartData ? (
-            <Line data={weeklyChartData} />
+            <Line
+              data={weeklyChartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                  x: {
+                    offset: true,
+                    ticks: {
+                      padding: 10,
+                      font: { size: 14 },
+                    },
+                    grid: {
+                      display: true,
+                      drawBorder: true,
+                    },
+                  },
+                  y: {
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                      stepSize: 10,
+                      font: { size: 14 },
+                    },
+                    grid: {
+                      color: "#ddd",
+                    },
+                  },
+                },
+                plugins: {
+                  legend: {
+                    position: "top",
+                    labels: {
+                      font: { size: 14 },
+                    },
+                  },
+                },
+              }}
+              height={300}
+            />
           ) : (
-            <p>📈 주차별 데이터를 불러오는 중...</p>
+            <p>주차별 데이터를 불러오는 중...</p>
           )}
         </div>
       </section>
 
+      {/* Radar + 피드백 */}
       <section className="report-learning-section feedback-section">
         <div style={{ margin: "0 auto", textAlign: "center" }}>
           {radarChartData && (
@@ -210,9 +249,6 @@ const ReportPage = () => {
               height={300}
             />
           )}
-          <p style={{ marginTop: "15px", fontSize: "18px", color: "#333" }}>
-            평균 정확도 : <strong>{scoreData.accuracy.toFixed(1)}%</strong>
-          </p>
         </div>
 
         <div className="feedback-box">
@@ -231,6 +267,7 @@ const ReportPage = () => {
         </div>
       </section>
 
+      {/* 최근 학습 */}
       <section className="report-learning-section">
         <h2>최근 학습</h2>
         <div className="teacher-container">
