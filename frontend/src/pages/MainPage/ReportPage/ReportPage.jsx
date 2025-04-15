@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react";
 import { Radar, Line } from "react-chartjs-2";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Chart as ChartJS,
@@ -25,67 +25,44 @@ ChartJS.register(
   LinearScale
 );
 
+// 인증 토큰 가져오기
+const getAuthToken = () => localStorage.getItem("authToken");
+
 const ReportPage = () => {
-  const [analysisData, setAnalysisData] = useState(null);
+  const [scoreData, setScoreData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAnalysis = async () => {
+    const fetchScores = async () => {
       try {
-        const res = await axios.get("/api/report", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
+        const token = getAuthToken();
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const response = await axios.get(
+          "http://localhost:8080/api/report/scores",
+          { headers }
+        );
+
+        if (!response.data) throw new Error("응답이 비어 있습니다.");
+
+        setScoreData({
+          accuracy: response.data.avgAccuracy ?? 0,
+          wordAccuracy: response.data.avgWordAccuracy ?? 0,
+          sentenceAccuracy: response.data.avgSentenceAccuracy ?? 0,
+          pitch: response.data.avgPitchScore ?? 0,
+          rhythm: response.data.avgRhythmScore ?? 0,
         });
-        setAnalysisData(res.data);
       } catch (err) {
-        console.error("분석 데이터 가져오기 실패:", err);
+        console.error("점수 데이터 요청 실패:", err);
+        setError("점수 데이터를 불러오는 데 실패했습니다.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchAnalysis();
+    fetchScores();
   }, []);
-
-  const radarData = {
-    labels: ["정확도", "피치", "리듬"],
-    datasets: [
-      {
-        label: "음성 분석 결과",
-        data: [
-          analysisData?.avgAccuracy || 0,
-          analysisData?.avgPitchScore || 0,
-          analysisData?.avgRhythmScore || 0,
-        ],
-        backgroundColor: "rgba(0, 86, 179, 0.2)",
-        borderColor: "#0056b3",
-        borderWidth: 2,
-      },
-    ],
-  };
-
-  const getFeedback = () => {
-    const acc = analysisData?.avgAccuracy || 0;
-    const pitch = analysisData?.avgPitchScore || 0;
-    const rhythm = analysisData?.avgRhythmScore || 0;
-
-    return {
-      accuracyText:
-        acc >= 80 ? `${acc}% (훌륭해요! 😊)` : `${acc}% (조금 더 연습해봐요!)`,
-      rmsText:
-        acc < 40
-          ? "목소리가 작아요. 더 크게 또렷하게 말해보세요. 🔊"
-          : "좋은 발음이에요. 👍",
-      pitchText:
-        pitch > 70
-          ? "음정 변화가 커요. 천천히 말하며 안정감을 높여보세요. 🎵"
-          : "음정 변화율이 안정적이에요. 👌",
-      rhythmText:
-        rhythm < 40
-          ? "리듬이 조금 불규칙해요. 천천히 말해보세요. 🕰️"
-          : "리듬이 자연스러워요. 👍",
-    };
-  };
-
-  const feedback = getFeedback();
 
   const weeklyData = {
     labels: ["1주차", "2주차", "3주차", "4주차"],
@@ -114,40 +91,107 @@ const ReportPage = () => {
     ],
   };
 
+  const radarChartData = scoreData && {
+    labels: ["정확도", "리듬", "피치"],
+    datasets: [
+      {
+        label: "음성 분석 결과",
+        data: [
+          Number(scoreData.accuracy.toFixed(1)),
+          Number(scoreData.rhythm.toFixed(1)),
+          Number(scoreData.pitch.toFixed(1)),
+        ],
+        backgroundColor: "rgba(0, 86, 179, 0.2)",
+        borderColor: "#0056b3",
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const radarChartOptions = {
+    responsive: false,
+    scales: {
+      r: {
+        min: 0,
+        max: 100,
+        ticks: {
+          stepSize: 20,
+          color: "#333",
+        },
+        pointLabels: {
+          font: {
+            size: 14,
+          },
+        },
+      },
+    },
+  };
+
+  // 피드백
+  const getAccuracyFeedback = (score) => {
+    if (score <= 30) return "매우 낮은 편이에요. 기본 발음부터 다시 익혀봐요!";
+    if (score <= 50)
+      return "낮은 편이에요. 조금 더 큰 목소리로 또렷하게 발음해보세요.";
+    if (score <= 70)
+      return "괜찮은 편이에요! 조금만 더 연습해보면 좋아질 거예요. 💪";
+    return "훌륭해요! 😊";
+  };
+
+  const getRhythmFeedback = (score) => {
+    if (score <= 40) return "리듬이 불안정해요. 천천히 또박또박 연습해보세요!";
+    if (score <= 70)
+      return "다소 높은 편이에요. 리듬에 더 신경 써보면 좋아요. 🎵";
+    return "안정적인 리듬이에요! 👍";
+  };
+
+  const getPitchFeedback = (score) => {
+    if (score <= 40)
+      return "피치 조절이 어려운 편이에요. 단어 끝을 또렷하게 말해보세요!";
+    if (score <= 70) return "다소 높아요. 억양을 조금 줄여볼까요?";
+    return "전반적으로 양호해요. 👍";
+  };
+
+  if (loading) return <div className="report-container">⏳ 로딩 중...</div>;
+  if (error) return <div className="report-container">❌ {error}</div>;
+
   return (
     <div className="report-container">
       <h1 className="section-title">Report</h1>
+
       <section className="report-learning-section">
         <h2>주차별 정확도 추이</h2>
         <div className="chart-container">
           <Line data={weeklyData} />
         </div>
       </section>
-
-      {/* 피드백 + 삼각형 그래프 */}
       <section className="report-learning-section feedback-section">
-        <div className="radar-chart-container">
-          <Radar data={radarData} />
+        <div style={{ margin: "0 auto", textAlign: "center" }}>
+          {radarChartData && (
+            <Radar
+              data={radarChartData}
+              options={radarChartOptions}
+              width={400}
+              height={400}
+            />
+          )}
         </div>
+
         <div className="feedback-box">
           <p>
-            <strong>발음 정확도:</strong> 86% (훌륭해요! 😊)
+            <strong>발음 정확도 평균 :</strong> {scoreData.accuracy.toFixed(1)}%
           </p>
           <p>
-            <strong>평균 RMS:</strong> 낮은 편이에요. 조금 더 큰 목소리로
-            또렷하게 발음해보세요. 😌
+            <strong>정확도 :</strong> {getAccuracyFeedback(scoreData.accuracy)}
           </p>
           <p>
-            <strong>음정 변화율:</strong> 다소 높은 편이에요. 천천히 말하면서
-            음의 변화를 줄여봐요. 🎤
+            <strong>리듬 :</strong> {getRhythmFeedback(scoreData.rhythm)}
           </p>
           <p>
-            <strong>말하기 속도:</strong> 전반적으로 양호해요. 👍
+            <strong>피치 :</strong> {getPitchFeedback(scoreData.pitch)}
           </p>
         </div>
       </section>
 
-      {/* 최근 학습 */}
       <section className="report-learning-section">
         <h2>최근 학습</h2>
         <div className="teacher-container">
