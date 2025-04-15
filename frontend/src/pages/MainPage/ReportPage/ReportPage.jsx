@@ -1,5 +1,6 @@
-import React from "react";
 import { Radar, Line } from "react-chartjs-2";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -25,6 +26,67 @@ ChartJS.register(
 );
 
 const ReportPage = () => {
+  const [analysisData, setAnalysisData] = useState(null);
+
+  useEffect(() => {
+    const fetchAnalysis = async () => {
+      try {
+        const res = await axios.get("/api/report", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        });
+        setAnalysisData(res.data);
+      } catch (err) {
+        console.error("분석 데이터 가져오기 실패:", err);
+      }
+    };
+
+    fetchAnalysis();
+  }, []);
+
+  const radarData = {
+    labels: ["정확도", "피치", "리듬"],
+    datasets: [
+      {
+        label: "음성 분석 결과",
+        data: [
+          analysisData?.avgAccuracy || 0,
+          analysisData?.avgPitchScore || 0,
+          analysisData?.avgRhythmScore || 0,
+        ],
+        backgroundColor: "rgba(0, 86, 179, 0.2)",
+        borderColor: "#0056b3",
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const getFeedback = () => {
+    const acc = analysisData?.avgAccuracy || 0;
+    const pitch = analysisData?.avgPitchScore || 0;
+    const rhythm = analysisData?.avgRhythmScore || 0;
+
+    return {
+      accuracyText:
+        acc >= 80 ? `${acc}% (훌륭해요! 😊)` : `${acc}% (조금 더 연습해봐요!)`,
+      rmsText:
+        acc < 40
+          ? "목소리가 작아요. 더 크게 또렷하게 말해보세요. 🔊"
+          : "좋은 발음이에요. 👍",
+      pitchText:
+        pitch > 70
+          ? "음정 변화가 커요. 천천히 말하며 안정감을 높여보세요. 🎵"
+          : "음정 변화율이 안정적이에요. 👌",
+      rhythmText:
+        rhythm < 40
+          ? "리듬이 조금 불규칙해요. 천천히 말해보세요. 🕰️"
+          : "리듬이 자연스러워요. 👍",
+    };
+  };
+
+  const feedback = getFeedback();
+
   const weeklyData = {
     labels: ["1주차", "2주차", "3주차", "4주차"],
     datasets: [
@@ -52,19 +114,6 @@ const ReportPage = () => {
     ],
   };
 
-  const radarData = {
-    labels: ["정확도", "피치", "리듬"],
-    datasets: [
-      {
-        label: "음성 분석 결과",
-        data: [86, 70, 96],
-        backgroundColor: "rgba(0, 86, 179, 0.2)",
-        borderColor: "#0056b3",
-        borderWidth: 2,
-      },
-    ],
-  };
-
   return (
     <div className="report-container">
       <h1 className="section-title">Report</h1>
@@ -75,7 +124,7 @@ const ReportPage = () => {
         </div>
       </section>
 
-      {/* 피드백 + 5각형 그래프 */}
+      {/* 피드백 + 삼각형 그래프 */}
       <section className="report-learning-section feedback-section">
         <div className="radar-chart-container">
           <Radar data={radarData} />
