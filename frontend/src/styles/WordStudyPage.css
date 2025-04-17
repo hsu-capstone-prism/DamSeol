@@ -181,6 +181,11 @@
   font-size: 16px;
 }
 
+.user-pronunciation {
+  font-size: 32px;
+  margin-top: 10px;
+}
+
 /* 이미지 모달 */
 .modal-overlay {
   position: fixed;
@@ -221,9 +226,10 @@
 }
 
 .modal-image {
-  max-width: 80%;
-  height: auto;
+  width: 300px;
+  height: 400px;
   margin-bottom: 20px;
+  object-fit: contain;
 }
 
 .modal-confirm-btn {

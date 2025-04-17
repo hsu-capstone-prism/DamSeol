@@ -5,8 +5,27 @@ import "../../../../styles/SenStudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
 import axios from "axios";
+import { Radar } from "react-chartjs-2";
 
-// axios 제거 (사용 안 하므로)
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
+
 const getAuthToken = () => localStorage.getItem("authToken");
 
 const getRandomSentences = (arr, count) => {
@@ -23,10 +42,17 @@ const SenStudyPage = () => {
   const [error, setError] = useState(null);
   const [uploadResultList, setUploadResultList] = useState([]);
   const [isResultVisible, setIsResultVisible] = useState(false);
-  const location = useLocation();
-  const symbol = location.state?.symbol || "알 수 없음";
   const [waveformImageSrc, setWaveformImageSrc] = useState(null);
   const [pitchImageSrc, setPitchImageSrc] = useState(null);
+  const [showWaveformPopup, setShowWaveformPopup] = useState(false);
+  const [showPitchPopup, setShowPitchPopup] = useState(false);
+  const [showFinalResult, setShowFinalResult] = useState(false);
+  const [summaryTip, setSummaryTip] = useState("");
+  const [finalChartData, setFinalChartData] = useState(null);
+
+  const location = useLocation();
+  const symbol = location.state?.symbol || "알 수 없음";
+  const username = localStorage.getItem("username") || "사용자";
 
   useEffect(() => {
     if (!subcategoryId) return;
@@ -63,10 +89,57 @@ const SenStudyPage = () => {
     fetchSentences();
   }, [subcategoryId]);
 
+  const getSummaryResult = () => {
+    const validResults = uploadResultList.filter(Boolean);
+    const avg = (key) => {
+      const sum = validResults.reduce((total, r) => total + (r[key] || 0), 0);
+      return validResults.length ? Math.round(sum / validResults.length) : 0;
+    };
+    const avgCorrection = avg("correction");
+    const avgPitch = avg("pitch_score");
+    const avgRhythm = avg("rhythm_score");
+    const allEvaluations = validResults.map((r) => r.evaluation).join("\n");
+
+    return {
+      allDetails: allEvaluations,
+      avgCorrection,
+      avgPitch,
+      avgRhythm,
+    };
+  };
+
+  const fetchSummaryTip = async () => {
+    const { allDetails, avgCorrection, avgPitch, avgRhythm } =
+      getSummaryResult();
+    try {
+      const token = getAuthToken();
+      const formData = new FormData();
+      formData.append("text", allDetails);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/summarize/sentence",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setSummaryTip(response.data.response || "요약 결과가 없습니다.");
+      setFinalChartData({ avgCorrection, avgPitch, avgRhythm });
+    } catch (error) {
+      console.error("요약 API 오류:", error);
+      setSummaryTip("요약을 가져오는 데 실패했습니다.");
+    } finally {
+      setShowFinalResult(true);
+    }
+  };
+
   const fetchAnalysisImages = async (waveformImage, pitchImage) => {
     try {
       const token = getAuthToken();
-
       const [waveformRes, pitchRes] = await Promise.all([
         axios.get(
           `http://localhost:8080/api/images/waveform/${waveformImage}`,
@@ -80,27 +153,76 @@ const SenStudyPage = () => {
           responseType: "blob",
         }),
       ]);
-
-      const waveformBlob = URL.createObjectURL(waveformRes.data);
-      const pitchBlob = URL.createObjectURL(pitchRes.data);
-
-      setWaveformImageSrc(waveformBlob);
-      setPitchImageSrc(pitchBlob);
+      setWaveformImageSrc(URL.createObjectURL(waveformRes.data));
+      setPitchImageSrc(URL.createObjectURL(pitchRes.data));
     } catch (error) {
       console.error("분석 이미지 불러오기 실패:", error);
     }
+  };
+
+  const renderRadarChart = () => {
+    if (!finalChartData) return null;
+    const radarData = {
+      labels: ["정확도", "리듬", "피치"],
+      datasets: [
+        {
+          label: "평균 점수",
+          data: [
+            finalChartData.avgCorrection,
+            finalChartData.avgRhythm,
+            finalChartData.avgPitch,
+          ],
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 2,
+        },
+      ],
+    };
+    const radarOptions = {
+      responsive: false,
+      scales: {
+        r: {
+          min: 0,
+          max: 100,
+          ticks: {
+            stepSize: 20,
+            color: "#333",
+          },
+          pointLabels: {
+            font: {
+              size: 14,
+            },
+          },
+        },
+      },
+    };
+    return (
+      <div style={{ margin: "0 auto", textAlign: "center" }}>
+        <Radar
+          data={radarData}
+          options={radarOptions}
+          width={300}
+          height={300}
+        />
+        <p style={{ marginTop: "15px", fontSize: "18px", color: "#333" }}>
+          평균 정확도 : <strong>{finalChartData.avgCorrection}%</strong>
+        </p>
+      </div>
+    );
   };
 
   const handleUploadComplete = (data) => {
     const updated = [...uploadResultList];
     updated[selectedIndex] = {
       ...data,
-      waveformImage: "sample_waveform.png",
-      pitchImage: "sample_pitch.png",
+      waveformImage: data.waveformFileName,
+      pitchImage: data.pitchFileName,
     };
     setUploadResultList(updated);
     setIsResultVisible(true);
-    fetchAnalysisImages("sample_waveform.png", "sample_pitch.png");
+    if (data.waveformFileName && data.pitchFileName) {
+      fetchAnalysisImages(data.waveformFileName, data.pitchFileName);
+    }
   };
 
   if (loading) return <p>📡 데이터 로딩 중...</p>;
@@ -113,54 +235,138 @@ const SenStudyPage = () => {
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
 
-        <section className="sen-display">
-          {sentences.length > 0 ? (
-            <h1 className="sen">{sentences[selectedIndex].text}</h1>
-          ) : (
-            <p>해당하는 문장이 없습니다.</p>
-          )}
-
-          {isResultVisible && (
-            <div className="sen-result">
-              <h2 className="user-pronunciation">
-                {uploadResultList[selectedIndex].pron}
-              </h2>
-              <div className="image-viewer">
-                {waveformImageSrc && (
-                  <img
-                    src={waveformImageSrc}
-                    alt="Waveform 분석 이미지"
-                    className="result-image"
-                  />
-                )}
-                {pitchImageSrc && (
-                  <img
-                    src={pitchImageSrc}
-                    alt="Pitch 분석 이미지"
-                    className="result-image"
-                  />
-                )}
+        {showFinalResult ? (
+          <div className="sen-final-result">
+            <h2 style={{ textAlign: "center" }}>
+              {username}님의 문장 학습 결과
+            </h2>
+            <div className="sen-final-result-grid">
+              <div className="sen-final-left">
+                <p className="sen-final-title">발음 정확도 차트</p>
+                {renderRadarChart()}
+              </div>
+              <div className="sen-final-right">
+                <p className="sen-final-title">학습 팁</p>
+                <p className="sen-tip-content">{summaryTip}</p>
               </div>
             </div>
-          )}
-        </section>
+            <div
+              className="sen-final-button-group"
+              style={{ justifyContent: "center" }}
+            >
+              <button
+                className="sen-retry-btn"
+                onClick={() => {
+                  setShowFinalResult(false);
+                  setSelectedIndex(0);
+                  setIsResultVisible(false);
+                  setSummaryTip("");
+                  setFinalChartData(null);
+                }}
+              >
+                다시 학습하기
+              </button>
+              <button
+                className="sen-home-btn"
+                onClick={() => (window.location.href = "/main")}
+              >
+                학습 화면으로
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <section className="sen-display">
+              {sentences.length > 0 ? (
+                <h1 className="sen">{sentences[selectedIndex].text}</h1>
+              ) : (
+                <p>해당하는 문장이 없습니다.</p>
+              )}
 
-        {!isResultVisible && (
-          <MicButton
-            selectedIndex={selectedIndex}
-            sentences={sentences}
-            onUploadComplete={handleUploadComplete}
-          />
+              {isResultVisible && uploadResultList[selectedIndex] ? (
+                <div className="sen-result">
+                  <h2 className="sen-user-pronunciation">
+                    {uploadResultList[selectedIndex].pron}
+                  </h2>
+                  {uploadResultList[selectedIndex].analysis && (
+                    <p className="sen-details">
+                      {uploadResultList[selectedIndex].analysis}
+                    </p>
+                  )}
+                  <div className="sen-result-bottom-container">
+                    <div className="sen-button-group">
+                      <button onClick={() => setShowWaveformPopup(true)}>
+                        Waveform 보기
+                      </button>
+                      <button onClick={() => setShowPitchPopup(true)}>
+                        Pitch 보기
+                      </button>
+                    </div>
+                    <div className="sen-score-container">
+                      {selectedIndex === 2 && (
+                        <button
+                          className="sen-final-result-btn"
+                          onClick={fetchSummaryTip}
+                        >
+                          최종 결과화면 보기
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ height: "80px" }} />
+              )}
+            </section>
+
+            {!isResultVisible && (
+              <MicButton
+                selectedIndex={selectedIndex}
+                sentences={sentences}
+                onUploadComplete={handleUploadComplete}
+              />
+            )}
+
+            <ProgressBar
+              currentStep={selectedIndex}
+              totalSteps={sentences.length}
+              onStepClick={(index) => {
+                setSelectedIndex(index);
+                setIsResultVisible(false);
+                setShowWaveformPopup(false);
+                setShowPitchPopup(false);
+              }}
+            />
+          </>
         )}
 
-        <ProgressBar
-          currentStep={selectedIndex}
-          totalSteps={sentences.length}
-          onStepClick={(index) => {
-            setSelectedIndex(index);
-            setIsResultVisible(false);
-          }}
-        />
+        {showWaveformPopup && waveformImageSrc && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <button
+                className="popup-close"
+                onClick={() => setShowWaveformPopup(false)}
+              >
+                X
+              </button>
+              <img src={waveformImageSrc} alt="Waveform 분석 이미지" />
+            </div>
+          </div>
+        )}
+
+        {showPitchPopup && pitchImageSrc && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <button
+                className="popup-close"
+                onClick={() => setShowPitchPopup(false)}
+              >
+                X
+              </button>
+              <img src={pitchImageSrc} alt="Pitch 분석 이미지" />
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
