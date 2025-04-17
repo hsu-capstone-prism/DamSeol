@@ -20,6 +20,7 @@ const WordStudy = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPhon, setSelectedPhon] = useState("");
   const [showFinalResult, setShowFinalResult] = useState(false);
+  const [summaryTip, setSummaryTip] = useState("");
 
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
@@ -69,8 +70,17 @@ const WordStudy = () => {
 
   const openImageModal = async (phon) => {
     const phonMapping = {
-      ㄱ: "g.png",
-      ㄷ: "d.png",
+      ㄴ: "n.png",
+      ㄹ: "r.png",
+      ㅁ: "m.png",
+      ㅂ: "b.png",
+      ㅅ: "s.png",
+      ㅈ: "j.png",
+      ㅊ: "ch.png",
+      ㅋ: "k.png",
+      ㅌ: "t.png",
+      ㅍ: "p.png",
+      ㅎ: "h.png",
     };
 
     const imageName = phonMapping[phon.trim()];
@@ -114,6 +124,36 @@ const WordStudy = () => {
 
   const { avgScore, uniqueWrongPhons, allDetails } = getSummaryResult();
 
+  // 요약 API 호출
+  const fetchSummaryTip = async () => {
+    try {
+      const token = getAuthToken();
+      const formData = new FormData();
+      formData.append("text", allDetails);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/summarize/word",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("word요약 API 응답 확인:", response.data);
+
+      setSummaryTip(response.data.response || "요약 결과가 없습니다.");
+      setShowFinalResult(true);
+    } catch (error) {
+      console.error("요약 API 오류:", error);
+      setSummaryTip("요약을 가져오는 데 실패했습니다.");
+      setShowFinalResult(true);
+    }
+  };
+
+  // 틀린 단어 빨간색 처리
   const highlightWrongPron = (text, wrongIndicesStr) => {
     if (!text || !wrongIndicesStr) return text;
 
@@ -182,7 +222,7 @@ const WordStudy = () => {
 
                 <div className="final-right">
                   <p className="final-title">학습 팁</p>
-                  <p className="tip-content">{allDetails}</p>
+                  <p className="tip-content">{summaryTip || allDetails}</p>
                 </div>
               </div>
 
@@ -193,6 +233,7 @@ const WordStudy = () => {
                     setShowFinalResult(false);
                     setSelectedIndex(0);
                     setIsResultVisible(false);
+                    setSummaryTip("");
                   }}
                 >
                   다시 학습하기
@@ -250,7 +291,7 @@ const WordStudy = () => {
                         {selectedIndex === words.length - 1 && (
                           <button
                             className="final-result-btn"
-                            onClick={() => setShowFinalResult(true)}
+                            onClick={fetchSummaryTip}
                           >
                             최종 결과화면 보기
                           </button>
@@ -286,6 +327,7 @@ const WordStudy = () => {
             setSelectedIndex(index);
             setIsResultVisible(false);
             setShowFinalResult(false);
+            setSummaryTip("");
           }}
         />
       </div>

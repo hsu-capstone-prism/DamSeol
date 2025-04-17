@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Radar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,6 +11,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import axios from "axios";
 import "../../../styles/ReportPage.css";
 
 ChartJS.register(
@@ -24,40 +25,117 @@ ChartJS.register(
   LinearScale
 );
 
-const ReportPage = () => {
-  const weeklyData = {
-    labels: ["1주차", "2주차", "3주차", "4주차"],
-    datasets: [
-      {
-        label: "발음",
-        data: [4.3, 2.5, 3.0, 5.0],
-        borderColor: "#0056b3",
-        backgroundColor: "rgba(0, 86, 179, 0.2)",
-        fill: false,
-      },
-      {
-        label: "음정",
-        data: [2.4, 4.4, 3.8, 2.8],
-        borderColor: "#ff8c00",
-        backgroundColor: "rgba(255, 140, 0, 0.2)",
-        fill: false,
-      },
-      {
-        label: "리듬",
-        data: [4.5, 3.0, 4.2, 4.8],
-        borderColor: "#008000",
-        backgroundColor: "rgba(0, 128, 0, 0.2)",
-        fill: false,
-      },
-    ],
-  };
+const getAuthToken = () => localStorage.getItem("authToken");
 
-  const radarData = {
-    labels: ["정확도", "리듬 적확성", "평균 RMS", "음정 변화율", "음정 평균값"],
+const ReportPage = () => {
+  const [scoreData, setScoreData] = useState(null);
+  const [weeklyChartData, setWeeklyChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // 평균 점수
+  useEffect(() => {
+    const fetchScores = async () => {
+      try {
+        const token = getAuthToken();
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const response = await axios.get(
+          "http://localhost:8080/api/report/scores",
+          { headers }
+        );
+
+        if (!response.data) throw new Error("응답이 비어 있습니다.");
+
+        setScoreData({
+          accuracy: response.data.avgAccuracy ?? 0,
+          wordAccuracy: response.data.avgWordAccuracy ?? 0,
+          sentenceAccuracy: response.data.avgSentenceAccuracy ?? 0,
+          pitch: response.data.avgPitchScore ?? 0,
+          rhythm: response.data.avgRhythmScore ?? 0,
+        });
+      } catch (err) {
+        console.error("점수 데이터 요청 실패:", err);
+        setError("점수 데이터를 불러오는 데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchScores();
+  }, []);
+
+  // 주차별 데이터
+  useEffect(() => {
+    const fetchWeeklyData = async () => {
+      try {
+        const token = getAuthToken();
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const response = await axios.get(
+          "http://localhost:8080/api/report/weekly",
+          { headers }
+        );
+
+        const weeklyReports = response.data.weeklyReports ?? [];
+
+        const sorted = [...weeklyReports].sort(
+          (a, b) => a.weekOffset - b.weekOffset
+        );
+
+        const labels = sorted.map((r) => `${r.weekOffset + 1}주차`);
+        const accuracy = sorted.map((r) => r.avgAccuracy ?? 0);
+        const pitch = sorted.map((r) => r.avgPitchScore ?? 0);
+        const rhythm = sorted.map((r) => r.avgRhythmScore ?? 0);
+
+        setWeeklyChartData({
+          labels,
+          datasets: [
+            {
+              label: "발음",
+              data: accuracy,
+              borderColor: "#0056b3",
+              backgroundColor: "rgba(0, 86, 179, 0.2)",
+              fill: false,
+              spanGaps: false,
+            },
+            {
+              label: "음정",
+              data: pitch,
+              borderColor: "#ff8c00",
+              backgroundColor: "rgba(255, 140, 0, 0.2)",
+              fill: false,
+              spanGaps: false,
+            },
+            {
+              label: "리듬",
+              data: rhythm,
+              borderColor: "#008000",
+              backgroundColor: "rgba(0, 128, 0, 0.2)",
+              fill: false,
+              spanGaps: false,
+            },
+          ],
+        });
+      } catch (err) {
+        console.error("주차별 데이터 요청 실패:", err);
+      }
+    };
+
+    fetchWeeklyData();
+  }, []);
+
+  // Radar Chart
+  const radarChartData = scoreData && {
+    labels: ["정확도", "리듬", "피치"],
     datasets: [
       {
         label: "음성 분석 결과",
-        data: [86, 70, 50, 80, 65],
+        data: [
+          Number(scoreData.accuracy.toFixed(1)),
+          Number(scoreData.rhythm.toFixed(1)),
+          Number(scoreData.pitch.toFixed(1)),
+        ],
         backgroundColor: "rgba(0, 86, 179, 0.2)",
         borderColor: "#0056b3",
         borderWidth: 2,
@@ -65,35 +143,129 @@ const ReportPage = () => {
     ],
   };
 
+  const radarChartOptions = {
+    responsive: false,
+    scales: {
+      r: {
+        min: 0,
+        max: 100,
+        ticks: {
+          stepSize: 20,
+          color: "#333",
+        },
+        pointLabels: {
+          font: { size: 14 },
+        },
+      },
+    },
+  };
+
+  // 피드백 함수
+  const getAccuracyFeedback = (score) => {
+    if (score <= 30) return "매우 낮은 편이에요. 기본 발음부터 다시 익혀봐요!";
+    if (score <= 50)
+      return "낮은 편이에요. 조금 더 큰 목소리로 또렷하게 발음해보세요.";
+    if (score <= 70)
+      return "괜찮은 편이에요! 조금만 더 연습해보면 좋아질 거예요.";
+    return "훌륭해요! 😊";
+  };
+
+  const getRhythmFeedback = (score) => {
+    if (score <= 40) return "리듬이 불안정해요. 천천히 또박또박 연습해보세요!";
+    if (score <= 70) return "다소 높은 편이에요. 리듬에 더 신경 써보면 좋아요.";
+    return "안정적인 리듬이에요! 👍";
+  };
+
+  const getPitchFeedback = (score) => {
+    if (score <= 40)
+      return "피치 조절이 어려운 편이에요. 단어 끝을 또렷하게 말해보세요!";
+    if (score <= 70) return "다소 높아요. 억양을 조금 줄여볼까요?";
+    return "전반적으로 양호해요. 👍";
+  };
+
+  if (loading) return <div className="report-container">⏳ 로딩 중...</div>;
+  if (error) return <div className="report-container">❌ {error}</div>;
+
   return (
     <div className="report-container">
       <h1 className="section-title">Report</h1>
+
+      {/* 주차별 정확도 추이 */}
       <section className="report-learning-section">
         <h2>주차별 정확도 추이</h2>
-        <div className="chart-container">
-          <Line data={weeklyData} />
+        <div className="chart-container" style={{ height: "350px" }}>
+          {weeklyChartData ? (
+            <Line
+              data={weeklyChartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                  x: {
+                    offset: true,
+                    ticks: {
+                      padding: 10,
+                      font: { size: 14 },
+                    },
+                    grid: {
+                      display: true,
+                      drawBorder: true,
+                    },
+                  },
+                  y: {
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                      stepSize: 10,
+                      font: { size: 14 },
+                    },
+                    grid: {
+                      color: "#ddd",
+                    },
+                  },
+                },
+                plugins: {
+                  legend: {
+                    position: "top",
+                    labels: {
+                      font: { size: 14 },
+                    },
+                  },
+                },
+              }}
+              height={300}
+            />
+          ) : (
+            <p>주차별 데이터를 불러오는 중...</p>
+          )}
         </div>
       </section>
 
-      {/* 피드백 + 5각형 그래프 */}
+      {/* Radar + 피드백 */}
       <section className="report-learning-section feedback-section">
-        <div className="radar-chart-container">
-          <Radar data={radarData} />
+        <div style={{ margin: "0 auto", textAlign: "center" }}>
+          {radarChartData && (
+            <Radar
+              data={radarChartData}
+              options={radarChartOptions}
+              width={300}
+              height={300}
+            />
+          )}
         </div>
+
         <div className="feedback-box">
           <p>
-            <strong>발음 정확도:</strong> 86% (훌륭해요! 😊)
+            <strong>발음 정확도 평균 :</strong> {scoreData.accuracy.toFixed(1)}%
           </p>
           <p>
-            <strong>평균 RMS:</strong> 낮은 편이에요. 조금 더 큰 목소리로
-            또렷하게 발음해보세요. 😌
+            <strong>정확도 :</strong> {getAccuracyFeedback(scoreData.accuracy)}
           </p>
           <p>
-            <strong>음정 변화율:</strong> 다소 높은 편이에요. 천천히 말하면서
-            음의 변화를 줄여봐요. 🎤
+            <strong>리듬 :</strong> {getRhythmFeedback(scoreData.rhythm)}
           </p>
           <p>
-            <strong>말하기 속도:</strong> 전반적으로 양호해요. 👍
+            <strong>피치 :</strong> {getPitchFeedback(scoreData.pitch)}
           </p>
         </div>
       </section>

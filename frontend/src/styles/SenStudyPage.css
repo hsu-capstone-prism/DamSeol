@@ -11,7 +11,6 @@
   border-radius: 12px;
   width: 100%;
   height: 650px;
-  margin: auto;
 }
 
 .breadcrumb {
@@ -51,6 +50,24 @@
   color: #0056b3;
 }
 
+.sen-result {
+  transition: min-height 0.3s ease-in-out;
+  min-height: 0px;
+}
+
+.sen-user-pronunciation {
+  font-size: 36px;
+  margin-top: 10px;
+}
+
+.sen-details {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  white-space: pre-line;
+  margin-top: 10px;
+}
+
 .mic-button-container {
   display: flex;
   flex-direction: column;
@@ -73,7 +90,7 @@
   justify-content: center;
   gap: 50px;
   background-color: #f8f9fa;
-  margin-top: -20px;
+  margin-top: 40px;
   padding: 20px;
   width: 100%;
 }
@@ -98,6 +115,17 @@
   color: white;
 }
 
+/* 결과 화면 */
+.sen-result-bottom-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  height: 100px;
+}
+
 .image-viewer {
   display: flex;
   flex-direction: column;
@@ -109,4 +137,179 @@
   height: 150px;
   border: 1px solid #ccc;
   border-radius: 12px;
+}
+
+.sen-button-group {
+  position: absolute;
+  display: flex;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: center;
+  gap: 1rem;
+}
+
+.sen-button-group button {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  min-width: 160px;
+  background-color: #3366cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  position: absolute;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 500px;
+  max-height: 400px;
+  overflow: auto;
+  box-sizing: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.popup-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.sen-score-container {
+  position: absolute;
+  right: -100px;
+  bottom: 40px;
+  z-index: 10;
+}
+
+.sen-final-result-btn {
+  background-color: #3366cc;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 최종 결과 화면 */
+.sen-final-result {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px 20px;
+  gap: 10px;
+}
+
+.sen-final-result h2 {
+  color: #4a60f6;
+  font-size: 28px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* 좌우 영역 나누기 */
+.sen-final-result-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+  gap: 20px;
+}
+
+/* 왼쪽 (차트 자리) */
+.sen-final-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sen-final-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #424346;
+  margin-bottom: 5px;
+}
+
+.chart-placeholder {
+  background-color: #d0d8ff;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  color: #555;
+  font-weight: bold;
+}
+
+/* 오른쪽 (학습 팁 영역) */
+.sen-final-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sen-tip-content {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* 버튼 그룹 */
+.sen-final-button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.sen-retry-btn {
+  background-color: #4a60f6;
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sen-home-btn {
+  background-color: #dbe1f3;
+  color: #4a60f6;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
