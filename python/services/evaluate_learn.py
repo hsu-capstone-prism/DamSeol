@@ -59,6 +59,7 @@ def evaluate_word(eval_texts):
 
   response_message = chat_completion.choices[0].message.content
 
+
   print("단어 피드백 --------")
   print(chat_completion.choices[0].message.content)
 

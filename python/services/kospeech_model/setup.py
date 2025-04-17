@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='KoSpeech',
-    version='latest',
+    version='1.0.0',
     description='Open-Source Toolkit for End-to-End Korean Speech Recognition',
     author='Soohwan Kim',
     author_email='kaki.brain@kakaobrain.com',
