@@ -4,6 +4,8 @@ def extract_contents(text):
     match = re.search(r'(?:json)?```(?:\w*\n)?(.*?)(?:\n)?```', text, re.DOTALL)
 
     if match:
-        return match.group(1).strip()
+        content = match.group(1)
+        if content:
+            return content.strip()
     
-    return text.strip()
+    return text
