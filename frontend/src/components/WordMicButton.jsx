@@ -55,12 +55,10 @@ const WordMicButton = ({
       mediaRecorder.onstop = () => {
         const blob = new Blob(audioChunksRef.current, { type: "audio/wav" });
         uploadAudio(blob);
-        uploadAudio(blob);
       };
 
       mediaRecorder.start();
       setIsRecording(true);
-      updateStatus(selectedIndex, "멋진 목소리를 듣고 있어요");
       updateStatus(selectedIndex, "멋진 목소리를 듣고 있어요");
     } catch (err) {
       console.error("Error accessing microphone", err);
@@ -191,7 +189,6 @@ const WordMicButton = ({
           <FaMicrophone size={50} color="#3366ff" />
         )}
       </button>
-      <p className="mic-text">{statusList[selectedIndex]}</p>
       <p className="mic-text">{statusList[selectedIndex]}</p>
     </div>
   );
