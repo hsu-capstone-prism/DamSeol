@@ -10,8 +10,7 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   width: 100%;
-  height: 600px;
-  margin: auto;
+  height: 650px;
 }
 
 .breadcrumb {
@@ -40,10 +39,9 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
+  width: 80%;
   overflow: auto;
-  min-width: 400px;
-  max-width: 800px;
+  overflow: hidden;
 }
 
 .word {
@@ -54,6 +52,7 @@
 
 .word-result {
   transition: min-height 0.3s ease-in-out;
+  min-height: 0px;
 }
 
 .word-pronunciation {
@@ -79,12 +78,12 @@
 }
 
 .progress-bar {
-  position: absolute;
+  position: flex;
   justify-content: center;
   bottom: 20px;
   gap: 50px;
   background-color: #f8f9fa;
-  margin-top: -20px;
+  margin-top: 40px;
   padding: 20px;
   width: 100%;
 }
@@ -182,6 +181,11 @@
   font-size: 16px;
 }
 
+.user-pronunciation {
+  font-size: 32px;
+  margin-top: 10px;
+}
+
 /* 이미지 모달 */
 .modal-overlay {
   position: fixed;
@@ -189,7 +193,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.06);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -222,9 +226,10 @@
 }
 
 .modal-image {
-  max-width: 80%;
-  height: auto;
+  width: 300px;
+  height: 400px;
   margin-bottom: 20px;
+  object-fit: contain;
 }
 
 .modal-confirm-btn {
@@ -239,4 +244,115 @@
 
 .modal-confirm-btn:hover {
   background-color: #0044aa;
+}
+
+/* 최종 결과 화면 */
+.final-result {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px 20px;
+  gap: 10px;
+}
+
+.final-result h2 {
+  color: #4a60f6;
+  font-size: 28px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* 좌우 영역 배치 */
+.final-result-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+  gap: 20px;
+}
+
+.final-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4a60f6;
+  margin-bottom: 5px;
+}
+
+.final-left,
+.final-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* accuracy-bar */
+.accuracy-bar {
+  width: 100%;
+  height: 28px;
+  background-color: #d0d8ff;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.accuracy-fill {
+  height: 100%;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: 28px;
+  border-radius: 20px 0 0 20px;
+  transition: width 0.4s ease;
+}
+
+/* 추천 자모음 */
+.final-left .phon-list {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.final-left .phon-item {
+  background-color: #a5baff;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+/* 오른쪽 학습팁 영역 */
+.final-right .tip-content {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* 버튼 그룹 */
+.final-result .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 50px;
+}
+
+.final-result .button-group button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.final-result .button-group .retry-btn {
+  background-color: #4a60f6;
+  color: white;
+}
+
+.final-result .button-group .home-btn {
+  background-color: #dbe1f3;
+  color: #4a60f6;
 }

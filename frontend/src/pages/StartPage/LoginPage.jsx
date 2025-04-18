@@ -40,6 +40,7 @@ const LoginPage = () => {
       const token = authHeader.split(" ")[1]; // "Bearer <TOKEN>"에서 <TOKEN> 부분만 추출
       localStorage.setItem("authToken", token);
       console.log("JWT 토큰 저장 완료:", token);
+      localStorage.setItem("username", username);
 
       navigate("/main"); // 로그인 성공 시 메인 페이지로 이동
     } catch (error) {

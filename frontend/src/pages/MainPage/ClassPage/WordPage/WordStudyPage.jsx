@@ -6,7 +6,6 @@ import MicButton from "../../../../components/WordMicButton";
 import ProgressBar from "../../../../components/WordProgressBar";
 import axios from "axios";
 
-// JWT 토큰 가져오기
 const getAuthToken = () => localStorage.getItem("authToken");
 
 const WordStudy = () => {
@@ -15,17 +14,18 @@ const WordStudy = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [result, setResult] = useState(null);
-  const [isResultVisible, setIsResultVisible] = useState(false); // 선택된 결과
-  const [imageSrc, setImageSrc] = useState(null); // 선택된 이미지
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 관리
+  const [resultList, setResultList] = useState([]);
+  const [isResultVisible, setIsResultVisible] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPhon, setSelectedPhon] = useState("");
   const [showFinalResult, setShowFinalResult] = useState(false);
+  const [summaryTip, setSummaryTip] = useState("");
 
   const location = useLocation();
-  const symbol = location.state?.symbol || "알 수 없음"; // state에서 symbol 가져오기
+  const symbol = location.state?.symbol || "알 수 없음";
+  const username = localStorage.getItem("username") || "사용자";
 
-  // 단어 목록 가져오기
   useEffect(() => {
     if (!subcategoryId) return;
 
@@ -36,23 +36,17 @@ const WordStudy = () => {
         const token = getAuthToken();
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        console.log(
-          "단어 데이터 요청:",
-          `/api/words/subcategory/${subcategoryId}`
-        );
-
         const wordsRes = await axios.get(
           `http://localhost:8080/api/words/subcategory/${subcategoryId}`,
           { headers }
         );
-
-        console.log("단어 응답:", wordsRes.data);
 
         if (wordsRes.data.length === 0) {
           setError("해당 서브카테고리에 대한 단어가 없습니다.");
         } else {
           setWords(wordsRes.data);
           setSelectedIndex(0);
+          setResultList(new Array(wordsRes.data.length).fill(null));
         }
       } catch (err) {
         console.error("Error fetching words:", err);
@@ -66,23 +60,34 @@ const WordStudy = () => {
   }, [subcategoryId]);
 
   const handleUploadComplete = (data) => {
-    setResult(data);
+    setResultList((prev) => {
+      const updated = [...prev];
+      updated[selectedIndex] = data;
+      return updated;
+    });
     setIsResultVisible(true);
   };
 
-  // 모달 열기
   const openImageModal = async (phon) => {
     const phonMapping = {
-      ㄱ: "g.png",
-      ㄷ: "d.png",
+      ㄴ: "n.png",
+      ㄹ: "r.png",
+      ㅁ: "m.png",
+      ㅂ: "b.png",
+      ㅅ: "s.png",
+      ㅈ: "j.png",
+      ㅊ: "ch.png",
+      ㅋ: "k.png",
+      ㅌ: "t.png",
+      ㅍ: "p.png",
+      ㅎ: "h.png",
     };
 
     const imageName = phonMapping[phon.trim()];
     if (!imageName) return;
 
     try {
-      const token = localStorage.getItem("authToken");
-
+      const token = getAuthToken();
       const response = await axios.get(`http://localhost:8080/${imageName}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -99,6 +104,77 @@ const WordStudy = () => {
     }
   };
 
+  const getSummaryResult = () => {
+    const validResults = resultList.filter(Boolean);
+    const totalScore = validResults.reduce((sum, r) => sum + r.score, 0);
+    const avgScore = validResults.length
+      ? Math.round(totalScore / validResults.length)
+      : 0;
+
+    const allWrongPhons = validResults
+      .map((r) => r.wrongPhon)
+      .filter(Boolean)
+      .flatMap((wp) => wp.split(",").map((p) => p.trim()));
+
+    const uniqueWrongPhons = [...new Set(allWrongPhons)];
+    const allDetails = validResults.map((r) => r.details).join(" \n");
+
+    return { avgScore, uniqueWrongPhons, allDetails };
+  };
+
+  const { avgScore, uniqueWrongPhons, allDetails } = getSummaryResult();
+
+  // 요약 API 호출
+  const fetchSummaryTip = async () => {
+    try {
+      const token = getAuthToken();
+      const formData = new FormData();
+      formData.append("text", allDetails);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/summarize/word",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("word요약 API 응답 확인:", response.data);
+
+      setSummaryTip(response.data.response || "요약 결과가 없습니다.");
+      setShowFinalResult(true);
+    } catch (error) {
+      console.error("요약 API 오류:", error);
+      setSummaryTip("요약을 가져오는 데 실패했습니다.");
+      setShowFinalResult(true);
+    }
+  };
+
+  // 틀린 단어 빨간색 처리
+  const highlightWrongPron = (text, wrongIndicesStr) => {
+    if (!text || !wrongIndicesStr) return text;
+
+    const wrongIndices = wrongIndicesStr
+      .split(",")
+      .map((i) => parseInt(i, 10))
+      .filter((n) => !isNaN(n));
+
+    return text.split("").map((char, idx) => (
+      <span
+        key={idx}
+        style={{
+          color: wrongIndices.includes(idx) ? "red" : "black",
+          fontWeight: wrongIndices.includes(idx) ? "bold" : "normal",
+        }}
+      >
+        {char}
+      </span>
+    ));
+  };
+
   if (loading) return <p>📡 데이터 로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
@@ -112,18 +188,63 @@ const WordStudy = () => {
         <section className="word-display">
           {showFinalResult ? (
             <div className="final-result">
-              <h2>최종 결과</h2>
-              <p>{result.details}</p>
-              <button
-                onClick={() => {
-                  setShowFinalResult(false);
-                  setSelectedIndex(0);
-                  setIsResultVisible(false);
-                }}
-                className="popup-close-btn"
-              >
-                다시 학습하기
-              </button>
+              <h2>{username}님의 학습 결과</h2>
+              <div className="final-result-grid">
+                <div className="final-left">
+                  <p className="final-title">평균 정확도</p>
+                  <div className="accuracy-bar">
+                    <div
+                      className="accuracy-fill"
+                      style={{
+                        width: `${avgScore}%`,
+                        backgroundColor:
+                          avgScore <= 25
+                            ? "#E9967A"
+                            : avgScore <= 50
+                            ? "#EEE8AA"
+                            : avgScore <= 75
+                            ? "#8FBC8F"
+                            : "#6366f1",
+                      }}
+                    >
+                      {avgScore}%
+                    </div>
+                  </div>
+                  <p className="final-title">추천 학습 자·모음</p>
+                  <div className="phon-list">
+                    {uniqueWrongPhons.map((phon, index) => (
+                      <span key={index} className="phon-item">
+                        {phon}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="final-right">
+                  <p className="final-title">학습 팁</p>
+                  <p className="tip-content">{summaryTip || allDetails}</p>
+                </div>
+              </div>
+
+              <div className="button-group">
+                <button
+                  className="retry-btn"
+                  onClick={() => {
+                    setShowFinalResult(false);
+                    setSelectedIndex(0);
+                    setIsResultVisible(false);
+                    setSummaryTip("");
+                  }}
+                >
+                  다시 학습하기
+                </button>
+                <button
+                  className="home-btn"
+                  onClick={() => (window.location.href = "/main")}
+                >
+                  학습 화면으로
+                </button>
+              </div>
             </div>
           ) : (
             <>
@@ -137,44 +258,55 @@ const WordStudy = () => {
               ) : (
                 <p>해당하는 단어가 없습니다.</p>
               )}
+              <div className="word-result">
+                {isResultVisible && resultList[selectedIndex] ? (
+                  <>
+                    <p className="pronunciation-label">{username}님의 발음</p>
+                    <h2 className="user-pronunciation">
+                      {highlightWrongPron(
+                        resultList[selectedIndex].pron,
+                        resultList[selectedIndex].wrongPhonIndices
+                      )}
+                    </h2>
 
-              {isResultVisible && result && (
-                <div className="word-result">
-                  <p className="pronunciation-label">000님의 발음</p>
-                  <h2 className="user-pronunciation">{result.pron}</h2>
-
-                  <div className="result-bottom-container">
-                    <div className="learning-suggestions">
-                      <p className="suggestion-title">추천 학습</p>
-                      <div className="suggestion-buttons">
-                        {result.wrongPhon &&
-                          result.wrongPhon.split(",").map((phon, index) => (
-                            <button
-                              key={index}
-                              className="suggestion-btn"
-                              onClick={() => openImageModal(phon)}
-                            >
-                              {phon}
-                            </button>
-                          ))}
+                    <div className="result-bottom-container">
+                      <div className="learning-suggestions">
+                        <p className="suggestion-title">추천 학습</p>
+                        <div className="suggestion-buttons">
+                          {resultList[selectedIndex].wrongPhon &&
+                            resultList[selectedIndex].wrongPhon
+                              .split(",")
+                              .map((phon, index) => (
+                                <button
+                                  key={index}
+                                  className="suggestion-btn"
+                                  onClick={() => openImageModal(phon)}
+                                >
+                                  {phon}
+                                </button>
+                              ))}
+                        </div>
+                      </div>
+                      <div className="score-container">
+                        {selectedIndex === words.length - 1 && (
+                          <button
+                            className="final-result-btn"
+                            onClick={fetchSummaryTip}
+                          >
+                            최종 결과화면 보기
+                          </button>
+                        )}
+                        <p className="accuracy-label">정확도</p>
+                        <p className="score">
+                          {resultList[selectedIndex].score}%
+                        </p>
                       </div>
                     </div>
-                    <div className="score-container">
-                      {/* 마지막 단어에서만 최종 결과화면 보기 버튼 */}
-                      {selectedIndex === words.length - 1 && (
-                        <button
-                          className="final-result-btn"
-                          onClick={() => setShowFinalResult(true)}
-                        >
-                          최종 결과화면 보기
-                        </button>
-                      )}
-                      <p className="accuracy-label">정확도</p>
-                      <p className="score">{result.score}%</p>
-                    </div>
-                  </div>
-                </div>
-              )}
+                  </>
+                ) : (
+                  <div style={{ height: "80px" }} />
+                )}
+              </div>
             </>
           )}
         </section>
@@ -182,7 +314,7 @@ const WordStudy = () => {
         {!isResultVisible && (
           <MicButton
             selectedIndex={selectedIndex}
-            subcategoryId={subcategoryId}
+            word={words[selectedIndex]}
             totalWords={words.length}
             onUploadComplete={handleUploadComplete}
           />
@@ -195,10 +327,11 @@ const WordStudy = () => {
             setSelectedIndex(index);
             setIsResultVisible(false);
             setShowFinalResult(false);
+            setSummaryTip("");
           }}
         />
       </div>
-      {/* 이미지 모달 창 */}
+
       {isModalOpen && (
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div className="modal-content">
