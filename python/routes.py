@@ -38,7 +38,9 @@ def upload_audio():
     file.save(file_path)
 
     #file_bytes = file.read()
-    user_pronun = get_pronun(file_path)            
+    user_pronun = get_pronun(file_path)
+    if mode == 'word':
+        user_pronun = user_pronun.replace('.', '')
 
     result_pronun = evaluate_pronunciation(text, user_pronun)
 
