@@ -53,11 +53,11 @@ const ReportPage = () => {
   };
 
   const radarData = {
-    labels: ["정확도", "리듬 적확성", "평균 RMS", "음정 변화율", "음정 평균값"],
+    labels: ["정확도", "피치", "리듬"],
     datasets: [
       {
         label: "음성 분석 결과",
-        data: [86, 70, 50, 80, 65],
+        data: [86, 70, 96],
         backgroundColor: "rgba(0, 86, 179, 0.2)",
         borderColor: "#0056b3",
         borderWidth: 2,
