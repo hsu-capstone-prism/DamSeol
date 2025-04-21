@@ -270,11 +270,23 @@ const ReportPage = () => {
       {/* 최근 학습 */}
       <section className="report-learning-section">
         <h2>최근 학습</h2>
-        <div className="teacher-container">
-          <div className="box teacher">
+        <div className="report-container">
+          <div className="report-left-section">
+            <h3>학습 진도</h3>
             <p>
-              단어 학습: 음운의 변동 부분이 부족해요! <br />
-              진도율: <strong>51.18%</strong>
+              이번 주에 학습한 단어
+              <br />
+              <strong>25 단어</strong>
+            </p>
+            <p>
+              이번 주에 학습한 문장
+              <br />
+              <strong>12 문장</strong>
+            </p>
+            <p>
+              이번 주에 학습한 시간
+              <br />
+              <strong>92 분</strong>
             </p>
           </div>
           <div className="box teacher">
