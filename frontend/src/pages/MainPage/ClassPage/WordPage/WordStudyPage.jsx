@@ -117,7 +117,7 @@ const WordStudy = () => {
       .flatMap((wp) => wp.split(",").map((p) => p.trim()));
 
     const uniqueWrongPhons = [...new Set(allWrongPhons)];
-    const allDetails = validResults.map((r) => r.details).join(" \n");
+    const allDetails = validResults.map((r) => r.evaluation).join(" \n");
 
     return { avgScore, uniqueWrongPhons, allDetails };
   };
