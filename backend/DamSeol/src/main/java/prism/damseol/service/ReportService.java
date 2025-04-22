@@ -9,7 +9,10 @@ import prism.damseol.repository.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,7 +99,7 @@ public class ReportService {
                             .filter(s -> s.getDate().isAfter(startOfWeek) && s.getDate().isBefore(endOfWeek))
                             .toList();
 
-                    // 🔥 avgAccuracy 계산
+                    // avgAccuracy 계산
                     int totalWordScoreSum = wordsInWeek.stream().mapToInt(WordRecord::getScore).sum();
                     int totalSentenceCorrectionSum = sentencesInWeek.stream().mapToInt(SentenceRecord::getCorrection).sum();
                     int totalCount = wordsInWeek.size() + sentencesInWeek.size();
@@ -133,6 +136,40 @@ public class ReportService {
         return ReportListDTO.builder()
                 .weeklyReports(weeklyReports)
                 .build();
+    }
+
+    public WeeklyLearningCountDTO getWeekLearningCountByMember(String memberName) {
+        Member member = memberRepository.findByName(memberName);
+        if (member == null)
+            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+
+        LocalDateTime startOfWeek = getStartOfWeek(0);
+        LocalDateTime endOfWeek = getEndOfWeek(0);
+
+        long wordCount = wordRecordRepository.findAllByMember(member).stream()
+                .filter(w -> w.getDate().isAfter(startOfWeek) && w.getDate().isBefore(endOfWeek))
+                .count();
+
+        long sentenceCount = sentenceRecordRepository.findAllByMember(member).stream()
+                .filter(s -> s.getDate().isAfter(startOfWeek) && s.getDate().isBefore(endOfWeek))
+                .count();
+
+        return new WeeklyLearningCountDTO(wordCount, sentenceCount);
+    }
+
+    public Set<String> getAllWrongPhons(String memberName) {
+        Member member = memberRepository.findByName(memberName);
+        if (member == null) throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+
+        List<WordRecord> records = wordRecordRepository.findAllByMember(member);
+
+        return records.stream()
+                .map(WordRecord::getWrongPhon)
+                .filter(Objects::nonNull)
+                .flatMap(s -> Arrays.stream(s.split(",")))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toSet());
     }
 
     private LocalDateTime getStartOfWeek(int weeksAgo) {
