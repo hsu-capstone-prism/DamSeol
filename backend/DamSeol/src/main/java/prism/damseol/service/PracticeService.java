@@ -98,6 +98,7 @@ public class PracticeService {
         }
         sb.deleteCharAt(sb.length() - 1);
         wordRecord.setWrongPhon(sb.toString());
+        wordRecordRepository.save(wordRecord);
 
         // 틀린 발음이 포함된 인덱스 반환
         List<Integer> incorrectPronIndices = KoreanPronChecker.getIncorrectPronIndices(word.getWordPron(), wordRecord.getPron());
