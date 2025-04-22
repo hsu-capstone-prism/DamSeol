@@ -18,7 +18,7 @@ def get_pronun(audio_path):
   ]
 
   try:
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=script_dir, encoding='utf-8')
+    result = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=script_dir)
     output = result.stdout
 
     print("kospeech output: ", output)
