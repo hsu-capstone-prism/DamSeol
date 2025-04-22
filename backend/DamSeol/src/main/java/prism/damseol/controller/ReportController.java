@@ -8,6 +8,7 @@ import prism.damseol.dto.*;
 import prism.damseol.service.ReportService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/report")
@@ -51,5 +52,15 @@ public class ReportController {
 
         WeeklyLearningCountDTO weeklyLearningCountDTO = reportService.getWeekLearningCountByMember(memberName);
         return ResponseEntity.ok(weeklyLearningCountDTO);
+    }
+
+    @GetMapping("/wrongPhons")
+    public ResponseEntity<Set<String>> getWrongPhons() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String memberName = userDetails.getUsername();
+
+        Set<String> wrongPhons = reportService.getAllWrongPhons(memberName);
+        return ResponseEntity.ok(wrongPhons);
     }
 }
