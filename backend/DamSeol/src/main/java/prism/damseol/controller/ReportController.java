@@ -8,6 +8,7 @@ import prism.damseol.dto.*;
 import prism.damseol.service.ReportService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/report")
@@ -20,6 +21,7 @@ public class ReportController {
         this.reportService = reportService;
     }
 
+    // 평균 정확도, 평균 점수 표시(삼각형)
     @GetMapping("/scores")
     public ResponseEntity<ReportDTO> getReportForMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -30,6 +32,7 @@ public class ReportController {
         return ResponseEntity.ok(report);
     }
 
+    // 주차별 정확도 추이
     @GetMapping("/weekly")
     public ResponseEntity<ReportListDTO> getWeeklyReport() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -38,5 +41,26 @@ public class ReportController {
 
         ReportListDTO reportList = reportService.getWeeklyReportByMember(memberName);
         return ResponseEntity.ok(reportList);
+    }
+
+    // 이번 주에 학습한 단어, 문장
+    @GetMapping("/count")
+    public ResponseEntity<WeeklyLearningCountDTO> getWeeklyLearningCount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String memberName = userDetails.getUsername();
+
+        WeeklyLearningCountDTO weeklyLearningCountDTO = reportService.getWeekLearningCountByMember(memberName);
+        return ResponseEntity.ok(weeklyLearningCountDTO);
+    }
+
+    @GetMapping("/wrongPhons")
+    public ResponseEntity<Set<String>> getWrongPhons() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String memberName = userDetails.getUsername();
+
+        Set<String> wrongPhons = reportService.getAllWrongPhons(memberName);
+        return ResponseEntity.ok(wrongPhons);
     }
 }
