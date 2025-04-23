@@ -32,6 +32,9 @@ const ReportPage = () => {
   const [weeklyChartData, setWeeklyChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [wordCount, setWordCount] = useState(null);
+  const [sentenceCount, setSentenceCount] = useState(null);
+  const [wrongPhons, setWrongPhons] = useState([]);
 
   // 평균 점수
   useEffect(() => {
@@ -120,6 +123,56 @@ const ReportPage = () => {
     };
 
     fetchWeeklyData();
+  }, []);
+
+  // 단어/문장 수
+  useEffect(() => {
+    const fetchReportCount = async () => {
+      try {
+        const token = getAuthToken();
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const response = await fetch("http://localhost:8080/api/report/count", {
+          headers,
+        });
+
+        if (!response.ok) throw new Error("카운트 데이터 요청 실패");
+
+        const data = await response.json();
+        setWordCount(data.wordCount ?? 0);
+        setSentenceCount(data.sentenceCount ?? 0);
+      } catch (err) {
+        console.error("Report count fetch error:", err);
+      }
+    };
+
+    fetchReportCount();
+  }, []);
+
+  // 개선 발음
+  useEffect(() => {
+    const fetchWrongPhons = async () => {
+      try {
+        const token = getAuthToken();
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const response = await fetch(
+          "http://localhost:8080/api/report/wrongPhons",
+          {
+            headers,
+          }
+        );
+
+        if (!response.ok) throw new Error("잘못된 발음 데이터 요청 실패");
+
+        const data = await response.json(); // 배열 형태
+        setWrongPhons(data);
+      } catch (err) {
+        console.error("Wrong phonemes fetch error:", err);
+      }
+    };
+
+    fetchWrongPhons();
   }, []);
 
   // Radar Chart
@@ -268,33 +321,45 @@ const ReportPage = () => {
       </section>
 
       {/* 최근 학습 */}
-      <section className="report-learning-section">
+      <section className="report-learning-section recent-section">
         <h2>최근 학습</h2>
-        <div className="report-container">
-          <div className="report-left-section">
+        <div className="recent-container">
+          <div className="recent-left-section">
             <h3>학습 진도</h3>
             <p>
               이번 주에 학습한 단어
               <br />
-              <strong>25 단어</strong>
+              <strong>
+                {wordCount !== null ? `${wordCount} 단어` : "불러오는 중..."}
+              </strong>
             </p>
             <p>
               이번 주에 학습한 문장
               <br />
-              <strong>12 문장</strong>
+              <strong>
+                {sentenceCount !== null
+                  ? `${sentenceCount} 문장`
+                  : "불러오는 중..."}
+              </strong>
             </p>
             <p>
-              이번 주에 학습한 시간
+              개선이 필요한 발음
               <br />
-              <strong>92 분</strong>
+              <strong>
+                {wrongPhons.length > 0
+                  ? wrongPhons.join(", ")
+                  : "불러오는 중..."}
+              </strong>
             </p>
+            <div className="recent-box">
+              <p>
+                문장학습: 좀 더 분발하세요! <br />
+                진도율: <strong>11.28%</strong>
+              </p>
+            </div>
           </div>
-          <div className="box teacher">
-            <p>
-              문장학습: 좀 더 분발하세요! <br />
-              진도율: <strong>11.28%</strong>
-            </p>
-          </div>
+
+          <div className="recent-right-section"></div>
         </div>
       </section>
     </div>

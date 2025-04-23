@@ -63,21 +63,20 @@
 }
 
 /* 최근 학습 */
-.report-container {
+.recent-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-wrap: row;
+  gap: 0px;
   justify-content: center;
 }
 
-.box.teacher {
+.recent-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: -50px;
-  padding: 25px;
+  padding: 15px;
   border-radius: 10px;
   text-align: center;
   background-color: #e8f0fe;
-  min-width: 350px;
+  min-width: 300px;
 }
