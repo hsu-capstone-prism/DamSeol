@@ -354,12 +354,6 @@ const ReportPage = () => {
                   : "불러오는 중..."}
               </strong>
             </p>
-            <div className="recent-box">
-              <p>
-                문장학습: 좀 더 분발하세요! <br />
-                진도율: <strong>11.28%</strong>
-              </p>
-            </div>
           </div>
 
           <div className="recent-right-section"></div>
