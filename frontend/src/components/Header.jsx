@@ -6,6 +6,8 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
 
+  const logo = isMenuOpen ? "logo-tmp-full.png" : "logo-tmp-s.png";
+
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
   };
@@ -41,7 +43,9 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   return (
     <header className={`header ${isMenuOpen ? "open" : ""}`}>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <h1 className="header-logo">담설</h1>
+      <h1 className="header-logo">
+        <img src={logo} alt="logo" />
+      </h1>
       <nav className="header-nav">
         <ul className="header-nav-menu">
           {navMenu.map((menu, index) => (
