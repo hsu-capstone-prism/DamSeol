@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import LandingPage from "./pages/StartPage/LandingPage";
 import LoginPage from "./pages/StartPage/LoginPage";
@@ -27,6 +27,9 @@ import GramStudyPage from "./pages/MainPage/ClassPage/GrammerPage/GramStudyPage"
 
 function AppContent() {
   const location = useLocation();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const hideHeaderPaths = ["/", "/login", "/signup"];
 
   const routes = [
@@ -73,7 +76,7 @@ function AppContent() {
 
   return (
     <div>
-      {!hideHeaderPaths.includes(location.pathname) && <Header />}
+      {!hideHeaderPaths.includes(location.pathname) && <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />}
       <Routes>
         {routes.map(({ path, element }, key) => (
           <Route path={path} element={element} key={key} />
