@@ -2,99 +2,121 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 80px;
+  width: 5%;
+  height: 100vh;
   background: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0 10px;
+  box-sizing: border-box;
+  z-index: 1000;
+
+
+  transition: width 0.3s ease-in-out;
+}
+
+.header.open {
+  width: 14%;
+  align-items: flex-start;
+}
+
+.header-bottom-wrapper {
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 20px);
+  height: 100px;
+}
+
+.header-bottom {
+  width: 100%;
+  height: 100%;
+}
+
+.header-toggle-btn {
+  position: absolute;
+  top: 5%;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 100px;
-}
-
-.header-center {
-  position: absolute;
-  left: 18%;
-  display: flex;
-  align-items: center;
-  gap: 25px;
-  min-width: 300px;
-}
-
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 28px;
+  justify-content: center;
   cursor: pointer;
+  transform: translateX(50%);
+
+  transition: transform 0.2s ease-in-out;
 }
 
-.logo {
-  font-size: 28px;
+.open .header-toggle-btn {
+  transform: translateX(50%) rotate(-180deg);
+}
+
+.header-logo {
+  margin: 0; 
+  padding: 10px;
+  font-size: 24px;
   font-weight: bold;
   color: black;
 }
 
-.header-right {
+.header-logo img {
+  height: 42px;
+}
+/* 프로필 */
+.profile-container {
   display: flex;
   align-items: center;
   gap: 10px;
-  position: absolute;
-  right: 20px;
-}
-
-.search {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  outline: none;
-  width: 160px;
-  font-size: 14px;
-}
-
-.search-btn {
-  background: none;
-  border: none;
-  font-size: 18px;
   cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: padding 0.3s ease-in-out;
 }
 
-/* 프로필 */
+.open .profile-container {
+  padding: 10px;
+}
+
+.open .profile-container:hover {
+  background-color: #f0eeee;
+}
+
+.profile-container:hover {
+  background-color: inherit;
+}
+
 .profile-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 20px;
   background-color: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   outline: none;
   padding: 0;
   position: relative;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .profile-menu {
   position: absolute;
-  top: 50px;
-  right: 0px;
-  width: 200px;
+  bottom: 0px;
+  left: calc(100% + 10px);
+  width: 150px;
   background: white;
   border: 2px solid #ddd;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  padding: 15px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  padding: 5px;
   z-index: 1000;
+  transition: left 0.3s ease-in-out;
 }
 
 .profile-options {
@@ -104,12 +126,11 @@
 }
 
 .profile-option {
-  width: 100%;
   background: none;
   border: none;
-  padding: 11px 13px;
+  padding: 5px;
   text-align: left;
-  font-size: 18px;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -120,43 +141,70 @@
   background: #f0eeee;
 }
 
-/* 햄버거 메뉴 바 */
-.sidebar {
-  position: fixed;
-  top: 85px;
-  left: -100%;
-  width: 14%;
-  height: calc(100vh - 80px);
-  background: #ffffff;
-  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
-  transition: left 0.3s ease-in-out;
-  padding: 10px;
+.profile-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  width: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.open .profile-text {
+  width: auto;
+}
+
+/* 내비게이션 */
+.header-nav {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  z-index: 1000;
 }
 
-.sidebar.open {
-  left: 0px;
+.open .header-nav {
+  width: 100%;
 }
 
-.sidebar-menu {
+.header-nav-menu {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar-menu li {
-  font-size: 20px;
+.header-nav-menu li {
+  font-size: 16px;
   font-weight: 500;
-  padding: 20px 10px;
-  border-bottom: 1px solid #ddd;
+  width: min-content;
+  padding: 10px;
+  margin: 10px 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 50%;
+  transition: width 0.3s ease-in-out;
 }
 
-.sidebar-menu li:hover {
-  background: #f0eeee;
+.open .header-nav-menu li {
+  width: auto;
+  height: auto;
+  border-radius: 5px;
+}
+
+.header-nav-menu li:hover {
+  background-color: #f0eeee;
+}
+
+.header-nav-menu-text {
+  display: none;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease-in-out;
+}
+
+.open .header-nav-menu-text {
+  display: inline;
+  width: 100%;
 }
 
 .overlay {
@@ -169,7 +217,11 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-.sidebar.open ~ .header .header-center,
-.sidebar.open ~ .header .header-right {
-  transform: none;
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
