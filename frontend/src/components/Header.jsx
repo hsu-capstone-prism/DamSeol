@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Header.css";
 
 const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logo = isMenuOpen ? "logo-tmp-full.png" : "logo-tmp-s.png";
 
@@ -23,7 +24,6 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
 
   const handleNavigate = (path) => {
     navigate(path);
-    setIsMenuOpen(false);
   };
 
   const navMenu = [
@@ -43,17 +43,21 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   return (
     <header className={`header ${isMenuOpen ? "open" : ""}`}>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <h1 className="header-logo">
+      <h1 className="header-logo" onClick={() => handleNavigate("/main")}>
         <img src={logo} alt="logo" />
       </h1>
       <nav className="header-nav">
         <ul className="header-nav-menu">
-          {navMenu.map((menu, index) => (
-            <li key={index} onClick={() => handleNavigate(menu.path)}>
-              <span className="material-symbols-outlined">{menu.icon}</span>
-              <span className="header-nav-menu-text">{menu.text}</span>
-            </li>
-          ))}
+          {navMenu.map((menu, index) => {
+            const isActive = location.pathname.startsWith(menu.path);
+            return (
+              <li key={index} onClick={() => handleNavigate(menu.path)} className={isActive ? "active" : ""}>
+                <span className="material-symbols-outlined">{menu.icon}</span>
+                <span className="header-nav-menu-text">{menu.text}</span>
+              </li>
+            );
+          })
+          }
         </ul>
       </nav>
       <div className="header-bottom-wrapper">
