@@ -54,12 +54,16 @@
 }
 
 .header-logo {
+  margin: 0; 
+  padding: 10px;
   font-size: 24px;
   font-weight: bold;
   color: black;
 }
 
-
+.header-logo img {
+  height: 42px;
+}
 /* 프로필 */
 .profile-container {
   display: flex;

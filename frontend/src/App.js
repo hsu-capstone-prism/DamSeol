@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import LandingPage from "./pages/StartPage/LandingPage";
 import LoginPage from "./pages/StartPage/LoginPage";
+import Logout from "./pages/StartPage/LogoutPage";
 import Header from "./components/Header";
 import MainPage from "./pages/MainPage/MainPage";
 import WordPage from "./pages/MainPage/ClassPage/WordPage";
@@ -35,6 +36,7 @@ function AppContent() {
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/login", element: <LoginPage /> },
+    { path: "/logout", element: <Logout /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
     { path: "/report", element: <ReportPage /> },
