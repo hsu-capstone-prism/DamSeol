@@ -100,7 +100,6 @@ const ReportPage = () => {
               borderColor: "#0056b3",
               backgroundColor: "rgba(0, 86, 179, 0.2)",
               fill: false,
-              spanGaps: false,
             },
             {
               label: "음정",
@@ -108,7 +107,6 @@ const ReportPage = () => {
               borderColor: "#ff8c00",
               backgroundColor: "rgba(255, 140, 0, 0.2)",
               fill: false,
-              spanGaps: false,
             },
             {
               label: "리듬",
@@ -116,7 +114,6 @@ const ReportPage = () => {
               borderColor: "#008000",
               backgroundColor: "rgba(0, 128, 0, 0.2)",
               fill: false,
-              spanGaps: false,
             },
           ],
         });
