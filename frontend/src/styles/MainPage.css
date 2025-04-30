@@ -12,7 +12,7 @@
 /* 학습 */
 .class-section {
   background: #f5f5f5;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   padding: 40px;
   border-radius: 12px;
   overflow-x: auto;
@@ -29,6 +29,7 @@
   display: flex;
   gap: 20px;
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   flex-wrap: nowrap;
   scrollbar-width: thin;
@@ -69,7 +70,7 @@
 .game-box-container {
   flex: 1;
   background: #f5f5f5;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   padding: 40px;
   border-radius: 12px;
   display: flex;
@@ -135,10 +136,4 @@
   flex: 1;
   height: 2px;
   background: #ddd;
-}
-
-/* 스크롤바 */
-.class-container {
-  scrollbar-width: thin;
-  scrollbar-color: #b9b9bb #f1f1fa;
 }
