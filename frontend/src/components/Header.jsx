@@ -17,10 +17,11 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {
+  /*const handleLogout = () => {
     setIsProfileOpen(false);
     navigate("/");
   };
+  */
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -42,7 +43,10 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
 
   return (
     <header className={`header ${isMenuOpen ? "open" : ""}`}>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      />
       <h1 className="header-logo" onClick={() => handleNavigate("/main")}>
         <img src={logo} alt="logo" />
       </h1>
@@ -51,13 +55,16 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
           {navMenu.map((menu, index) => {
             const isActive = location.pathname.startsWith(menu.path);
             return (
-              <li key={index} onClick={() => handleNavigate(menu.path)} className={isActive ? "active" : ""}>
+              <li
+                key={index}
+                onClick={() => handleNavigate(menu.path)}
+                className={isActive ? "active" : ""}
+              >
                 <span className="material-symbols-outlined">{menu.icon}</span>
                 <span className="header-nav-menu-text">{menu.text}</span>
               </li>
             );
-          })
-          }
+          })}
         </ul>
       </nav>
       <div className="header-bottom-wrapper">
@@ -74,8 +81,14 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
             <div className="profile-menu">
               <ul className="profile-options">
                 {profileMenu.map((menu, index) => (
-                  <li key={index} className="profile-option" onClick={() => handleNavigate(menu.path)}>
-                    <span className="material-symbols-outlined">{menu.icon}</span>
+                  <li
+                    key={index}
+                    className="profile-option"
+                    onClick={() => handleNavigate(menu.path)}
+                  >
+                    <span className="material-symbols-outlined">
+                      {menu.icon}
+                    </span>
                     <span className="profile-menu-text">{menu.text}</span>
                   </li>
                 ))}
@@ -85,12 +98,9 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
         </div>
       </div>
       <div className="header-toggle-btn" onClick={toggleMenu}>
-        <span className="material-symbols-outlined">
-          chevron_right
-        </span>
+        <span className="material-symbols-outlined">chevron_right</span>
       </div>
     </header>
-
   );
 };
 
