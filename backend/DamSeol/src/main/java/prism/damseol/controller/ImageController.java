@@ -1,5 +1,6 @@
 package prism.damseol.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -17,11 +18,13 @@ public class ImageController {
     private final String WAVEFORM_DIR = System.getProperty("user.dir") + "/uploads/waveform/";
     private final String PITCH_DIR = System.getProperty("user.dir") + "/uploads/pitch/";
 
+    @Operation(summary = "Waveform 이미지 조회", description = "지정된 파일 이름의 발음 wave 파형 이미지를 반환합니다.")
     @GetMapping("/waveform/{filename}")
     public ResponseEntity<Resource> getWaveformImage(@PathVariable String filename) {
         return serveImage(WAVEFORM_DIR, filename);
     }
 
+    @Operation(summary = "Pitch 이미지 조회", description = "지정된 파일 이름의 pitch 이미지를 반환합니다.")
     @GetMapping("/pitch/{filename}")
     public ResponseEntity<Resource> getPitchImage(@PathVariable String filename) {
         return serveImage(PITCH_DIR, filename);
