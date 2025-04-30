@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/LoginPage.css";
@@ -8,6 +8,13 @@ const LoginPage = () => {
   const [username, setUsername] = useState(""); // 기존 username 유지
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      navigate("/main");
+    }
+  }, [navigate]);
 
   const handleLogin = async () => {
     if (!username || !password) {

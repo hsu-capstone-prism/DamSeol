@@ -1,0 +1,4 @@
+defaults:
+  - audio: fbank
+  - model: ds2      #joint-ctc-attention-transformer
+  - train: ds2_train #transformer_train

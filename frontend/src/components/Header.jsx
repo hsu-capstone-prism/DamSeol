@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Header.css";
 
-const Header = () => {
+const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const logo = isMenuOpen ? "logo-tmp-full.png" : "logo-tmp-s.png";
 
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
@@ -22,65 +24,73 @@ const Header = () => {
 
   const handleNavigate = (path) => {
     navigate(path);
-    setIsMenuOpen(false);
   };
 
+  const navMenu = [
+    { icon: "home", text: "Home", path: "/main" },
+    { icon: "school", text: "Class", path: "/class" },
+    { icon: "bar_chart", text: "Report", path: "/report" },
+    { icon: "sports_esports", text: "Game", path: "/game" },
+  ];
+
+  const profileMenu = [
+    { icon: "person", text: "내 프로필", path: "/profile" },
+    { icon: "settings", text: "환경설정", path: "/settings" },
+    { icon: "download", text: "PC 앱 다운로드", path: "/download" },
+    { icon: "logout", text: "로그아웃", path: "/logout" },
+  ];
+
   return (
-    <header className="header">
-      <div className="header-left">
-        <button className="menu-btn" onClick={toggleMenu}>
-          ☰
-        </button>
-      </div>
-      <div className="header-center">
-        <h1 className="logo">DamSeol</h1>
-        <div className="header-search">
-          <input type="text" placeholder="Search" className="search" />
-          <button className="search-btn">🔍</button>
+    <header className={`header ${isMenuOpen ? "open" : ""}`}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <h1 className="header-logo" onClick={() => handleNavigate("/main")}>
+        <img src={logo} alt="logo" />
+      </h1>
+      <nav className="header-nav">
+        <ul className="header-nav-menu">
+          {navMenu.map((menu, index) => {
+            const isActive = location.pathname.startsWith(menu.path);
+            return (
+              <li key={index} onClick={() => handleNavigate(menu.path)} className={isActive ? "active" : ""}>
+                <span className="material-symbols-outlined">{menu.icon}</span>
+                <span className="header-nav-menu-text">{menu.text}</span>
+              </li>
+            );
+          })
+          }
+        </ul>
+      </nav>
+      <div className="header-bottom-wrapper">
+        <div className="header-bottom">
+          <div className="profile-container" onClick={toggleProfileMenu}>
+            <div className="profile-btn">
+              <span className="material-symbols-outlined">person</span>
+            </div>
+            <span className="profile-text">
+              {localStorage.getItem("username")}
+            </span>
+          </div>
+          {isProfileOpen && (
+            <div className="profile-menu">
+              <ul className="profile-options">
+                {profileMenu.map((menu, index) => (
+                  <li key={index} className="profile-option" onClick={() => handleNavigate(menu.path)}>
+                    <span className="material-symbols-outlined">{menu.icon}</span>
+                    <span className="profile-menu-text">{menu.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
-      <div className="header-right">
-        <button className="profile-btn" onClick={toggleProfileMenu}>
-          👤
-        </button>
-        {isProfileOpen && (
-          <div className="profile-menu">
-            <ul className="profile-options">
-              <li>
-                <button
-                  className="profile-option"
-                  onClick={() => handleNavigate("/profile")}
-                >
-                  👤 내 프로필
-                </button>
-              </li>
-
-              <li>
-                <button className="profile-option">⚙ 환경설정</button>
-              </li>
-              <li>
-                <button className="profile-option">⬇ PC 앱 다운로드</button>
-              </li>
-              <li>
-                <button className="profile-option" onClick={handleLogout}>
-                  🔄 로그아웃
-                </button>
-              </li>
-            </ul>
-          </div>
-        )}
+      <div className="header-toggle-btn" onClick={toggleMenu}>
+        <span className="material-symbols-outlined">
+          chevron_right
+        </span>
       </div>
-      <div className={`sidebar ${isMenuOpen ? "open" : ""}`}>
-        <ul className="sidebar-menu">
-          <li onClick={() => handleNavigate("/main")}>Home</li>
-          <li>Class</li>
-          <li>Report</li>
-          <li>Game</li>
-        </ul>
-      </div>
-      {/* 메뉴 열렸을 때 배경 클릭 시 닫기 */}
-      {isMenuOpen && <div className="overlay" onClick={toggleMenu}></div>}
     </header>
+
   );
 };
 
