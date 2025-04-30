@@ -5,14 +5,14 @@
   margin-bottom: 50px;
   flex: 0.7;
   padding: 20px;
-  height: calc(100vh - 80px-50px);
+  height: calc(100vh - 80px - 50px);
   box-sizing: border-box;
 }
 
 /* 학습 */
 .class-section {
-  background: #f8f9fa;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background: #f5f5f5;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
   padding: 40px;
   border-radius: 12px;
   overflow-x: auto;
@@ -30,18 +30,17 @@
   gap: 20px;
   overflow-x: auto;
   white-space: nowrap;
-  flex-wrap: nowrap; /* 가로 스크롤 활성화 */
+  flex-wrap: nowrap;
   scrollbar-width: thin;
   padding-bottom: 20px;
 }
 
 .class-box {
   min-width: 100px;
-  overflow: hidden;
   width: 400px;
   height: 250px;
-  background: #e8f0fe;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   color: black;
   font-weight: 500;
   border-radius: 10px;
@@ -52,43 +51,64 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .class-box:hover {
-  background: #dbe4f3;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* 보고서 */
-.report-section {
-  background: #f8f9fa;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  border-radius: 12px;
+/* 보고서 + 게임 섹션 */
+.report-game-section {
+  display: flex;
+  gap: 20px;
   margin-top: 30px;
 }
 
-.report-section h2 {
-  font-size: 25px;
-  color: black;
-  margin-bottom: 35px;
+/* 각 박스 컨테이너 */
+.report-box-container,
+.game-box-container {
+  flex: 1;
+  background: #f5f5f5;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 40px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
-.report-box {
-  background: #e8f0fe;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+.report-box-container h2,
+.game-box-container h2 {
+  font-size: 25px;
+  color: black;
+  margin-bottom: 20px;
+}
+
+/* 리포트/게임 공통 박스 스타일 */
+.report-box,
+.game-box {
+  flex: 1;
+  background: #ffffff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  padding: 40px;
-  text-align: left;
-  font-size: 15px;
+  padding: 30px;
+  text-align: center;
+  font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.report-box:hover,
+.game-box:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* 점수 */
 .score-section {
-  background: #f8f9fa;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
   padding: 40px;
   border-radius: 12px;
   margin-top: 30px;

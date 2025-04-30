@@ -12,7 +12,7 @@ const Logout = () => {
 
     // 2. 리다이렉트
     navigate("/");
-  }, []);
+  }, [navigate]);
 
   return (
     <div style={{ padding: "2rem", textAlign: "center" }}>

@@ -40,27 +40,19 @@ const MainPage = () => {
           </div>
         </div>
       </section>
-      <section className="report-section">
-        <h2>Report</h2>
-        <div
-          className="report-box"
-          onClick={() => handleClick("/report")}
-        ></div>
-      </section>
-      <section className="score-section">
-        <h2>Score</h2>
-        <div className="score-table">
-          <div className="score-row">
-            <span>A</span>
-            <div className="score-line"></div>
+
+      <section className="report-game-section">
+        <div className="report-box-container">
+          <h2>Report</h2>
+          <div className="report-box" onClick={() => handleClick("/report")}>
+            {/* 리포트 내용이 들어갈 수 있습니다 */}
           </div>
-          <div className="score-row">
-            <span>B</span>
-            <div className="score-line"></div>
-          </div>
-          <div className="score-row">
-            <span>C</span>
-            <div className="score-line"></div>
+        </div>
+        <div className="game-box-container">
+          <h2>Game</h2>
+          <div className="game-box" onClick={() => handleClick("/game")}>
+            {/* 게임 콘텐츠 또는 설명 */}
+            <p>게임을 시작해보세요!</p>
           </div>
         </div>
       </section>
