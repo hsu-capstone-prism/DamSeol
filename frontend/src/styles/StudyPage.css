@@ -7,7 +7,7 @@
   gap: 40px;
   margin-top: 30px !important;
   padding: 40px;
-  background-color: #f8f9fa;
+  background-color: #fff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   width: 100%;
@@ -16,24 +16,24 @@
 
 .breadcrumb {
   font-size: 22px;
-  color: #666;
+  color: #333;
   text-align: left;
   padding-bottom: 10px;
-  border-bottom: 2px solid #0056b3;
+  border-bottom: 2px solid rgba(0, 123, 255, 0.1);
   width: 100%;
   max-width: 850px;
 }
 
 .highlight {
   font-weight: bold;
-  color: #0056b3;
+  color: #007bff;
 }
 
 .display-container {
   position: relative;
-  background-color: #e8f0fe;
+  background-color: rgba(0, 123, 255, 0.03);
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 50px;
+  padding: 40px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -43,12 +43,15 @@
   width: 80%;
   overflow: auto;
   overflow: hidden;
+  border: 1px solid rgba(0, 123, 255, 0.1);
+  gap: 20px;
 }
 
 .content-text {
   font-size: 36px;
   font-weight: bold;
-  color: #0056b3;
+  color: #007bff;
+  margin: 0;
 }
 
 .mic-button-container {
@@ -56,15 +59,33 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f8f9fa;
-  margin-top: 10px;
-  padding: 20px;
+  background-color: transparent;
+  margin-top: 0;
+  padding: 0;
   width: 100%;
+  gap: 10px;
+}
+
+.mic-button {
+  background-color: rgba(0, 123, 255, 0.1);
+  border: 1px solid rgba(0, 123, 255, 0.1);
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mic-button:hover {
+  background-color: rgba(0, 123, 255, 0.2);
 }
 
 .mic-text {
   font-size: 20px;
-  color: #888;
+  color: #666;
+  margin: 0;
 }
 
 .progress-bar {
@@ -72,46 +93,81 @@
   bottom: 20px;
   justify-content: center;
   gap: 50px;
-  background-color: #f8f9fa;
+  background-color: #fff;
   margin-top: 40px;
   padding: 20px;
   width: 100%;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 100px);
+  height: 2px;
+  background-color: rgba(0, 123, 255, 0.1);
+  z-index: 0;
 }
 
 .step {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #ddd;
+  background-color: #fff;
   text-align: center;
   line-height: 40px;
   font-size: 14px;
   font-weight: bold;
+  border: 2px solid rgba(0, 123, 255, 0.1);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
 }
 
 .completed {
-  background-color: #99ccff;
+  background-color: #fff;
+  border-color: #007bff;
+  color: transparent;
+}
+
+.completed::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007bff'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .current {
-  background-color: #0056b3;
+  background-color: #007bff;
   color: white;
+  border-color: #007bff;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
 }
 
 /* Word Study specific styles */
 .word-study .word-pronunciation {
   font-size: 18px;
   color: #666;
-  margin-top: 0px;
+  margin: 0;
 }
 
 .word-study .result-bottom-container {
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-top: 20px;
-  margin-bottom: 8px;
+  margin: 0;
   height: 100px;
+  justify-content: center;
+  align-items: center;
 }
 
 .word-study .learning-suggestions {
@@ -120,14 +176,15 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 10px;
+  gap: 15px;
+  margin: 0;
 }
 
 .word-study .suggestion-title {
   font-size: 18px;
   font-weight: bold;
-  color: #3366cc;
-  margin-bottom: 8px;
+  color: #007bff;
+  margin: 0;
 }
 
 .word-study .suggestion-buttons {
@@ -136,9 +193,9 @@
 }
 
 .word-study .suggestion-btn {
-  background-color: #99ccff;
+  background-color: rgba(0, 123, 255, 0.1);
   border: none;
-  color: white;
+  color: #007bff;
   padding: 11px 15px;
   font-size: 18px;
   border-radius: 50%;
@@ -147,7 +204,7 @@
 }
 
 .word-study .suggestion-btn:hover {
-  background-color: #6699ff;
+  background-color: rgba(0, 123, 255, 0.2);
 }
 
 .word-study .score-container {
@@ -156,7 +213,7 @@
   margin-top: 60px;
   font-size: 20px;
   font-weight: bold;
-  color: #3366cc;
+  color: #007bff;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -171,15 +228,15 @@
 
 .sen-study .sen-user-pronunciation {
   font-size: 36px;
-  margin-top: 10px;
+  margin: 0;
 }
 
 .sen-study .sen-details {
   font-size: 14px;
-  color: #555;
+  color: #666;
   text-align: center;
   white-space: pre-line;
-  margin-top: 10px;
+  margin: 0;
 }
 
 .sen-study .sen-result-bottom-container {
@@ -187,9 +244,10 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-top: 20px;
-  margin-bottom: 8px;
+  margin: 0;
   height: 100px;
+  justify-content: center;
+  align-items: center;
 }
 
 .sen-study .sen-button-group {
@@ -206,12 +264,16 @@
   padding: 0.5rem 1.2rem;
   font-size: 1rem;
   min-width: 160px;
-  background-color: #3366cc;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
+}
+
+.sen-study .sen-button-group button:hover {
+  background-color: rgba(0, 123, 255, 0.9);
 }
 
 /* Final Result styles */
@@ -226,7 +288,7 @@
 }
 
 .final-result h2 {
-  color: #4a60f6;
+  color: #007bff;
   font-size: 28px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -251,14 +313,14 @@
 .final-title {
   font-size: 20px;
   font-weight: bold;
-  color: #424346;
+  color: #333;
   margin-bottom: 5px;
 }
 
 .accuracy-bar {
   width: 100%;
   height: 28px;
-  background-color: #d0d8ff;
+  background-color: rgba(0, 123, 255, 0.1);
   border-radius: 20px;
   overflow: hidden;
   position: relative;
@@ -272,6 +334,7 @@
   line-height: 28px;
   border-radius: 20px 0 0 20px;
   transition: width 0.4s ease;
+  background-color: #007bff;
 }
 
 .phon-list {
@@ -282,8 +345,8 @@
 }
 
 .phon-item {
-  background-color: #a5baff;
-  color: white;
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
   padding: 8px 14px;
   border-radius: 50%;
   font-weight: bold;
@@ -292,7 +355,7 @@
 .tip-content {
   font-size: 16px;
   font-weight: bold;
-  color: #555;
+  color: #666;
   line-height: 1.5;
 }
 
@@ -308,16 +371,25 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .retry-btn {
-  background-color: #4a60f6;
+  background-color: #007bff;
   color: white;
 }
 
+.retry-btn:hover {
+  background-color: rgba(0, 123, 255, 0.9);
+}
+
 .home-btn {
-  background-color: #dbe1f3;
-  color: #4a60f6;
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+}
+
+.home-btn:hover {
+  background-color: rgba(0, 123, 255, 0.2);
 }
 
 /* Modal styles */
@@ -366,7 +438,7 @@
 .modal-title {
   font-size: 30px;
   font-weight: bold;
-  color: #3366cc;
+  color: #007bff;
   margin-bottom: 15px;
 }
 
@@ -378,15 +450,62 @@
 }
 
 .modal-confirm-btn {
-  background-color: #3366cc;
+  background-color: #007bff;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
   margin-bottom: 20px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .modal-confirm-btn:hover {
-  background-color: #0044aa;
+  background-color: rgba(0, 123, 255, 0.9);
+}
+
+.final-result-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+}
+
+.final-result-btn:hover {
+  background-color: rgba(0, 123, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.final-result-btn:active {
+  transform: translateY(0);
+}
+
+.final-result-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.final-result-btn.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.final-result-btn.primary:hover {
+  background-color: rgba(0, 123, 255, 0.9);
+}
+
+.final-result-btn.secondary {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+}
+
+.final-result-btn.secondary:hover {
+  background-color: rgba(0, 123, 255, 0.2);
 }
