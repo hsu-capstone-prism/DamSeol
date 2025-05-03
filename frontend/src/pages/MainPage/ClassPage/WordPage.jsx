@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/WordPage.css";
+import "../../../styles/ClassPage.css";
 
 const phonTopics = [
   { name: "음절의 끝소리", key: "FinalSound" },
@@ -28,17 +28,17 @@ const WordPage = () => {
 
   return (
     <Layout>
-      <div className="word-page">
+      <div className="class-page word-page">
         <h1 className="section-title">단어 학습</h1>
 
-        <section className="word-learning-section">
+        <section className="learning-section">
           <h2>음운</h2>
-          <div className="word-box-container">
-            <div className="word-box" onClick={() => navigate("/phon/vowel")}>
+          <div className="box-container">
+            <div className="box" onClick={() => navigate("/phon/vowel")}>
               모음
             </div>
             <div
-              className="word-box"
+              className="box"
               onClick={() => navigate("/phon/consonant")}
             >
               자음
@@ -46,7 +46,7 @@ const WordPage = () => {
             {phonTopics.map((phon) => (
               <div
                 key={phon.key}
-                className="word-box"
+                className="box"
                 onClick={() =>
                   navigate("/phon/study", { state: { phonName: phon.name } })
                 }
@@ -56,13 +56,13 @@ const WordPage = () => {
             ))}
           </div>
         </section>
-        <section className="word-learning-section">
+        <section className="learning-section">
           <h2>음운 변동</h2>
-          <div className="word-box-container">
+          <div className="box-container">
             {alterTopics.map((alter) => (
               <div
                 key={alter.key}
-                className="word-box"
+                className="box"
                 onClick={() =>
                   navigate("/alter/study", { state: { alterName: alter.name } })
                 }
@@ -72,13 +72,13 @@ const WordPage = () => {
             ))}
           </div>
         </section>
-        <section className="word-learning-section">
+        <section className="learning-section">
           <h2>사잇소리 현상</h2>
-          <div className="word-box-container">
+          <div className="box-container">
             {addTopics.map((add) => (
               <div
                 key={add.key}
-                className="word-box"
+                className="box"
                 onClick={() =>
                   navigate("/add/study", { state: { addName: add.name } })
                 }
