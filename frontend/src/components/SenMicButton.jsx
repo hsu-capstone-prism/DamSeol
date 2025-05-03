@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaMicrophone, FaStop } from "react-icons/fa";
-import "../styles/SenStudyPage.css";
+import "../styles/StudyPage.css";
 
 const SenMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
   const [isRecording, setIsRecording] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaMicrophone, FaStop } from "react-icons/fa";
-import "../styles/GramStudyPage.css";
+import "../styles/StudyPage.css";
 
 const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
   const [isRecording, setIsRecording] = useState(false);

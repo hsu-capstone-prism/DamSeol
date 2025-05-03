@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
-import "../../../../styles/WordStudyPage.css";
+import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/WordMicButton";
 import ProgressBar from "../../../../components/WordProgressBar";
 import axios from "axios";
@@ -180,12 +180,12 @@ const WordStudy = () => {
 
   return (
     <Layout>
-      <div className="word-study">
+      <div className="study-page word-study">
         <nav className="breadcrumb">
           <span>단어 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
 
-        <section className="word-display">
+        <section className="display-container">
           {showFinalResult ? (
             <div className="final-result">
               <h2>{username}님의 학습 결과</h2>
@@ -250,7 +250,7 @@ const WordStudy = () => {
             <>
               {words.length > 0 ? (
                 <>
-                  <h1 className="word">{words[selectedIndex].text}</h1>
+                  <h1 className="content-text">{words[selectedIndex].text}</h1>
                   <p className="word-pronunciation">
                     [{words[selectedIndex].wordPron}]
                   </p>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
-import "../../../../styles/SenStudyPage.css";
+import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
 import axios from "axios";
@@ -230,32 +230,32 @@ const SenStudyPage = () => {
 
   return (
     <Layout>
-      <div className="sen-study">
+      <div className="study-page sen-study">
         <nav className="breadcrumb">
           <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
 
         {showFinalResult ? (
-          <div className="sen-final-result">
+          <div className="final-result">
             <h2 style={{ textAlign: "center" }}>
               {username}님의 문장 학습 결과
             </h2>
-            <div className="sen-final-result-grid">
-              <div className="sen-final-left">
-                <p className="sen-final-title">발음 정확도 차트</p>
+            <div className="final-result-grid">
+              <div className="final-left">
+                <p className="final-title">발음 정확도 차트</p>
                 {renderRadarChart()}
               </div>
-              <div className="sen-final-right">
-                <p className="sen-final-title">학습 팁</p>
-                <p className="sen-tip-content">{summaryTip}</p>
+              <div className="final-right">
+                <p className="final-title">학습 팁</p>
+                <p className="tip-content">{summaryTip}</p>
               </div>
             </div>
             <div
-              className="sen-final-button-group"
+              className="button-group"
               style={{ justifyContent: "center" }}
             >
               <button
-                className="sen-retry-btn"
+                className="retry-btn"
                 onClick={() => {
                   setShowFinalResult(false);
                   setSelectedIndex(0);
@@ -267,7 +267,7 @@ const SenStudyPage = () => {
                 다시 학습하기
               </button>
               <button
-                className="sen-home-btn"
+                className="home-btn"
                 onClick={() => (window.location.href = "/main")}
               >
                 학습 화면으로
@@ -276,9 +276,9 @@ const SenStudyPage = () => {
           </div>
         ) : (
           <>
-            <section className="sen-display">
+            <section className="display-container">
               {sentences.length > 0 ? (
-                <h1 className="sen">{sentences[selectedIndex].text}</h1>
+                <h1 className="content-text">{sentences[selectedIndex].text}</h1>
               ) : (
                 <p>해당하는 문장이 없습니다.</p>
               )}
@@ -305,7 +305,7 @@ const SenStudyPage = () => {
                     <div className="sen-score-container">
                       {selectedIndex === 2 && (
                         <button
-                          className="sen-final-result-btn"
+                          className="final-result-btn"
                           onClick={fetchSummaryTip}
                         >
                           최종 결과화면 보기
@@ -341,10 +341,10 @@ const SenStudyPage = () => {
         )}
 
         {showWaveformPopup && waveformImageSrc && (
-          <div className="popup-overlay">
-            <div className="popup-content">
+          <div className="modal-overlay">
+            <div className="modal-content">
               <button
-                className="popup-close"
+                className="modal-close"
                 onClick={() => setShowWaveformPopup(false)}
               >
                 X
@@ -355,10 +355,10 @@ const SenStudyPage = () => {
         )}
 
         {showPitchPopup && pitchImageSrc && (
-          <div className="popup-overlay">
-            <div className="popup-content">
+          <div className="modal-overlay">
+            <div className="modal-content">
               <button
-                className="popup-close"
+                className="modal-close"
                 onClick={() => setShowPitchPopup(false)}
               >
                 X

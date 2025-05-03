@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
-import "../../../../styles/SenStudyPage.css";
+import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/GramMicButton";
 import ProgressBar from "../../../../components/GramProgressBar";
 
@@ -75,14 +75,14 @@ const GramStudyPage = () => {
 
   return (
     <Layout>
-      <div className="gram-study">
+      <div className="study-page gram-study">
         <nav className="breadcrumb">
           <span>문법 연습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
 
-        <section className="gram-display">
+        <section className="display-container">
           {sentences.length > 0 ? (
-            <h1 className="gram">{sentences[selectedIndex].text}</h1>
+            <h1 className="content-text">{sentences[selectedIndex].text}</h1>
           ) : (
             <p>해당하는 문장이 없습니다.</p>
           )}
