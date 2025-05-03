@@ -4,6 +4,7 @@ import "../styles/StudyPage.css";
 
 const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
   const [isRecording, setIsRecording] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [statusList, setStatusList] = useState([]);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -78,6 +79,7 @@ const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
       return;
     }
 
+    setIsUploading(true);
     const sentenceId = sentence.id;
     const timestamp = Date.now();
     const filename = `${timestamp}.wav`;
@@ -138,6 +140,8 @@ const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
     } catch (err) {
       console.error(" 네트워크 또는 리샘플링 오류:", err);
       updateStatus(selectedIndex, " 업로드 실패");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -181,8 +185,9 @@ const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
   return (
     <div className="mic-button-container">
       <button
-        className="mic-button"
+        className={`mic-button ${isRecording ? 'recording' : ''}`}
         onClick={isRecording ? stopRecording : startRecording}
+        disabled={isUploading}
       >
         {isRecording ? (
           <FaStop size={50} color="#3366ff" />

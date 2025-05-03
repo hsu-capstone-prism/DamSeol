@@ -9,6 +9,7 @@ const WordMicButton = ({
   onUploadComplete,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [statusList, setStatusList] = useState([]);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -81,6 +82,7 @@ const WordMicButton = ({
       return;
     }
 
+    setIsUploading(true);
     const wordId = word.id;
     const timestamp = Date.now();
     const filename = `${timestamp}.wav`;
@@ -137,6 +139,8 @@ const WordMicButton = ({
     } catch (error) {
       console.error(" Upload 오류:", error);
       updateStatus(selectedIndex, "오류가 발생했습니다.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -180,8 +184,9 @@ const WordMicButton = ({
   return (
     <div className="mic-button-container">
       <button
-        className="mic-button"
+        className={`mic-button ${isRecording ? 'recording' : ''}`}
         onClick={isRecording ? stopRecording : startRecording}
+        disabled={isUploading}
       >
         {isRecording ? (
           <FaStop size={50} color="#3366ff" />

@@ -49,6 +49,7 @@ const SenStudyPage = () => {
   const [showFinalResult, setShowFinalResult] = useState(false);
   const [summaryTip, setSummaryTip] = useState("");
   const [finalChartData, setFinalChartData] = useState(null);
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
 
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
@@ -109,8 +110,8 @@ const SenStudyPage = () => {
   };
 
   const fetchSummaryTip = async () => {
-    const { allDetails, avgCorrection, avgPitch, avgRhythm } =
-      getSummaryResult();
+    setIsLoadingSummary(true);
+    const { allDetails, avgCorrection, avgPitch, avgRhythm } = getSummaryResult();
     try {
       const token = getAuthToken();
       const formData = new FormData();
@@ -134,6 +135,7 @@ const SenStudyPage = () => {
       setSummaryTip("요약을 가져오는 데 실패했습니다.");
     } finally {
       setShowFinalResult(true);
+      setIsLoadingSummary(false);
     }
   };
 
@@ -302,16 +304,15 @@ const SenStudyPage = () => {
                         Pitch 보기
                       </button>
                     </div>
-                    <div className="sen-score-container">
-                      {selectedIndex === 2 && (
-                        <button
-                          className="final-result-btn"
-                          onClick={fetchSummaryTip}
-                        >
-                          최종 결과화면 보기
-                        </button>
-                      )}
-                    </div>
+                    {selectedIndex === 2 && (
+                      <button
+                        className={`final-result-btn ${isLoadingSummary ? 'loading' : ''}`}
+                        onClick={fetchSummaryTip}
+                        disabled={isLoadingSummary}
+                      >
+                        {isLoadingSummary ? '결과 분석 중...' : '최종 결과화면 보기'}
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : (
