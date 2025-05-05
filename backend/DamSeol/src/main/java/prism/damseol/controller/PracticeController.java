@@ -1,5 +1,6 @@
 package prism.damseol.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,7 @@ public class PracticeController {
         this.practiceService = practiceService;
     }
 
+    @Operation(summary = "단어 발음 음성 파일 업로드", description = "지정된 단어에 대한 사용자의 발음 오디오를 업로드하여 분석하고 연습 정보를 저장합니다.")
     @PostMapping("/upload/word/{wordId}")
     public ResponseEntity<WordRecordDTO> uploadWordAudio(@PathVariable("wordId") Long wordId,
                                                      @RequestParam("audio") MultipartFile audioFile) {
@@ -57,6 +59,7 @@ public class PracticeController {
         }
     }
 
+    @Operation(summary = "문장 발음 음성 파일 업로드", description = "지정된 문장에 대한 사용자의 발음 오디오를 업로드하여 분석하고 연습 정보를 저장합니다.")
     @PostMapping("/upload/sentence/{sentenceId}")
     public ResponseEntity<SentenceRecordDTO> uploadSentenceAudio(@PathVariable("sentenceId") Long sentenceId,
                                                                  @RequestParam("audio") MultipartFile audioFile) {

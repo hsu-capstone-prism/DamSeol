@@ -1,5 +1,6 @@
 package prism.damseol.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @ResponseBody
 public class MainController {
 
+    @Operation(summary = "메인 페이지", description = "서비스의 메인 엔드포인트로, 초기 화면 정보를 반환합니다.")
     @GetMapping("/")
     public String mainP() {
         //세션 사용자 이름 확인

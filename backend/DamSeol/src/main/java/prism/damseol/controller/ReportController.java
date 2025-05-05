@@ -1,5 +1,6 @@
 package prism.damseol.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +22,7 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    // 평균 정확도, 평균 점수 표시(삼각형)
+    @Operation(summary = "발음 점수 기록 조회", description = "사용자의 발음 분석 결과를 기반으로 평균 정확도 및 점수를 포함한 리포트 데이터를 조회합니다.")
     @GetMapping("/scores")
     public ResponseEntity<ReportDTO> getReportForMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -32,7 +33,7 @@ public class ReportController {
         return ResponseEntity.ok(report);
     }
 
-    // 주차별 정확도 추이
+    @Operation(summary = "주간 학습 리포트 조회", description = "사용자의 최근 몇 주 동안의 주차별 발음 정확도 변화 추이를 제공합니다.")
     @GetMapping("/weekly")
     public ResponseEntity<ReportListDTO> getWeeklyReport() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,7 +44,7 @@ public class ReportController {
         return ResponseEntity.ok(reportList);
     }
 
-    // 이번 주에 학습한 단어, 문장
+    @Operation(summary = "주간 학습 개수 조회", description = "이번 주에 사용자가 학습한 단어와 문장의 개수를 반환합니다.")
     @GetMapping("/count")
     public ResponseEntity<WeeklyLearningCountDTO> getWeeklyLearningCount() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -54,6 +55,7 @@ public class ReportController {
         return ResponseEntity.ok(weeklyLearningCountDTO);
     }
 
+    @Operation(summary = "잘못 발음한 음운 조회", description = "사용자가 누적 학습 중 틀린 자음 및 모음(음운)의 목록을 반환합니다.")
     @GetMapping("/wrongPhons")
     public ResponseEntity<Set<String>> getWrongPhons() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
