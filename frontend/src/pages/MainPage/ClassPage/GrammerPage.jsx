@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/GrammerPage.css";
+import "../../../styles/ClassPage.css";
 
 const GrammerPage = () => {
   const navigate = useNavigate();
@@ -22,14 +22,14 @@ const GrammerPage = () => {
 
   return (
     <Layout>
-      <div className="grammer-page">
+      <div className="class-page grammer-page">
         <h1 className="section-title">문법 연습</h1>
-        <section className="grammer-learning-section">
-          <div className="grammer-box-container">
+        <section className="learning-section">
+          <div className="box-container">
             {categories.map((cat, idx) => (
               <div
                 key={idx}
-                className="grammer-box"
+                className="box"
                 onClick={() => handleClick(cat.id, cat.symbol)}
               >
                 {cat.name}
