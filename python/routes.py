@@ -41,6 +41,16 @@ def upload_audio():
     user_pronun = get_pronun(file_path)
     if mode == 'word':
         user_pronun = user_pronun.replace('.', '')
+        user_pronun = user_pronun.replace(' ', '')
+        user_pronun = user_pronun.replace('?', '')
+        user_pronun = user_pronun.replace('!', '')
+        user_pronun = user_pronun.replace(',', '')
+
+    if user_pronun is None or user_pronun == '':
+        return jsonify({
+            "status": "error",
+            "error": "No STT result"
+            }), 503
 
     result_pronun = evaluate_pronunciation(text, user_pronun)
 
@@ -49,6 +59,8 @@ def upload_audio():
             "status": "retry",
             "error": result_pronun
             }), 503
+    
+
 
     if mode == 'sentence':
         result_pitch = get_audio_pitch_eval(file_path, user_pronun, situation)

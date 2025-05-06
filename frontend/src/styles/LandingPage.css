@@ -1,5 +1,4 @@
 .landing-container {
-  font-family: "Poppins", sans-serif;
   background-color: white;
   color: #333;
 }
@@ -42,7 +41,7 @@
 }
 
 /* 버튼 그룹 */
-.button-group {
+.landing-button-group {
   margin-top: 35px;
   display: flex;
   gap: 15px;

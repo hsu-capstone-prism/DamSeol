@@ -12,7 +12,7 @@ const consonants = [
   { symbol: "ㅁ", key: "M" },
   { symbol: "ㅂ", key: "B" },
   { symbol: "ㅅ", key: "S" },
-  { symbol: "ㅇ", key: "O" },
+  { symbol: "ㅇ", key: "NG" },
   { symbol: "ㅈ", key: "J" },
   { symbol: "ㅊ", key: "CH" },
   { symbol: "ㅋ", key: "K" },

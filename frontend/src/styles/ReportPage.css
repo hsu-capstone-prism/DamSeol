@@ -4,6 +4,7 @@
   margin-top: 20px;
   margin-bottom: 80px;
   gap: 30px;
+  padding: 0 20px;
 }
 
 .report-section-title {
@@ -13,7 +14,8 @@
 }
 
 .report-learning-section {
-  background-color: #f8f9fa;
+  background-color: #ffffff;
+  border: 1px solid #a3cfff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   padding: 40px;
   border-radius: 12px;
@@ -53,30 +55,33 @@
 }
 
 .feedback-box {
+  background-color: #ffffff;
+  border: 1px solid #a3cfff;
   width: 48%;
   padding: 20px;
   font-size: 18px;
-  background-color: #e8f0fe;
   border-radius: 12px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
 
 /* 최근 학습 */
-.teacher-container {
+.recent-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-wrap: row;
+  gap: 0px;
   justify-content: center;
 }
 
-.box.teacher {
+.recent-box {
+  background-color: #ffffff;
+  border: 1px solid #a3cfff;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 25px;
+  padding: 15px;
   border-radius: 10px;
   text-align: center;
   background-color: #e8f0fe;
-  min-width: 350px;
+  min-width: 300px;
 }

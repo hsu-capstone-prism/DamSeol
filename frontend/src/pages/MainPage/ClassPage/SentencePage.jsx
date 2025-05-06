@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../Layout";
-import "../../../styles/SentencePage.css";
+import "../../../styles/ClassPage.css";
 
 const specialTopics = [
   { name: "교회에서 대화", key: "Church" },
@@ -80,19 +80,19 @@ const SentencePage = () => {
 
   return (
     <Layout>
-      <div className="sentence-page">
+      <div className="class-page sentence-page">
         <h1 className="section-title">문장 학습</h1>
 
         {error && <p className="error-message">❌ {error}</p>}
 
         {/* 특별한 상황 */}
-        <section className="sentence-learning-section">
+        <section className="learning-section">
           <h2>특별한 상황</h2>
-          <div className="sentence-box-container">
+          <div className="box-container">
             {specialTopics.map((topic) => (
               <div
                 key={topic.key}
-                className="sentence-box"
+                className="box"
                 onClick={() =>
                   handleClick(
                     subcategoryMap["Special"]?.[topic.key],
@@ -107,13 +107,13 @@ const SentencePage = () => {
         </section>
 
         {/* 비즈니스 */}
-        <section className="sentence-learning-section">
+        <section className="learning-section">
           <h2>비즈니스</h2>
-          <div className="sentence-box-container">
+          <div className="box-container">
             {businessTopics.map((topic) => (
               <div
                 key={topic.key}
-                className="sentence-box"
+                className="box"
                 onClick={() =>
                   handleClick(
                     subcategoryMap["Business"]?.[topic.key],

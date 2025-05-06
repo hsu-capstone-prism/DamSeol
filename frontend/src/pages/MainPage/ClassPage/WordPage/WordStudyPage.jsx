@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
-import "../../../../styles/WordStudyPage.css";
+import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/WordMicButton";
 import ProgressBar from "../../../../components/WordProgressBar";
 import axios from "axios";
@@ -21,6 +21,7 @@ const WordStudy = () => {
   const [selectedPhon, setSelectedPhon] = useState("");
   const [showFinalResult, setShowFinalResult] = useState(false);
   const [summaryTip, setSummaryTip] = useState("");
+  const [isLoadingSummary, setIsLoadingSummary] = useState(false);
 
   const location = useLocation();
   const symbol = location.state?.symbol || "알 수 없음";
@@ -126,6 +127,7 @@ const WordStudy = () => {
 
   // 요약 API 호출
   const fetchSummaryTip = async () => {
+    setIsLoadingSummary(true);
     try {
       const token = getAuthToken();
       const formData = new FormData();
@@ -145,11 +147,12 @@ const WordStudy = () => {
       console.log("word요약 API 응답 확인:", response.data);
 
       setSummaryTip(response.data.response || "요약 결과가 없습니다.");
-      setShowFinalResult(true);
     } catch (error) {
       console.error("요약 API 오류:", error);
       setSummaryTip("요약을 가져오는 데 실패했습니다.");
+    } finally {
       setShowFinalResult(true);
+      setIsLoadingSummary(false);
     }
   };
 
@@ -180,12 +183,12 @@ const WordStudy = () => {
 
   return (
     <Layout>
-      <div className="word-study">
+      <div className="study-page word-study">
         <nav className="breadcrumb">
           <span>단어 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
 
-        <section className="word-display">
+        <section className="display-container">
           {showFinalResult ? (
             <div className="final-result">
               <h2>{username}님의 학습 결과</h2>
@@ -250,7 +253,7 @@ const WordStudy = () => {
             <>
               {words.length > 0 ? (
                 <>
-                  <h1 className="word">{words[selectedIndex].text}</h1>
+                  <h1 className="content-text">{words[selectedIndex].text}</h1>
                   <p className="word-pronunciation">
                     [{words[selectedIndex].wordPron}]
                   </p>
@@ -290,10 +293,11 @@ const WordStudy = () => {
                       <div className="score-container">
                         {selectedIndex === words.length - 1 && (
                           <button
-                            className="final-result-btn"
+                            className={`final-result-btn ${isLoadingSummary ? 'loading' : ''}`}
                             onClick={fetchSummaryTip}
+                            disabled={isLoadingSummary}
                           >
-                            최종 결과화면 보기
+                            {isLoadingSummary ? '결과 분석 중...' : '최종 결과화면 보기'}
                           </button>
                         )}
                         <p className="accuracy-label">정확도</p>

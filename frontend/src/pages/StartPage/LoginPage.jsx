@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/LoginPage.css";
@@ -8,13 +8,6 @@ const LoginPage = () => {
   const [username, setUsername] = useState(""); // 기존 username 유지
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      navigate("/main");
-    }
-  }, [navigate]);
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -83,7 +76,7 @@ const LoginPage = () => {
         </div>
         {error && <p className="error-message">{error}</p>}
         <p className="forgot-password">비밀번호를 잊으셨나요?</p>
-        <div className="button-group">
+        <div className="login-button-group">
           <button className="login-button" onClick={handleLogin}>
             로그인
           </button>

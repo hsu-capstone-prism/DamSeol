@@ -1,13 +1,30 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  FaHome,
+  FaSchool,
+  FaChartBar,
+  FaGamepad,
+  FaUser,
+  FaCog,
+  FaDownload,
+  FaSignOutAlt,
+  FaChevronRight,
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
 import "../styles/Header.css";
+
+import logoFull from "../assets/images/logo-tmp-full.png";
+import logoSmall from "../assets/images/logo-tmp-s.png";
 
 const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [openSubMenu, setOpenSubMenu] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const logo = isMenuOpen ? "logo-tmp-full.png" : "logo-tmp-s.png";
+  const logo = isMenuOpen ? logoFull : logoSmall;
 
   const toggleProfileMenu = () => {
     setIsProfileOpen(!isProfileOpen);
@@ -17,32 +34,49 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {
+  /*const handleLogout = () => {
     setIsProfileOpen(false);
     navigate("/");
   };
+  */
 
   const handleNavigate = (path) => {
     navigate(path);
   };
 
+  const toggleSubMenu = (index) => {
+    setOpenSubMenu(openSubMenu === index ? null : index);
+  };
+
   const navMenu = [
-    { icon: "home", text: "Home", path: "/main" },
-    { icon: "school", text: "Class", path: "/class" },
-    { icon: "bar_chart", text: "Report", path: "/report" },
-    { icon: "sports_esports", text: "Game", path: "/game" },
+    { icon: <FaHome />, text: "Home", path: "/main" },
+    {
+      icon: <FaSchool />,
+      text: "Class",
+      subMenu: [
+        {
+          icon: <FaSchool />,
+          text: "Word",
+          path: "/word",
+          activePath: ["/phon", "/alter", "/add"],
+        },
+        { icon: <FaSchool />, text: "Sentence", path: "/sentence" },
+        { icon: <FaSchool />, text: "Grammar", path: "/grammer" },
+      ],
+    },
+    { icon: <FaChartBar />, text: "Report", path: "/report" },
+    { icon: <FaGamepad />, text: "Game", path: "/game" },
   ];
 
   const profileMenu = [
-    { icon: "person", text: "내 프로필", path: "/profile" },
-    { icon: "settings", text: "환경설정", path: "/settings" },
-    { icon: "download", text: "PC 앱 다운로드", path: "/download" },
-    { icon: "logout", text: "로그아웃", path: "/logout" },
+    { icon: <FaUser />, text: "내 프로필", path: "/profile" },
+    { icon: <FaCog />, text: "환경설정", path: "/settings" },
+    { icon: <FaDownload />, text: "PC 앱 다운로드", path: "/download" },
+    { icon: <FaSignOutAlt />, text: "로그아웃", path: "/logout" },
   ];
 
   return (
     <header className={`header ${isMenuOpen ? "open" : ""}`}>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       <h1 className="header-logo" onClick={() => handleNavigate("/main")}>
         <img src={logo} alt="logo" />
       </h1>
@@ -51,20 +85,89 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
           {navMenu.map((menu, index) => {
             const isActive = location.pathname.startsWith(menu.path);
             return (
-              <li key={index} onClick={() => handleNavigate(menu.path)} className={isActive ? "active" : ""}>
-                <span className="material-symbols-outlined">{menu.icon}</span>
-                <span className="header-nav-menu-text">{menu.text}</span>
+              <li
+                key={index}
+                className={`${isActive ? "active" : ""} ${
+                  menu.subMenu ? "has-submenu" : ""
+                }`}
+              >
+                <div
+                  className="menu-item"
+                  onClick={() =>
+                    menu.subMenu
+                      ? toggleSubMenu(index)
+                      : handleNavigate(menu.path)
+                  }
+                >
+                  <span className="icon">{menu.icon}</span>
+                  <span className="header-nav-menu-text">{menu.text}</span>
+                  {menu.subMenu && (
+                    <>
+                      <span className="icon submenu-icon">
+                        {openSubMenu === index ? (
+                          <FaChevronUp />
+                        ) : (
+                          <FaChevronDown />
+                        )}
+                      </span>
+                      {!isMenuOpen && (
+                        <div className="tooltip">
+                          {openSubMenu === index ? "접기" : "펼치기"}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+                {menu.subMenu && (
+                  <div
+                    className={`submenu-container ${
+                      openSubMenu === index ? "open" : ""
+                    }`}
+                  >
+                    <ul className="submenu">
+                      {menu.subMenu.map((subItem, subIndex) => (
+                        <li
+                          key={subIndex}
+                          onClick={() => handleNavigate(subItem.path)}
+                          className={
+                            location.pathname.startsWith(subItem.path) ||
+                            (subItem.activePath &&
+                              subItem.activePath.some((path) =>
+                                location.pathname.startsWith(path)
+                              ))
+                              ? "active"
+                              : ""
+                          }
+                        >
+                          {isMenuOpen ? (
+                            <>
+                              <span className="icon">{subItem.icon}</span>
+                              <span className="header-nav-menu-text">
+                                {subItem.text}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="header-nav-menu-text">
+                              {subItem.text.slice(0, 1)}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </li>
             );
-          })
-          }
+          })}
         </ul>
       </nav>
       <div className="header-bottom-wrapper">
         <div className="header-bottom">
           <div className="profile-container" onClick={toggleProfileMenu}>
             <div className="profile-btn">
-              <span className="material-symbols-outlined">person</span>
+              <span className="icon">
+                <FaUser />
+              </span>
             </div>
             <span className="profile-text">
               {localStorage.getItem("username")}
@@ -74,8 +177,12 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
             <div className="profile-menu">
               <ul className="profile-options">
                 {profileMenu.map((menu, index) => (
-                  <li key={index} className="profile-option" onClick={() => handleNavigate(menu.path)}>
-                    <span className="material-symbols-outlined">{menu.icon}</span>
+                  <li
+                    key={index}
+                    className="profile-option"
+                    onClick={() => handleNavigate(menu.path)}
+                  >
+                    <span className="icon">{menu.icon}</span>
                     <span className="profile-menu-text">{menu.text}</span>
                   </li>
                 ))}
@@ -85,12 +192,11 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
         </div>
       </div>
       <div className="header-toggle-btn" onClick={toggleMenu}>
-        <span className="material-symbols-outlined">
-          chevron_right
+        <span className="icon">
+          <FaChevronRight />
         </span>
       </div>
     </header>
-
   );
 };
 

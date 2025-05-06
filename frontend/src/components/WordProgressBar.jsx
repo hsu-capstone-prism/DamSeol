@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/WordStudyPage.css";
+import "../styles/StudyPage.css";
 
 const WordProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   return (
