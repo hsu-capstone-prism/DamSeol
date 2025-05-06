@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/SenStudyPage.css";
+import "../styles/StudyPage.css";
 
 const SenProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   return (

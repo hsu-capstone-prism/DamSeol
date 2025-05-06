@@ -9,13 +9,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      navigate("/main");
-    }
-  }, [navigate]);
-
   const handleLogin = async () => {
     if (!username || !password) {
       setError("아이디와 비밀번호를 입력하세요.");

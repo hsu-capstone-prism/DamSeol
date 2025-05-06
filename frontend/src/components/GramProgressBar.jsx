@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/GramStudyPage.css";
+import "../styles/StudyPage.css";
 
 const GramProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
   return (

@@ -205,7 +205,7 @@
 
 .sen-score-container {
   position: absolute;
-  right: 30px;
+  right: -100px;
   bottom: 40px;
   z-index: 10;
 }

@@ -1,4 +1,5 @@
-.sentence-page {
+/* Common styles for all class pages */
+.class-page {
   display: flex;
   flex-direction: column;
   margin-top: -80px;
@@ -7,11 +8,26 @@
 
 .section-title {
   font-size: 28px;
-  color: #0056b3;
   margin-bottom: 20px;
 }
 
-.sentence-learning-section {
+/* WordPage specific */
+.word-page .section-title {
+  color: #0056b3;
+}
+
+/* GrammerPage specific */
+.grammer-page .section-title {
+  color: black;
+}
+
+/* SentencePage specific */
+.sentence-page .section-title {
+  color: #0056b3;
+}
+
+/* Common learning section styles */
+.learning-section {
   background-color: #f8f9fa;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   padding: 40px;
@@ -24,21 +40,23 @@
   box-sizing: border-box;
 }
 
-.sentence-learning-section h2 {
+.learning-section h2 {
   font-size: 20px;
-  margin-bottom: 20px;
   color: black;
   border-bottom: 1px solid #e4e0e0;
+  margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-.sentence-box-container {
+/* Common box container styles */
+.box-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-.sentence-box {
+/* Common box styles */
+.box {
   width: 80%;
   background-color: #e8f0fe;
   border-radius: 10px;
@@ -51,6 +69,14 @@
   transition: background-color 0.3s ease;
 }
 
-.sentence-box:hover {
+.box:hover {
   background-color: #dbe4f3;
 }
+
+/* Error message styles */
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  margin: 20px 0;
+  font-size: 16px;
+} 

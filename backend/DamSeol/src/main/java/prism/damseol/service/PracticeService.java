@@ -96,7 +96,8 @@ public class PracticeService {
             sb.append(wrongPron);
             sb.append(",");
         }
-        sb.deleteCharAt(sb.length() - 1);
+        if (!sb.isEmpty())
+            sb.deleteCharAt(sb.length() - 1);
         wordRecord.setWrongPhon(sb.toString());
         wordRecordRepository.save(wordRecord);
 
@@ -107,7 +108,8 @@ public class PracticeService {
             sb.append(incorrectPronIndex);
             sb.append(",");
         }
-        sb.deleteCharAt(sb.length() - 1);
+        if (!sb.isEmpty())
+            sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 
