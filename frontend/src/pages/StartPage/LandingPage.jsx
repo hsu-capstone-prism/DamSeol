@@ -46,7 +46,7 @@ const LandingPage = () => {
           <p className="subtitle">
             더 나은 소통을 위한 혁신적인 학습 시스템을 만나보세요.
           </p>
-          <div className="button-group">
+          <div className="landing-button-group">
             <button className="start-button" onClick={() => navigate("/login")}>
               시작하기 →
             </button>
