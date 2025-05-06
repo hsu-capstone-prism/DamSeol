@@ -11,7 +11,6 @@
 
 .phonetic-section {
   background-color: #f8f9fa;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   padding: 30px;
   border-radius: 12px;
   padding-bottom: 45px;
@@ -67,7 +66,6 @@
   text-align: center;
   font-size: 19px;
   color: black;
-  box-shadow: 0px 2px 5px rgba(61, 8, 8, 0.1);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
