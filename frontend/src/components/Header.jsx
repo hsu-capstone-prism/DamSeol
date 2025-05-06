@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { FaHome, FaGraduationCap, FaChartBar, FaGamepad, FaUser, FaCog, FaDownload, FaSignOutAlt, FaChevronRight, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaHome, FaSchool, FaChartBar, FaGamepad, FaUser, FaCog, FaDownload, FaSignOutAlt, FaChevronRight, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import "../styles/Header.css";
 
 import logoFull from "../assets/images/logo-tmp-full.png";
@@ -37,11 +37,11 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
 
   const navMenu = [
     { icon: <FaHome />, text: "Home", path: "/main" },
-    { icon: <FaGraduationCap />, text: "Class", 
+    { icon: <FaSchool />, text: "Class", 
       subMenu: [
-        { icon: <FaGraduationCap />, text: "Word", path: "/word", activePath: ["/phon", "/alter", "/add"] },
-        { icon: <FaGraduationCap />, text: "Sentence", path: "/sentence" },
-        { icon: <FaGraduationCap />, text: "Grammar", path: "/grammer" },
+        { icon: <FaSchool />, text: "Word", path: "/word", activePath: ["/phon", "/alter", "/add"] },
+        { icon: <FaSchool />, text: "Sentence", path: "/sentence" },
+        { icon: <FaSchool />, text: "Grammar", path: "/grammer" },
       ]
     },
     { icon: <FaChartBar />, text: "Report", path: "/report" },
