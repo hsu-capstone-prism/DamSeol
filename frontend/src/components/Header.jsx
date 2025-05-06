@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { FaHome, FaSchool, FaChartBar, FaGamepad, FaUser, FaCog, FaDownload, FaSignOutAlt, FaChevronRight, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import {
+  FaHome,
+  FaSchool,
+  FaChartBar,
+  FaGamepad,
+  FaUser,
+  FaCog,
+  FaDownload,
+  FaSignOutAlt,
+  FaChevronRight,
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
 import "../styles/Header.css";
 
 import logoFull from "../assets/images/logo-tmp-full.png";
@@ -22,10 +34,11 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {
+  /*const handleLogout = () => {
     setIsProfileOpen(false);
     navigate("/");
   };
+  */
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -37,12 +50,19 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
 
   const navMenu = [
     { icon: <FaHome />, text: "Home", path: "/main" },
-    { icon: <FaSchool />, text: "Class", 
+    {
+      icon: <FaSchool />,
+      text: "Class",
       subMenu: [
-        { icon: <FaSchool />, text: "Word", path: "/word", activePath: ["/phon", "/alter", "/add"] },
+        {
+          icon: <FaSchool />,
+          text: "Word",
+          path: "/word",
+          activePath: ["/phon", "/alter", "/add"],
+        },
         { icon: <FaSchool />, text: "Sentence", path: "/sentence" },
         { icon: <FaSchool />, text: "Grammar", path: "/grammer" },
-      ]
+      ],
     },
     { icon: <FaChartBar />, text: "Report", path: "/report" },
     { icon: <FaGamepad />, text: "Game", path: "/game" },
@@ -65,17 +85,30 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
           {navMenu.map((menu, index) => {
             const isActive = location.pathname.startsWith(menu.path);
             return (
-              <li key={index} className={`${isActive ? "active" : ""} ${menu.subMenu ? "has-submenu" : ""}`}>
-                <div 
-                  className="menu-item" 
-                  onClick={() => menu.subMenu ? toggleSubMenu(index) : handleNavigate(menu.path)}
+              <li
+                key={index}
+                className={`${isActive ? "active" : ""} ${
+                  menu.subMenu ? "has-submenu" : ""
+                }`}
+              >
+                <div
+                  className="menu-item"
+                  onClick={() =>
+                    menu.subMenu
+                      ? toggleSubMenu(index)
+                      : handleNavigate(menu.path)
+                  }
                 >
                   <span className="icon">{menu.icon}</span>
                   <span className="header-nav-menu-text">{menu.text}</span>
                   {menu.subMenu && (
                     <>
                       <span className="icon submenu-icon">
-                        {openSubMenu === index ? <FaChevronUp /> : <FaChevronDown />}
+                        {openSubMenu === index ? (
+                          <FaChevronUp />
+                        ) : (
+                          <FaChevronDown />
+                        )}
                       </span>
                       {!isMenuOpen && (
                         <div className="tooltip">
@@ -86,19 +119,38 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                   )}
                 </div>
                 {menu.subMenu && (
-                  <div className={`submenu-container ${openSubMenu === index ? 'open' : ''}`}>
+                  <div
+                    className={`submenu-container ${
+                      openSubMenu === index ? "open" : ""
+                    }`}
+                  >
                     <ul className="submenu">
                       {menu.subMenu.map((subItem, subIndex) => (
-                        <li 
-                          key={subIndex} 
+                        <li
+                          key={subIndex}
                           onClick={() => handleNavigate(subItem.path)}
-                          className={location.pathname.startsWith(subItem.path) || subItem.activePath && subItem.activePath.some(path => location.pathname.startsWith(path)) ? "active" : ""}
-                        >
-                          {isMenuOpen ? <>
-                            <span className="icon">{subItem.icon}</span>
-                            <span className="header-nav-menu-text">{subItem.text}</span></> : 
-                            <span className="header-nav-menu-text">{subItem.text.slice(0, 1)}</span>
+                          className={
+                            location.pathname.startsWith(subItem.path) ||
+                            (subItem.activePath &&
+                              subItem.activePath.some((path) =>
+                                location.pathname.startsWith(path)
+                              ))
+                              ? "active"
+                              : ""
                           }
+                        >
+                          {isMenuOpen ? (
+                            <>
+                              <span className="icon">{subItem.icon}</span>
+                              <span className="header-nav-menu-text">
+                                {subItem.text}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="header-nav-menu-text">
+                              {subItem.text.slice(0, 1)}
+                            </span>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -113,7 +165,9 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
         <div className="header-bottom">
           <div className="profile-container" onClick={toggleProfileMenu}>
             <div className="profile-btn">
-              <span className="icon"><FaUser /></span>
+              <span className="icon">
+                <FaUser />
+              </span>
             </div>
             <span className="profile-text">
               {localStorage.getItem("username")}
@@ -123,7 +177,11 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
             <div className="profile-menu">
               <ul className="profile-options">
                 {profileMenu.map((menu, index) => (
-                  <li key={index} className="profile-option" onClick={() => handleNavigate(menu.path)}>
+                  <li
+                    key={index}
+                    className="profile-option"
+                    onClick={() => handleNavigate(menu.path)}
+                  >
                     <span className="icon">{menu.icon}</span>
                     <span className="profile-menu-text">{menu.text}</span>
                   </li>

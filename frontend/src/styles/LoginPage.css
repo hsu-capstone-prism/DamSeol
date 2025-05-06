@@ -46,7 +46,7 @@ input {
   cursor: pointer;
 }
 
-.button-group {
+.login-button-group {
   display: flex;
   justify-content: center;
   gap: 15px;

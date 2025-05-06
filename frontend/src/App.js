@@ -11,6 +11,7 @@ import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
 import ProfilePage from "./pages/MainPage/ProfilePage";
+import GamePage from "./pages/MainPage/GamePage/GamePage";
 
 //WordPage
 import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage";
@@ -41,6 +42,7 @@ function AppContent() {
     { path: "/main", element: <MainPage /> },
     { path: "/report", element: <ReportPage /> },
     { path: "/profile", element: <ProfilePage /> },
+    { path: "/game", element: <GamePage /> },
 
     //word
     { path: "/word", element: <WordPage /> },
@@ -78,7 +80,9 @@ function AppContent() {
 
   return (
     <div>
-      {!hideHeaderPaths.includes(location.pathname) && <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />}
+      {!hideHeaderPaths.includes(location.pathname) && (
+        <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      )}
       <Routes>
         {routes.map(({ path, element }, key) => (
           <Route path={path} element={element} key={key} />
