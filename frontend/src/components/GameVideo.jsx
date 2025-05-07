@@ -1,12 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { FaPlay } from 'react-icons/fa';
 
 const GameVideo = ({ videoSrc }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
+    }
+  }, []);
+
   const handlePlay = () => {
     if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
       videoRef.current.play();
       setIsPlaying(true);
     }

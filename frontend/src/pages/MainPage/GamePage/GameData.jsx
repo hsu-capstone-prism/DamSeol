@@ -1,5 +1,8 @@
-import game1 from "../../../assets/videos/game/game1.mp4";
-import game2 from "../../../assets/videos/game/game2.mp4";
+//import game1 from "../../../assets/videos/game/game1.mp4";
+//import game2 from "../../../assets/videos/game/game2.mp4";
+
+const game1 = "test.mp4"
+const game2 = "test.mp4"
 
 const gameData = [
   {

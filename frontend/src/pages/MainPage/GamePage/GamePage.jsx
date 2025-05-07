@@ -9,14 +9,22 @@ const GameScene = () => {
 
   const [selectedGameData, setSelectedGameData] = useState(gameData[index]);
   const [currentIndex, setCurrentIndex] = useState(index);
+  const [answerStatus, setAnswerStatus] = useState(null);
 
 
   const handleAnswer = (choiceIndex) => {
     if (choiceIndex === selectedGameData.answer) {
-      alert("정답입니다.");
+      setAnswerStatus("정답입니다!");
     } else {
-      alert("오답입니다.");
+      setAnswerStatus("오답입니다!");
     }
+  };
+
+  const handleNextQuestion = () => {
+    const nextIndex = (currentIndex + 1) % gameData.length;
+    setCurrentIndex(nextIndex);
+    setSelectedGameData(gameData[nextIndex]);
+    setAnswerStatus(null);
   };
 
   return (
@@ -31,9 +39,25 @@ const GameScene = () => {
             <p className="description">
               {selectedGameData.context}
             </p>
+            
+            {answerStatus && (
+              <div className="answer-status">
+                <p className={answerStatus.includes("정답") ? "correct" : "incorrect"}>
+                  {answerStatus}
+                </p>
+                <button className="next-button" onClick={handleNextQuestion}>
+                  다음 문제
+                </button>
+              </div>
+            )}
+            
             <div className="choices">
               {selectedGameData.choices.map((choice, index) => (
-                <button key={index} onClick={() => handleAnswer(index)}>
+                <button 
+                  key={index} 
+                  onClick={() => handleAnswer(index)}
+                  disabled={answerStatus !== null}
+                >
                   {choice}
                 </button>
               ))}
