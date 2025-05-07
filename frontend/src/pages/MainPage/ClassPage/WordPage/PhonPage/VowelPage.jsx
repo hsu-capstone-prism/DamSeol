@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../../Layout";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "../../../../../styles/VowelPage.css";
+import "../../../../../styles/PhoneticPage.css";
 
 const vowels = [
   { symbol: "ㅣ", key: "I" },
@@ -68,22 +68,22 @@ const VowelPage = () => {
 
   return (
     <Layout>
-      <div className="vowel">
-        <section className="vowel-section">
+      <div className="phonetic">
+        <section className="phonetic-section">
           <h2>모음 목록</h2>
           {error && <p className="error-message">❌ {error}</p>}
-          <div className="vowel-box-container">
+          <div className="phonetic-box-container vowel-box-container">
             {vowels.map((vowel) =>
               subcategoryMap[vowel.symbol] ? (
                 <Link
                   to={`/phon/vowel/words/${subcategoryMap[vowel.symbol]}`}
                   key={vowel.symbol}
-                  state={{ symbol: vowel.symbol }} // symbol을 state로 전달
+                  state={{ symbol: vowel.symbol }}
                 >
-                  <div className="vowel-box">{vowel.symbol} 단어</div>
+                  <div className="phonetic-box vowel-box">{vowel.symbol} 단어</div>
                 </Link>
               ) : (
-                <div className="vowel-box disabled" key={vowel.symbol}>
+                <div className="phonetic-box vowel-box disabled" key={vowel.symbol}>
                   {vowel.symbol} 단어
                 </div>
               )

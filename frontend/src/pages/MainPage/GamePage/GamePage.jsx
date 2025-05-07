@@ -1,36 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../../styles/GamePage.css";
+import gameData from "./GameData";
+import GameVideo from "../../../components/GameVideo";
 
 const GameScene = () => {
-  const handleAnswer = (choice) => {
-    alert(`선택한 문장: ${choice}`);
+
+  const [index, setIndex] = useState(1);
+
+  const [selectedGameData, setSelectedGameData] = useState(gameData[index]);
+  const [currentIndex, setCurrentIndex] = useState(index);
+  const [answerStatus, setAnswerStatus] = useState(null);
+
+
+  const handleAnswer = (choiceIndex) => {
+    if (choiceIndex === selectedGameData.answer) {
+      setAnswerStatus("정답입니다!");
+    } else {
+      setAnswerStatus("오답입니다!");
+    }
+  };
+
+  const handleNextQuestion = () => {
+    const nextIndex = (currentIndex + 1) % gameData.length;
+    setCurrentIndex(nextIndex);
+    setSelectedGameData(gameData[nextIndex]);
+    setAnswerStatus(null);
   };
 
   return (
     <div className="game-container">
-  <section className="game-section">
-    <h2>Game</h2>
-    <div className="game-box-wrapper">
-      <div className="media-section">
-        <video width="100%" controls>
-          <source src="/videos/spine.mp4" type="video/mp4" />
-          브라우저가 비디오를 지원하지 않습니다.
-        </video>
-      </div>
-      <div className="text-section">
-        <p className="description">
-          허리 통증으로 진단을 받은 당신에게<br />
-          의사가 심각한 표정으로 말합니다.
-        </p>
-        <div className="choices">
-          <button onClick={() => handleAnswer("A")}>A. 이게 환자분의 척추입니다.</button>
-          <button onClick={() => handleAnswer("B")}>B. 척추가 많이 휘어있습니다.</button>
-          <button onClick={() => handleAnswer("C")}>C. 척추를 한번 살펴보았습니다.</button>
+      <section className="game-section">
+        <h2>Game</h2>
+        <div className="game-box-wrapper">
+          <div className="media-section">
+            <GameVideo videoSrc={selectedGameData.video} />
+          </div>
+          <div className="text-section">
+            <p className="description">
+              {selectedGameData.context}
+            </p>
+            
+            {answerStatus && (
+              <div className="answer-status">
+                <p className={answerStatus.includes("정답") ? "correct" : "incorrect"}>
+                  {answerStatus}
+                </p>
+                <button className="next-button" onClick={handleNextQuestion}>
+                  다음 문제
+                </button>
+              </div>
+            )}
+            
+            <div className="choices">
+              {selectedGameData.choices.map((choice, index) => (
+                <button 
+                  key={index} 
+                  onClick={() => handleAnswer(index)}
+                  disabled={answerStatus !== null}
+                >
+                  {choice}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
-  </section>
-</div>
   );
 };
 
