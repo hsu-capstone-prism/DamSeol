@@ -13,7 +13,7 @@ const GameScene = () => {
 
 
   const handleAnswer = (choiceIndex) => {
-    if (choiceIndex === selectedGameData.answer) {
+    if (selectedGameData.choices[choiceIndex].correct) {
       setAnswerStatus("정답입니다!");
     } else {
       setAnswerStatus("오답입니다!");
@@ -58,7 +58,7 @@ const GameScene = () => {
                   onClick={() => handleAnswer(index)}
                   disabled={answerStatus !== null}
                 >
-                  {choice}
+                  {choice.text}
                 </button>
               ))}
             </div>
