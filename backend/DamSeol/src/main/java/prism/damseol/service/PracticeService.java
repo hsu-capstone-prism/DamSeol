@@ -2,12 +2,12 @@ package prism.damseol.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import prism.damseol.domain.*;
 import prism.damseol.repository.*;
 import prism.damseol.service.ai.AiAnalysisService;
+import prism.damseol.util.KoreanPronunciationUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -90,7 +90,7 @@ public class PracticeService {
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
 
         // wordRecord에 틀린 발음 설정
-        List<String> wrongProns = KoreanPronChecker.checkPronunciation(word.getWordPron(), wordRecord.getPron());
+        List<String> wrongProns = KoreanPronunciationUtils.checkPronunciation(word.getWordPron(), wordRecord.getPron());
         StringBuilder sb = new StringBuilder();
         for (String wrongPron : wrongProns) {
             sb.append(wrongPron);
@@ -102,7 +102,7 @@ public class PracticeService {
         wordRecordRepository.save(wordRecord);
 
         // 틀린 발음이 포함된 인덱스 반환
-        List<Integer> incorrectPronIndices = KoreanPronChecker.getIncorrectPronIndices(word.getWordPron(), wordRecord.getPron());
+        List<Integer> incorrectPronIndices = KoreanPronunciationUtils.getIncorrectPronIndices(word.getWordPron(), wordRecord.getPron());
         sb = new StringBuilder();
         for (Integer incorrectPronIndex : incorrectPronIndices) {
             sb.append(incorrectPronIndex);
@@ -161,7 +161,7 @@ public class PracticeService {
 
         // 틀린 발음이 포함된 인덱스 반환
         // sentence의 마지막 문자('.', '?') 제거
-        List<Integer> incorrectPronIndices = KoreanPronChecker
+        List<Integer> incorrectPronIndices = KoreanPronunciationUtils
                 .getIncorrectPronIndices(sentence.getText().substring(0, sentence.getText().length() - 1), sentenceRecord.getPron());
         StringBuilder sb = new StringBuilder();
         for (Integer incorrectPronIndex : incorrectPronIndices) {
