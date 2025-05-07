@@ -4,6 +4,7 @@ import { FaPlay } from 'react-icons/fa';
 const GameVideo = ({ videoSrc }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -23,6 +24,22 @@ const GameVideo = ({ videoSrc }) => {
     setIsPlaying(false);
   };
 
+  const handleVideoError = () => {
+    setHasError(true);
+    setIsPlaying(false);
+  };
+
+  if (hasError || !videoSrc) {
+    return (
+      <div className="video-container error-container">
+        <div className="error-message">
+          <p>비디오를 불러올 수 없습니다.</p>
+          <p>관련 영상이 준비 중입니다.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="video-container">
       <video 
@@ -31,6 +48,7 @@ const GameVideo = ({ videoSrc }) => {
         width="100%" 
         muted
         onEnded={handleVideoEnded}
+        onError={handleVideoError}
       >
         <source src={videoSrc} type="video/mp4" />
         브라우저가 비디오를 지원하지 않습니다.
