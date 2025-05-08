@@ -61,8 +61,8 @@ const GamePage = () => {
     <div className="game-container">
       {!started ? (
         <section className="game-section">
-          <h2 className="game-title">👄 입을 잘 보고, 마음의 귀를 열어봐요!</h2>
           <div className="game-start-screen">
+            <p className="game-title">입을 잘 보고, 마음의 귀를 열어봐요!</p>
             <p className="game-description">
               소리는 없어요. 화면 속 인물이 어떤 말을 했는지 <br />
               입모양을 보고 가장 어울리는 문장을 골라보세요! <br />
