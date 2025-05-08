@@ -111,7 +111,8 @@ const SenStudyPage = () => {
 
   const fetchSummaryTip = async () => {
     setIsLoadingSummary(true);
-    const { allDetails, avgCorrection, avgPitch, avgRhythm } = getSummaryResult();
+    const { allDetails, avgCorrection, avgPitch, avgRhythm } =
+      getSummaryResult();
     try {
       const token = getAuthToken();
       const formData = new FormData();
@@ -252,10 +253,7 @@ const SenStudyPage = () => {
                 <p className="tip-content">{summaryTip}</p>
               </div>
             </div>
-            <div
-              className="button-group"
-              style={{ justifyContent: "center" }}
-            >
+            <div className="button-group" style={{ justifyContent: "center" }}>
               <button
                 className="retry-btn"
                 onClick={() => {
@@ -280,7 +278,9 @@ const SenStudyPage = () => {
           <>
             <section className="display-container">
               {sentences.length > 0 ? (
-                <h1 className="content-text">{sentences[selectedIndex].text}</h1>
+                <h1 className="content-text">
+                  {sentences[selectedIndex].text}
+                </h1>
               ) : (
                 <p>해당하는 문장이 없습니다.</p>
               )}
@@ -306,11 +306,15 @@ const SenStudyPage = () => {
                     </div>
                     {selectedIndex === 2 && (
                       <button
-                        className={`final-result-btn ${isLoadingSummary ? 'loading' : ''}`}
+                        className={`final-result-btn ${
+                          isLoadingSummary ? "loading" : ""
+                        }`}
                         onClick={fetchSummaryTip}
                         disabled={isLoadingSummary}
                       >
-                        {isLoadingSummary ? '결과 분석 중...' : '최종 결과화면 보기'}
+                        {isLoadingSummary
+                          ? "결과 분석 중..."
+                          : "최종 결과화면 보기"}
                       </button>
                     )}
                   </div>
