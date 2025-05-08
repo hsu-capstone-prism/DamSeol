@@ -105,7 +105,7 @@
   height: 100%;
 }
 
-.game-title {
+.game-start-title {
   font-size: 36px;
   text-align: center;
   font-weight: 700;
@@ -113,7 +113,7 @@
   font-family: "Segoe UI", "Comic Sans MS", sans-serif;
 }
 
-.game-description {
+.game-start-description {
   font-size: 20px;
   line-height: 1.6;
   color: #555;
@@ -134,6 +134,92 @@
 .game-start-button:hover {
   background-color: #f0faff;
   transform: scale(1.08);
+}
+
+.game-finish-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.game-finish-title {
+  font-size: 36px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.4;
+  font-family: "Segoe UI", "Comic Sans MS", sans-serif;
+}
+
+.game-finish-description {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 0 25px 0;
+}
+
+.game-finish-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #0077cc;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.game-finish-button:hover {
+  background-color: #f0faff;
+  transform: scale(1.08);
+}
+
+.game-result-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.game-result-description {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 40px;
+}
+
+.game-answer-list {
+  text-align: left;
+  max-width: 600px;
+  width: 100%;
+  padding: 0;
+  list-style: none;
+}
+
+.game-answer-list li {
+  margin-bottom: 15px;
+  background-color: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.game-home-button {
+  margin-top: 20px;
+  padding: 10px 24px;
+  background-color: #0077cc;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.game-home-button:hover {
+  background-color: #0056b3;
 }
 
 .game-progress-bar {

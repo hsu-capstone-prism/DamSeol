@@ -5,6 +5,9 @@ import ProgressBar from "../../../components/GameProgressBar";
 const GamePage = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [started, setStarted] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [userAnswers, setUserAnswers] = useState([]);
 
   const games = [
     {
@@ -53,8 +56,19 @@ const GamePage = () => {
   };
 
   const handleAnswer = (choice) => {
-    alert(`선택한 문장: ${choice}`);
-    setSelectedIndex((prev) => Math.min(prev + 1, games.length - 1));
+    setUserAnswers((prev) => [...prev, choice]);
+
+    if (selectedIndex === games.length - 1) {
+      setIsFinished(true);
+    } else {
+      setSelectedIndex((prev) => prev + 1);
+    }
+  };
+
+  const handleStepClick = (index) => {
+    if (index <= selectedIndex) {
+      setSelectedIndex(index);
+    }
   };
 
   return (
@@ -62,14 +76,58 @@ const GamePage = () => {
       {!started ? (
         <section className="game-section">
           <div className="game-start-screen">
-            <p className="game-title">입을 잘 보고, 마음의 귀를 열어봐요!</p>
-            <p className="game-description">
+            <p className="game-start-title">
+              입을 잘 보고, 마음의 귀를 열어봐요!
+            </p>
+            <p className="game-start-description">
               소리는 없어요. 화면 속 인물이 어떤 말을 했는지 <br />
               입모양을 보고 가장 어울리는 문장을 골라보세요! <br />
               눈치와 감이 필요한, 조용하지만 웃음 나는 게임 🎉
             </p>
             <button className="game-start-button" onClick={handleStart}>
               Start!
+            </button>
+          </div>
+        </section>
+      ) : isFinished && showResult ? (
+        <section className="game-section">
+          <div className="game-result-screen">
+            <h2 className="game-result-title">결과</h2>
+            <p className="game-result-description">
+              총 점수: {userAnswers.length}/{games.length}점<br />
+              평균 점수:{" "}
+              {((userAnswers.length / games.length) * 100).toFixed(1)}%
+            </p>
+            <ul className="game-answer-list">
+              {games.map((game, index) => (
+                <li key={index}>
+                  <strong>Q{index + 1}:</strong>{" "}
+                  {game.description.split("\n")[0]}
+                  <br />
+                  <strong>선택한 답:</strong> {userAnswers[index]}
+                </li>
+              ))}
+            </ul>
+            <button
+              className="game-home-button"
+              onClick={() => (window.location.href = "/")}
+            >
+              홈으로
+            </button>
+          </div>
+        </section>
+      ) : isFinished ? (
+        <section className="game-section">
+          <div className="game-finish-screen">
+            <p className="game-finish-title">🎉 게임 종료!</p>
+            <p className="game-finish-description">
+              수고하셨습니다! 결과를 확인해보세요.
+            </p>
+            <button
+              className="game-finish-button"
+              onClick={() => setShowResult(true)}
+            >
+              결과 보기
             </button>
           </div>
         </section>
@@ -104,7 +162,7 @@ const GamePage = () => {
           <ProgressBar
             currentStep={selectedIndex}
             totalSteps={games.length}
-            onStepClick={(index) => setSelectedIndex(index)}
+            onStepClick={handleStepClick}
           />
         </section>
       )}
