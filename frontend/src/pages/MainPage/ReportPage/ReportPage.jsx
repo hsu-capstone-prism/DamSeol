@@ -83,10 +83,14 @@ const ReportPage = () => {
         const weeklyReports = response.data.weeklyReports ?? [];
 
         const sorted = [...weeklyReports].sort(
-          (a, b) => a.weekOffset - b.weekOffset
+          (a, b) => b.weekOffset - a.weekOffset
         );
 
-        const labels = sorted.map((r) => `${r.weekOffset + 1}주차`);
+        const weekLabels = ["이번주", "1주전", "2주전", "3주전"];
+        const labels = sorted.map(
+          (r) => weekLabels[r.weekOffset] || `${r.weekOffset}주전`
+        );
+
         const accuracy = sorted.map((r) => r.avgAccuracy ?? 0);
         const pitch = sorted.map((r) => r.avgPitchScore ?? 0);
         const rhythm = sorted.map((r) => r.avgRhythmScore ?? 0);
@@ -324,6 +328,7 @@ const ReportPage = () => {
       <section className="report-learning-section recent-section">
         <h2>최근 학습</h2>
         <div className="recent-container">
+          {/* 왼쪽 박스: 학습 진도 */}
           <div className="recent-left-section">
             <h3>학습 진도</h3>
             <p>
@@ -353,7 +358,23 @@ const ReportPage = () => {
             </p>
           </div>
 
-          <div className="recent-right-section"></div>
+          {/* 오른쪽 박스: 게임 결과 */}
+          <div className="recent-right-section">
+            <h3>게임 결과</h3>
+            <p>
+              최근 게임 총 점수
+              <br />
+              <strong>
+                {localStorage.getItem("gameTotalScore") || "0"}
+              </strong>{" "}
+              점
+            </p>
+            <p>
+              최근 게임 평균 점수
+              <br />
+              <strong>{localStorage.getItem("gameAvgScore") || "0"}%</strong>
+            </p>
+          </div>
         </div>
       </section>
     </div>

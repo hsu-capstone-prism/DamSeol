@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { FaPlay } from 'react-icons/fa';
+import React, { useRef, useState, useEffect } from "react";
+import { FaPlay } from "react-icons/fa";
 
 const GameVideo = ({ videoSrc }) => {
   const videoRef = useRef(null);
@@ -8,6 +8,7 @@ const GameVideo = ({ videoSrc }) => {
 
   useEffect(() => {
     if (videoRef.current) {
+      videoRef.current.load();
       videoRef.current.playbackRate = 0.5;
     }
   }, []);
@@ -42,10 +43,10 @@ const GameVideo = ({ videoSrc }) => {
 
   return (
     <div className="video-container">
-      <video 
+      <video
         ref={videoRef}
-        className="game-video" 
-        width="100%" 
+        className="game-video"
+        width="100%"
         muted
         onEnded={handleVideoEnded}
         onError={handleVideoError}
@@ -54,10 +55,7 @@ const GameVideo = ({ videoSrc }) => {
         브라우저가 비디오를 지원하지 않습니다.
       </video>
       {!isPlaying && (
-        <button 
-          className="play-button"
-          onClick={handlePlay}
-        >
+        <button className="play-button" onClick={handlePlay}>
           <FaPlay />
         </button>
       )}
