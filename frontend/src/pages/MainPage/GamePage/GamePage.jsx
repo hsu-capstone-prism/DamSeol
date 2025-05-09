@@ -3,6 +3,7 @@ import "../../../styles/GamePage.css";
 import GameVideo from "../../../components/GameVideo";
 import ProgressBar from "../../../components/GameProgressBar";
 import axios from "axios";
+import testGameData from "./GameData.jsx";
 
 const GamePage = () => {
   const [gameData, setGameData] = useState([]);
@@ -12,21 +13,36 @@ const GamePage = () => {
   const [showResult, setShowResult] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
   const [answerStatus, setAnswerStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchGameData = async () => {
       try {
+        setIsLoading(true);
+        
+        setError(null);
         const token = localStorage.getItem("authToken");
+        
+        if (!token) {
+          throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
+        }
+
+        const headers = { Authorization: `Bearer ${token}` };
+
+        /*
         const response = await axios.get(
           "http://localhost:8080/api/scenarios",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers }
         );
-
+        */
+        // testGameData를 axios 응답 형식과 동일하게 맞춤
+        const response = { data: testGameData };
         console.log("게임 데이터 :", response.data);
+
+        if (!response.data || response.data.length === 0) {
+          throw new Error("게임 데이터를 불러올 수 없습니다.");
+        }
 
         const selected = [];
         const shuffled = [...response.data];
@@ -42,6 +58,9 @@ const GamePage = () => {
         setGameData(selected);
       } catch (error) {
         console.error("게임 데이터를 불러오는 중 오류 발생:", error);
+        setError(error.message || "게임 데이터를 불러오는데 실패했습니다.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -98,7 +117,32 @@ const GamePage = () => {
     }
   };
 
-  if (!gameData.length) return <div>Loading...</div>;
+  if (isLoading) return (
+    <div className="game-container">
+      <div className="loading-screen">
+        <p>게임 데이터를 불러오는 중입니다...</p>
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="game-container">
+      <div className="error-screen">
+        <p>오류가 발생했습니다: {error}</p>
+        <button onClick={() => window.location.reload()}>다시 시도</button>
+        <button onClick={() => window.location.href = "/main"}>홈으로</button>
+      </div>
+    </div>
+  );
+
+  if (!gameData.length) return (
+    <div className="game-container">
+      <div className="error-screen">
+        <p>게임 데이터가 없습니다.</p>
+        <button onClick={() => window.location.href = "/main"}>홈으로</button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="game-container">

@@ -40,6 +40,7 @@ uploads/
 
 # 이미지 전체 무시
 /src/main/resources/static/*.png
+/src/main/resources/static/*.mp4
 
 # application config
 src/main/resources/application.properties
