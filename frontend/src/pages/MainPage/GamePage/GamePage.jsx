@@ -63,8 +63,22 @@ const GamePage = () => {
     setUserAnswers((prev) => [...prev, selectedChoice.text]);
     setAnswerStatus(isCorrect ? "정답입니다!" : "오답입니다!");
 
+    // 마지막 문제면 게임 종료 및 점수 저장
     if (selectedIndex === gameData.length - 1) {
       setIsFinished(true);
+
+      // 점수 계산
+      const totalCorrect = [...userAnswers, selectedChoice.text].filter(
+        (ans, idx) =>
+          ans === gameData[idx]?.choices.find((c) => c.correct)?.text
+      ).length;
+
+      const totalScore = totalCorrect;
+      const avgScore = ((totalCorrect / gameData.length) * 100).toFixed(1);
+
+      // localStorage에 저장
+      localStorage.setItem("gameTotalScore", totalScore.toString());
+      localStorage.setItem("gameAvgScore", avgScore.toString());
     }
   };
 

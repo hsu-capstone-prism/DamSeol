@@ -85,3 +85,26 @@
   background-color: #e8f0fe;
   min-width: 300px;
 }
+
+.recent-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.recent-left-section,
+.recent-right-section {
+  flex: 1;
+  background-color: #f9f9f9;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.recent-right-section h3,
+.recent-left-section h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
