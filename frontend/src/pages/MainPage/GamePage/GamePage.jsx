@@ -28,9 +28,17 @@ const GamePage = () => {
 
         console.log("게임 데이터:", response.data);
 
-        const shuffled = [...response.data].sort(() => Math.random() - 0.5);
-        const selected = shuffled.slice(0, 5);
+        const selected = [];
+        const shuffled = [...response.data];
 
+        while (selected.length < 5) {
+          const randomIndex = Math.floor(Math.random() * shuffled.length);
+          const selectedItem = shuffled[randomIndex];
+
+          if (!selected.includes(selectedItem)) {
+            selected.push(selectedItem);
+          }
+        }
         setGameData(selected);
       } catch (error) {
         console.error("게임 데이터를 불러오는 중 오류 발생:", error);
