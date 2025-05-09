@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../../Layout";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "../../../../../styles/ConsonantPage.css";
+import "../../../../../styles/PhoneticPage.css";
 
 const consonants = [
   { symbol: "ㄱ", key: "G" },
@@ -75,11 +75,11 @@ const ConsonantPage = () => {
 
   return (
     <Layout>
-      <div className="consonant">
-        <section className="consonant-section">
+      <div className="phonetic">
+        <section className="phonetic-section">
           <h2>자음 목록</h2>
           {error && <p className="error-message">❌ {error}</p>}
-          <div className="consonant-box-container">
+          <div className="phonetic-box-container consonant-box-container">
             {consonants.map((consonant) =>
               subcategoryMap[consonant.symbol] ? (
                 <Link
@@ -87,12 +87,12 @@ const ConsonantPage = () => {
                     subcategoryMap[consonant.symbol]
                   }`}
                   key={consonant.symbol}
-                  state={{ symbol: consonant.symbol }} // symbol을 state로 전달
+                  state={{ symbol: consonant.symbol }}
                 >
-                  <div className="consonant-box">{consonant.symbol} 단어</div>
+                  <div className="phonetic-box consonant-box">{consonant.symbol} 단어</div>
                 </Link>
               ) : (
-                <div className="consonant-box disabled" key={consonant.symbol}>
+                <div className="phonetic-box consonant-box disabled" key={consonant.symbol}>
                   {consonant.symbol} 단어
                 </div>
               )
