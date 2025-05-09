@@ -26,7 +26,7 @@ const GamePage = () => {
           }
         );
 
-        console.log("게임 데이터:", response.data);
+        console.log("게임 데이터 :", response.data);
 
         const selected = [];
         const shuffled = [...response.data];
