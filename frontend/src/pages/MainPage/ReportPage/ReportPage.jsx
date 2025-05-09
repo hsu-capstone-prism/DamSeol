@@ -86,16 +86,14 @@ const ReportPage = () => {
           (a, b) => b.weekOffset - a.weekOffset
         );
 
-        const labels = sorted
-          .map((r, idx) => {
-            const labelIndex = sorted.length - 1 - idx;
-            const weekLabels = ["3주전", "2주전", "1주전", "이번주"];
-            return weekLabels[labelIndex] ?? `${r.weekOffset + 1}주차`;
-          })
-          .reverse();
-        const accuracy = sorted.map((r) => r.avgAccuracy ?? 0).reverse();
-        const pitch = sorted.map((r) => r.avgPitchScore ?? 0).reverse();
-        const rhythm = sorted.map((r) => r.avgRhythmScore ?? 0).reverse();
+        const weekLabels = ["이번주", "1주전", "2주전", "3주전"];
+        const labels = sorted.map(
+          (r) => weekLabels[r.weekOffset] || `${r.weekOffset}주전`
+        );
+
+        const accuracy = sorted.map((r) => r.avgAccuracy ?? 0);
+        const pitch = sorted.map((r) => r.avgPitchScore ?? 0);
+        const rhythm = sorted.map((r) => r.avgRhythmScore ?? 0);
 
         setWeeklyChartData({
           labels,
