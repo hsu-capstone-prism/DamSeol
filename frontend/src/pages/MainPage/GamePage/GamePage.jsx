@@ -26,11 +26,19 @@ const GamePage = () => {
           }
         );
 
-        console.log("게임 데이터:", response.data);
+        console.log("게임 데이터 :", response.data);
 
-        const shuffled = [...response.data].sort(() => Math.random() - 0.5);
-        const selected = shuffled.slice(0, 5);
+        const selected = [];
+        const shuffled = [...response.data];
 
+        while (selected.length < 5) {
+          const randomIndex = Math.floor(Math.random() * shuffled.length);
+          const selectedItem = shuffled[randomIndex];
+
+          if (!selected.includes(selectedItem)) {
+            selected.push(selectedItem);
+          }
+        }
         setGameData(selected);
       } catch (error) {
         console.error("게임 데이터를 불러오는 중 오류 발생:", error);
@@ -55,8 +63,22 @@ const GamePage = () => {
     setUserAnswers((prev) => [...prev, selectedChoice.text]);
     setAnswerStatus(isCorrect ? "정답입니다!" : "오답입니다!");
 
+    // 마지막 문제면 게임 종료 및 점수 저장
     if (selectedIndex === gameData.length - 1) {
       setIsFinished(true);
+
+      // 점수 계산
+      const totalCorrect = [...userAnswers, selectedChoice.text].filter(
+        (ans, idx) =>
+          ans === gameData[idx]?.choices.find((c) => c.correct)?.text
+      ).length;
+
+      const totalScore = totalCorrect;
+      const avgScore = ((totalCorrect / gameData.length) * 100).toFixed(1);
+
+      // localStorage에 저장
+      localStorage.setItem("gameTotalScore", totalScore.toString());
+      localStorage.setItem("gameAvgScore", avgScore.toString());
     }
   };
 
