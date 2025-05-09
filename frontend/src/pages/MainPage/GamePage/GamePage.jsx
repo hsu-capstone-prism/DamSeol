@@ -176,7 +176,7 @@ const GamePage = () => {
       ) : isFinished ? (
         <section className="game-section">
           <div className="game-finish-screen">
-            <p className="game-finish-title">🎉 게임 종료!</p>
+            <p className="game-finish-title"> 게임 종료!</p>
             <p className="game-finish-description">
               수고하셨습니다! 결과를 확인해보세요.
             </p>
