@@ -22,7 +22,7 @@ const GameProgressBar = ({ currentStep, totalSteps, onStepClick }) => {
         >
           {index + 1}
         </div>
-      ))}
+      ))}   
     </div>
   );
 };
