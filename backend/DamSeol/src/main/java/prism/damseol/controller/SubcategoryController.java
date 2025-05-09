@@ -24,6 +24,5 @@ public class SubcategoryController {
     public List<SubcategoryDTO> getAllSubcategories() {
         
         return subcategoryService.getAllSubcategories();
-
     }
 }

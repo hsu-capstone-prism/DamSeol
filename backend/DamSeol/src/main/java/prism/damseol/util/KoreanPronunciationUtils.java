@@ -1,4 +1,4 @@
-package prism.damseol.service;
+package prism.damseol.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
  * 한글 발음 비교 서비스 클래스
  * 사용자가 입력한 발음과 올바른 발음을 비교하여 잘못된 발음을 찾아 출력한다.
  */
-public class KoreanPronChecker {
+public class KoreanPronunciationUtils {
     // 한글 초성(첫소리), 중성(가운데소리), 종성(끝소리) 목록 정의
     private static final String CHO = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
     private static final String JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
@@ -76,9 +76,13 @@ public class KoreanPronChecker {
             String[] correctPhons = decomposeKorean(correctChar);
             String[] userPhons = decomposeKorean(userChar);
 
-            for (int j = 0; j < Math.max(correctPhons.length, userPhons.length); j++) {
-                String correctPhon = j < correctPhons.length ? correctPhons[j] : "";
-                String userPhon = j < userPhons.length ? userPhons[j] : "";
+            // for (int j = 0; j < Math.max(correctPhons.length, userPhons.length); j++) {
+            for (int j = 0; j < correctPhons.length; j++) {
+//                String correctPhon = j < correctPhons.length ? correctPhons[j] : "";
+//                String userPhon = j < userPhons.length ? userPhons[j] : "";
+
+                String correctPhon = correctPhons[j];
+                String userPhon = userPhons[j];
 
                 if (!correctPhon.equals(userPhon)) {
                     list.add(correctPhon);
