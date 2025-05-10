@@ -108,11 +108,6 @@ public class ReportService {
                             ? (totalWordScoreSum + totalSentenceCorrectionSum) / (double) totalCount
                             : 0.0;
 
-                    double avgSentenceAccuracy = sentencesInWeek.stream()
-                            .mapToInt(SentenceRecord::getCorrection)
-                            .average()
-                            .orElse(0.0);
-
                     double avgPitchScore = sentencesInWeek.stream()
                             .mapToInt(SentenceRecord::getPitch_score)
                             .average()
@@ -126,7 +121,6 @@ public class ReportService {
                     return WeeklyReportDTO.builder()
                             .weekOffset(weekOffset)
                             .avgAccuracy(avgAccuracy)
-                            .avgSentenceAccuracy(avgSentenceAccuracy)
                             .avgPitchScore(avgPitchScore)
                             .avgRhythmScore(avgRhythmScore)
                             .build();
