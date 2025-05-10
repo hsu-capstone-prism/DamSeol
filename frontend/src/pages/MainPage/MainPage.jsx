@@ -26,31 +26,46 @@ const MainPage = () => {
               src={wordImg}
               alt="단어 학습"
             />
-            <p>단어 학습</p>
+            <div className="main-box-text-container">
+              <div className="main-box-text-background"></div>
+              <p className="main-box-text">단어 학습</p>
+            </div>
           </div>
           <div className="main-box" onClick={() => handleClick("/sentence")}>
             <img
               src={sentenceImg}
               alt="문장 학습"
             />
-            <p>문장 학습</p>
+            <div className="main-box-text-container">
+              <div className="main-box-text-background"></div>
+              <p className="main-box-text">문장 학습</p>
+            </div>
           </div>
           <div className="main-box" onClick={() => handleClick("/grammer")}>
             <img
               src={grammerImg}
               alt="문법 연습"
             />
-            <p>문법 연습</p>
+            <div className="main-box-text-container">
+              <div className="main-box-text-background"></div>
+              <p className="main-box-text">문법 연습</p>
+            </div>
           </div>
         </div>
         <div className="main-row">
           <div className="main-box double-width" onClick={() => handleClick("/report")}>
             {/* 리포트 내용이 들어갈 수 있습니다 */}
-            <p>리포트</p>
+            <div className="main-box-text-container">
+              <div className="main-box-text-background"></div>
+              <p className="main-box-text">리포트</p>
+            </div>
           </div>
           <div className="main-box" onClick={() => handleClick("/game")}>
             {/* 게임 콘텐츠 또는 설명 */}
-            <p>게임을 시작해보세요!</p>
+            <div className="main-box-text-container">
+              <div className="main-box-text-background"></div>
+              <p className="main-box-text">게임을 시작해보세요!</p>
+            </div>
           </div>
         </div>
       </section>
