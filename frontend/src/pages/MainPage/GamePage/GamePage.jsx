@@ -5,6 +5,8 @@ import ProgressBar from "../../../components/GameProgressBar";
 import axios from "axios";
 import testGameData from "./GameData.jsx";
 
+const getAuthToken = () => localStorage.getItem("authToken");
+
 const GamePage = () => {
   const [gameData, setGameData] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -14,6 +16,7 @@ const GamePage = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [answerStatus, setAnswerStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [videoSrc, setVideoSrc] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -30,14 +33,12 @@ const GamePage = () => {
 
         const headers = { Authorization: `Bearer ${token}` };
 
-        /*
+        
         const response = await axios.get(
           "http://localhost:8080/api/scenarios",
           { headers }
         );
-        */
-        // testGameData를 axios 응답 형식과 동일하게 맞춤
-        const response = { data: testGameData };
+        
         console.log("게임 데이터 :", response.data);
 
         if (!response.data || response.data.length === 0) {
@@ -68,6 +69,36 @@ const GamePage = () => {
   }, []);
 
   const current = gameData[selectedIndex];
+
+  useEffect(() => {
+    const fetchVideo = async () => {
+      if (!current || !current.videoFileName) {
+        console.log("current가 없거나 videoFileName이 없습니다.");
+        return;
+      }
+
+      try {
+        const token = getAuthToken();
+        const response = await axios.get(`http://localhost:8080/${current.videoFileName}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: "blob", // blob으로 받아야 브라우저가 읽을 수 있어
+        });
+
+        const videoBlob = new Blob([response.data], { type: "video/mp4" });
+        const videoURL = URL.createObjectURL(videoBlob);
+
+        setVideoSrc(videoURL);
+      } catch (error) {
+        console.error("비디오를 불러오는 중 오류 발생:", error);
+        setError(error.message || "비디오를 불러오는데 실패했습니다.");
+      }
+    };
+
+    fetchVideo();
+  }, [current]);
+
 
   const handleStart = () => {
     setStarted(true);
@@ -237,7 +268,7 @@ const GamePage = () => {
           <h2>Game</h2>
           <div className="game-box-wrapper">
             <div className="media-section">
-              <GameVideo videoSrc={current.video} />
+              <GameVideo videoSrc={videoSrc} />
             </div>
             <div className="text-section">
               <h2 className="situation-text">{current.situation}</h2>
