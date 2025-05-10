@@ -90,14 +90,15 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                 className={`${isActive ? "active" : ""} ${
                   menu.subMenu ? "has-submenu" : ""
                 }`}
+                onClick={() =>
+                  menu.subMenu
+                    ? toggleSubMenu(index)
+                    : handleNavigate(menu.path)
+                }
               >
                 <div
                   className="menu-item"
-                  onClick={() =>
-                    menu.subMenu
-                      ? toggleSubMenu(index)
-                      : handleNavigate(menu.path)
-                  }
+
                 >
                   <span className="icon">{menu.icon}</span>
                   <span className="header-nav-menu-text">{menu.text}</span>
@@ -128,7 +129,10 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                       {menu.subMenu.map((subItem, subIndex) => (
                         <li
                           key={subIndex}
-                          onClick={() => handleNavigate(subItem.path)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleNavigate(subItem.path);
+                          }}
                           className={
                             location.pathname.startsWith(subItem.path) ||
                             (subItem.activePath &&
