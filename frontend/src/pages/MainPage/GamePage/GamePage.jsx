@@ -73,7 +73,6 @@ const GamePage = () => {
   useEffect(() => {
     const fetchVideo = async () => {
       if (!current || !current.videoFileName) {
-        console.log("current가 없거나 videoFileName이 없습니다.");
         return;
       }
 
