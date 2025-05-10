@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/LoginPage.css";
@@ -8,6 +8,15 @@ const LoginPage = () => {
   const [username, setUsername] = useState(""); // 기존 username 유지
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("savedUsername");
+    if (savedUsername) {
+      setUsername(savedUsername);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -42,6 +51,12 @@ const LoginPage = () => {
       console.log("JWT 토큰 저장 완료:", token);
       localStorage.setItem("username", username);
 
+      if (rememberMe) {
+        localStorage.setItem("savedUsername", username);
+      } else {
+        localStorage.removeItem("savedUsername");
+      }
+
       navigate("/main"); // 로그인 성공 시 메인 페이지로 이동
     } catch (error) {
       console.error("로그인 실패:", error);
@@ -75,6 +90,17 @@ const LoginPage = () => {
           />
         </div>
         {error && <p className="error-message">{error}</p>}
+        <div className="remember-me-group">
+          <label htmlFor="rememberMe" className="remember-me-label">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            아이디 기억하기
+          </label>
+        </div>
         <p className="forgot-password">비밀번호를 잊으셨나요?</p>
         <div className="login-button-group">
           <button className="login-button" onClick={handleLogin}>
