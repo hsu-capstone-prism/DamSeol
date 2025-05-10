@@ -23,22 +23,17 @@ const GamePage = () => {
       try {
         setIsLoading(true);
         setError(null);
+
         const token = localStorage.getItem("authToken");
 
-        if (!token) {
+        if (!token)
           throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
-        }
 
         const headers = { Authorization: `Bearer ${token}` };
         const response = await axios.get(
           "http://localhost:8080/api/scenarios",
           { headers }
         );
-        console.log("게임 데이터 :", response.data);
-
-        if (!response.data || response.data.length === 0) {
-          throw new Error("게임 데이터를 불러올 수 없습니다.");
-        }
 
         const selected = [];
         const shuffled = [...response.data];
@@ -46,7 +41,6 @@ const GamePage = () => {
         while (selected.length < 5) {
           const randomIndex = Math.floor(Math.random() * shuffled.length);
           const selectedItem = shuffled[randomIndex];
-
           if (!selected.includes(selectedItem)) {
             selected.push(selectedItem);
           }
@@ -59,7 +53,6 @@ const GamePage = () => {
         setIsLoading(false);
       }
     };
-
     fetchGameData();
   }, []);
 
@@ -68,24 +61,14 @@ const GamePage = () => {
 
   useEffect(() => {
     const fetchVideo = async () => {
-      if (!gameData || gameData.length === 0) {
-        console.log("게임 데이터가 없습니다.");
-        return;
-      }
-
-      if (!current || !current.videoFileName) {
-        console.log("current가 없거나 videoFileName이 없습니다.");
-        return;
-      }
+      if (!current || !current.videoFileName) return;
 
       try {
         const token = getAuthToken();
         const response = await axios.get(
           `http://localhost:8080/${current.videoFileName}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
             responseType: "blob",
           }
         );
@@ -93,19 +76,19 @@ const GamePage = () => {
         const videoBlob = new Blob([response.data], { type: "video/mp4" });
         const videoURL = URL.createObjectURL(videoBlob);
 
-        setVideoSrc(videoURL);
+        setVideoSrc((prevUrl) => {
+          if (prevUrl) URL.revokeObjectURL(prevUrl); // 🔹 이전 URL 해제
+          return videoURL;
+        });
       } catch (error) {
         console.error("비디오를 불러오는 중 오류 발생:", error);
         setError(error.message || "비디오를 불러오는데 실패했습니다.");
       }
     };
-
     fetchVideo();
-  }, [selectedIndex, gameData]);
+  }, [current]);
 
-  const handleStart = () => {
-    setStarted(true);
-  };
+  const handleStart = () => setStarted(true);
 
   const handleAnswer = (choiceIndex) => {
     if (!current || !current.choices || !current.choices[choiceIndex]) return;
@@ -118,15 +101,12 @@ const GamePage = () => {
 
     if (selectedIndex === gameData.length - 1) {
       setIsFinished(true);
-
       const totalCorrect = [...userAnswers, selectedChoice.text].filter(
         (ans, idx) =>
           ans === gameData[idx]?.choices.find((c) => c.correct)?.text
       ).length;
-
       const totalScore = totalCorrect;
       const avgScore = ((totalCorrect / gameData.length) * 100).toFixed(1);
-
       localStorage.setItem("gameTotalScore", totalScore.toString());
       localStorage.setItem("gameAvgScore", avgScore.toString());
     }
@@ -134,51 +114,24 @@ const GamePage = () => {
 
   const handleNext = () => {
     setAnswerStatus(null);
-
-    if (selectedIndex === gameData.length - 1) {
-      setIsFinished(true);
-    } else {
-      setSelectedIndex((prev) => prev + 1);
-    }
+    if (selectedIndex === gameData.length - 1) setIsFinished(true);
+    else setSelectedIndex((prev) => prev + 1);
   };
 
   const handleStepClick = (index) => {
-    if (index <= selectedIndex) {
-      setSelectedIndex(index);
-    }
+    if (index <= selectedIndex) setSelectedIndex(index);
   };
 
   if (isLoading)
     return (
       <div className="game-container">
-        <div className="loading-screen">
-          <p>게임 데이터를 불러오는 중입니다...</p>
-        </div>
+        <p>게임 데이터를 불러오는 중입니다...</p>
       </div>
     );
-
   if (error)
     return (
       <div className="game-container">
-        <div className="error-screen">
-          <p>오류가 발생했습니다: {error}</p>
-          <button onClick={() => window.location.reload()}>다시 시도</button>
-          <button onClick={() => (window.location.href = "/main")}>
-            홈으로
-          </button>
-        </div>
-      </div>
-    );
-
-  if (!gameData.length)
-    return (
-      <div className="game-container">
-        <div className="error-screen">
-          <p>게임 데이터가 없습니다.</p>
-          <button onClick={() => (window.location.href = "/main")}>
-            홈으로
-          </button>
-        </div>
+        <p>오류: {error}</p>
       </div>
     );
 
@@ -192,8 +145,7 @@ const GamePage = () => {
             </p>
             <p className="game-start-description">
               소리는 없어요. 화면 속 인물이 어떤 말을 했는지 <br />
-              입모양을 보고 가장 어울리는 문장을 골라보세요! <br />
-              눈치와 감이 필요한, 조용하지만 웃음 나는 게임 🎉
+              입모양을 보고 가장 어울리는 문장을 골라보세요!
             </p>
             <button className="game-start-button" onClick={handleStart}>
               Start!
@@ -212,8 +164,7 @@ const GamePage = () => {
                     ans === gameData[idx].choices.find((c) => c.correct)?.text
                 ).length
               }
-              /{gameData.length}점
-              <br />
+              /{gameData.length}점<br />
               평균 점수:{" "}
               {(
                 (userAnswers.filter(
@@ -225,13 +176,11 @@ const GamePage = () => {
               ).toFixed(1)}
               %
             </p>
-
             <ul className="game-answer-list">
               {gameData.map((game, index) => {
                 const userAnswer = userAnswers[index];
                 const correctAnswer = game.choices.find((c) => c.correct)?.text;
                 const isCorrect = userAnswer === correctAnswer;
-
                 return (
                   <li key={index} style={{ marginBottom: "1rem" }}>
                     <strong>Q{index + 1}:</strong> {game.situation}
@@ -258,7 +207,7 @@ const GamePage = () => {
       ) : isFinished ? (
         <section className="game-section">
           <div className="game-finish-screen">
-            <p className="game-finish-title">🎉 게임 종료!</p>
+            <p className="game-finish-title">게임 종료!</p>
             <p className="game-finish-description">
               수고하셨습니다! 결과를 확인해보세요.
             </p>
@@ -275,11 +224,11 @@ const GamePage = () => {
           <h2>Game</h2>
           <div className="game-box-wrapper">
             <div className="media-section">
-              <GameVideo videoSrc={videoSrc} />
+              {/* 🔹 key 추가로 비디오 리렌더링 유도 */}
+              <GameVideo key={videoSrc} videoSrc={videoSrc} />
             </div>
             <div className="text-section">
               <h2 className="situation-text">{current.situation}</h2>
-
               {answerStatus && (
                 <div className="answer-status">
                   <p
@@ -296,7 +245,6 @@ const GamePage = () => {
                   )}
                 </div>
               )}
-
               <div className="choices">
                 {current.choices.map((choice, index) => (
                   <button
