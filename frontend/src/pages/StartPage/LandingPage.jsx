@@ -37,7 +37,13 @@ const LandingPage = () => {
     <div className="landing-container">
       {/* 히어로 섹션 유지 */}
       <div className="hero-section">
-      <iframe src='https://my.spline.design/starterscenecopy-0DS3kDfOXZqtzGJNTUeVyWJh/' frameborder='0' width='100%' height='100%'></iframe>
+        <iframe
+          src="https://my.spline.design/starterscenecopy-0DS3kDfOXZqtzGJNTUeVyWJh/"
+          frameborder="0"
+          width="100%"
+          height="100%"
+          title="3D Landing"
+        ></iframe>
         <div className="hero-text">
           <h1>
             청각장애인을 위한 <br />
