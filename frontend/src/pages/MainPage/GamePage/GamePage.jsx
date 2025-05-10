@@ -12,6 +12,7 @@ const GamePage = () => {
   const [showResult, setShowResult] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
   const [answerStatus, setAnswerStatus] = useState(null);
+  const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
     const fetchGameData = async () => {
@@ -47,6 +48,28 @@ const GamePage = () => {
 
     fetchGameData();
   }, []);
+  useEffect(() => {
+    const fetchVideo = async () => {
+      if (gameData[selectedIndex]?.videoFileName) {
+        try {
+          const token = localStorage.getItem("authToken");
+          const response = await axios.get(
+            `http://localhost:8080/${gameData[selectedIndex].videoFileName}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+              responseType: "blob",
+            }
+          );
+          const videoBlob = URL.createObjectURL(response.data);
+          setVideoUrl(videoBlob);
+        } catch (error) {
+          console.error("비디오 로드 실패:", error);
+        }
+      }
+    };
+
+    fetchVideo();
+  }, [gameData, selectedIndex]);
 
   const current = gameData[selectedIndex];
 
@@ -193,7 +216,7 @@ const GamePage = () => {
           <h2>Game</h2>
           <div className="game-box-wrapper">
             <div className="media-section">
-              <GameVideo videoSrc={current.video} />
+              {videoUrl && <GameVideo videoSrc={videoUrl} />}
             </div>
             <div className="text-section">
               <h2 className="situation-text">{current.situation}</h2>
