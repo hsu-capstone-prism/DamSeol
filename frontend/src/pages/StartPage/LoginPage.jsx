@@ -89,7 +89,6 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {error && <p className="error-message">{error}</p>}
         <div className="remember-me-group">
           <label htmlFor="rememberMe" className="remember-me-label">
             <input
@@ -101,6 +100,7 @@ const LoginPage = () => {
             아이디 기억하기
           </label>
         </div>
+        {error && <p className="error-message">{error}</p>}
         <p className="forgot-password">비밀번호를 잊으셨나요?</p>
         <div className="login-button-group">
           <button className="login-button" onClick={handleLogin}>

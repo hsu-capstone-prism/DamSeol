@@ -32,27 +32,27 @@
   margin-bottom: 20px;
 }
 
-input {
+.input-group input {
   width: 100%;
   padding: 15px;
   font-size: 20px;
   outline: none;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.7);
 
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-input:focus {
+.input-group input:focus {
   background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #92B8FF;
+  border: 1px solid #92B8FF;
 }
 
 .forgot-password {
   font-size: 16px;
   color: gray;
-  margin-bottom: 25px;
+  margin: 25px 0px;
   cursor: pointer;
 }
 
@@ -95,6 +95,12 @@ input:focus {
 .login-container .signup-button:hover {
   background-position: 100% 0;
   color: white;
+}
+
+.login-container .error-message {
+  color: #dc3545;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
