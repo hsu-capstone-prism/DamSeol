@@ -60,7 +60,9 @@ const GamePage = () => {
 
   useEffect(() => {
     const fetchVideo = async () => {
-      if (!current || !current.videoFileName) return;
+      //if (!current || !current.videoFileName) return;
+      if (!gameData || gameData.length === 0) return;
+      if (selectedIndex == null || selectedIndex >= gameData.length) return;
 
       try {
         const token = getAuthToken();
@@ -85,7 +87,7 @@ const GamePage = () => {
       }
     };
     fetchVideo();
-  }, [current]);
+  }, [gameData, selectedIndex]);
 
   const handleStart = () => setStarted(true);
 
