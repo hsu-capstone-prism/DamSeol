@@ -293,11 +293,15 @@ const WordStudy = () => {
                       <div className="score-container">
                         {selectedIndex === words.length - 1 && (
                           <button
-                            className={`final-result-btn ${isLoadingSummary ? 'loading' : ''}`}
+                            className={`final-result-btn ${
+                              isLoadingSummary ? "loading" : ""
+                            }`}
                             onClick={fetchSummaryTip}
                             disabled={isLoadingSummary}
                           >
-                            {isLoadingSummary ? '결과 분석 중...' : '최종 결과화면 보기'}
+                            {isLoadingSummary
+                              ? "결과 분석 중..."
+                              : "최종 결과화면 보기"}
                           </button>
                         )}
                         <p className="accuracy-label">정확도</p>
