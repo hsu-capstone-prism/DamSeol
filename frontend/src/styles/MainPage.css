@@ -92,39 +92,17 @@
   position: relative;
   z-index: 2;
   transition: all 0.5s ease;
-  /*
   background: linear-gradient(90deg, 
     #554dde 0%,
     #59d3fc 50%, 
     #2c3e50 50%, 
     #2c3e50 100%
   );
-  */
-  background: linear-gradient(90deg, 
-  #fff 0%,
-  #fff 50%, 
-  #2c3e50 50%, 
-  #2c3e50 100%
-);
-background-size: 200% 100%;
+background-size: 200% 200%;
 background-position: 100% 0;
 background-clip: text;
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-}
-
-.main-box-text-background {
-  content: "";
-  font-size: 32px;
-  position: absolute;
-  background-color: #007bff;
-  backdrop-filter: blur(3px);
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  z-index: 1;
-  transition: width 0.5s ease;
 }
 
 .main-box:hover .main-box-text {
