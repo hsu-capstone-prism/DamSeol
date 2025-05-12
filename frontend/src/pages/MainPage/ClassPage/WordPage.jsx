@@ -2,6 +2,8 @@ import React from "react";
 import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/ClassPage.css";
+import { FaExternalLinkAlt  } from "react-icons/fa";
+
 
 const phonTopics = [
   { name: "음절의 끝소리", key: "FinalSound" },
@@ -35,13 +37,13 @@ const WordPage = () => {
           <h2>음운</h2>
           <div className="box-container">
             <div className="box" onClick={() => navigate("/phon/vowel")}>
-              모음
+              모음 <span class="material-symbols-outlined">open_in_new</span>
             </div>
             <div
               className="box"
               onClick={() => navigate("/phon/consonant")}
             >
-              자음
+              자음 <span class="material-symbols-outlined">open_in_new</span>
             </div>
             {phonTopics.map((phon) => (
               <div

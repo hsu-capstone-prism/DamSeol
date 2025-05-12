@@ -9,26 +9,13 @@
 .section-title {
   font-size: 28px;
   margin-bottom: 20px;
-}
-
-/* WordPage specific */
-.word-page .section-title {
-  color: #0056b3;
-}
-
-/* GrammerPage specific */
-.grammer-page .section-title {
-  color: black;
-}
-
-/* SentencePage specific */
-.sentence-page .section-title {
   color: #0056b3;
 }
 
 /* Common learning section styles */
 .learning-section {
-  background-color: #f8f9fa;
+  background-color: #fff;
+  border: 1px solid #e4e0e0;
   
   padding: 40px;
   border-radius: 12px;
@@ -44,8 +31,11 @@
   font-size: 20px;
   color: black;
   border-bottom: 1px solid #e4e0e0;
+  margin-top: 0;
   margin-bottom: 20px;
   padding-bottom: 20px;
+  text-align: left;
+  font-weight: 600;
 }
 
 /* Common box container styles */
@@ -57,20 +47,29 @@
 
 /* Common box styles */
 .box {
-  width: 80%;
-  background-color: #e8f0fe;
+  background-color: #fff;
+  border: 1px solid #007bff;
   border-radius: 10px;
-  padding: 25px;
-  text-align: center;
-  font-size: 19px;
-  color: black;
+  padding: 20px;
+  text-align: left;
+  font-size: 18px;
+  color: #007bff;
+  display: flex;
+  align-items: center;
   
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.box .material-symbols-outlined {
+  font-size: 18px;
+  margin-left: 10px;
 }
 
 .box:hover {
-  background-color: #dbe4f3;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
 }
 
 /* Error message styles */

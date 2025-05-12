@@ -10,7 +10,8 @@
 }
 
 .phonetic-section {
-  background-color: #f8f9fa;
+  background-color: #fff;
+  border: 1px solid #e4e0e0;
   padding: 30px;
   border-radius: 12px;
   padding-bottom: 45px;
@@ -41,7 +42,10 @@
 
 .consonant-box {
   flex: 1 1 150px;
-  min-width: 400px;
+}
+
+.phonetic-box.consonant-box {
+  padding: 20px;
 }
 
 /* Vowel specific styles */
@@ -60,16 +64,18 @@
 
 /* Common box styles */
 .phonetic-box {
-  background-color: #e8f0fe;
+  background-color: #fff;
+  border: 1px solid #007bff;
   border-radius: 10px;
-  padding: 25px;
-  text-align: center;
+  padding: 10px;
+  text-align: left;
   font-size: 19px;
-  color: black;
+  color: #007bff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .phonetic-box:hover {
-  background-color: #dbe4f3;
+  background-color: #007bff;
+  color: white;
 } 

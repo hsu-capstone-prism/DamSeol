@@ -12,6 +12,7 @@ import {
   FaChevronRight,
   FaChevronDown,
   FaChevronUp,
+  FaArrowRight,
 } from "react-icons/fa";
 import "../styles/Header.css";
 
@@ -55,13 +56,13 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
       text: "Class",
       subMenu: [
         {
-          icon: <FaSchool />,
+          icon: <FaArrowRight />,
           text: "Word",
           path: "/word",
           activePath: ["/phon", "/alter", "/add"],
         },
-        { icon: <FaSchool />, text: "Sentence", path: "/sentence" },
-        { icon: <FaSchool />, text: "Grammar", path: "/grammer" },
+        { icon: <FaArrowRight />, text: "Sentence", path: "/sentence" },
+        { icon: <FaArrowRight />, text: "Grammar", path: "/grammer" },
       ],
     },
     { icon: <FaChartBar />, text: "Report", path: "/report" },

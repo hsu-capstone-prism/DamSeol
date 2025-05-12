@@ -27,7 +27,7 @@ const MainPage = () => {
               alt="단어 학습"
             />
             <div className="main-box-text-container">
-              <div className="main-box-text-background"></div>
+              <div className="main-box-text-background">단어 학습</div>
               <p className="main-box-text">단어 학습</p>
             </div>
           </div>
@@ -37,7 +37,7 @@ const MainPage = () => {
               alt="문장 학습"
             />
             <div className="main-box-text-container">
-              <div className="main-box-text-background"></div>
+              <div className="main-box-text-background">문장 학습</div>
               <p className="main-box-text">문장 학습</p>
             </div>
           </div>
@@ -47,7 +47,7 @@ const MainPage = () => {
               alt="문법 연습"
             />
             <div className="main-box-text-container">
-              <div className="main-box-text-background"></div>
+              <div className="main-box-text-background">문법 연습</div>
               <p className="main-box-text">문법 연습</p>
             </div>
           </div>
@@ -56,14 +56,14 @@ const MainPage = () => {
           <div className="main-box double-width" onClick={() => handleClick("/report")}>
             {/* 리포트 내용이 들어갈 수 있습니다 */}
             <div className="main-box-text-container">
-              <div className="main-box-text-background"></div>
+              <div className="main-box-text-background">리포트</div>
               <p className="main-box-text">리포트</p>
             </div>
           </div>
           <div className="main-box" onClick={() => handleClick("/game")}>
             {/* 게임 콘텐츠 또는 설명 */}
             <div className="main-box-text-container">
-              <div className="main-box-text-background"></div>
+              <div className="main-box-text-background">게임을 시작해보세요!</div>
               <p className="main-box-text">게임을 시작해보세요!</p>
             </div>
           </div>

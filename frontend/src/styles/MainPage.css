@@ -105,6 +105,18 @@ background-clip: text;
 -webkit-text-fill-color: transparent;
 }
 
+.main-box-text-background {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  top: 0;
+  left: 0;
+  text-align: right;
+  position: absolute;
+  color: transparent;
+  z-index: 1;
+}
+
 .main-box:hover .main-box-text {
   background-position: 0% 0;
 }
