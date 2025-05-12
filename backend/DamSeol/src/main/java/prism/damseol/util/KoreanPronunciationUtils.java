@@ -32,6 +32,11 @@ public class KoreanPronunciationUtils {
     // 사용자의 발음을 올바른 발음과 비교하여 틀린 부분의 위치를 배열로 반환
     public static List<Integer> getIncorrectPronIndices(String correct, String userInput) {
         List<Integer> incorrectIndices = new ArrayList<>();
+
+        // 사용자의 발음이 원문 텍스트와 동일한 경우
+        if (correct.equals(userInput))
+            return incorrectIndices;
+
         int correctIndex = 0, userIndex = 0;
 
         while (userIndex < userInput.length() && correctIndex < correct.length()) {
@@ -59,6 +64,11 @@ public class KoreanPronunciationUtils {
 
     public static List<String> checkPronunciation(String correct, String userInput) {
         List<String> list = new ArrayList<>();
+
+        // 사용자의 발음이 원문 텍스트와 동일한 경우
+        if (correct.equals(userInput))
+            return list;
+
         int correctIndex = 0, userIndex = 0;
 
         while (userIndex < userInput.length() && correctIndex < correct.length()) {
