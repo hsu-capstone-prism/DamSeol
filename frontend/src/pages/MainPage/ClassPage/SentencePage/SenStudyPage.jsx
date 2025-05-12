@@ -287,21 +287,21 @@ const SenStudyPage = () => {
 
               {isResultVisible && uploadResultList[selectedIndex] ? (
                 <div className="sen-result">
-                  <h2 className="sen-user-pronunciation">
-                    {uploadResultList[selectedIndex].pron}
-                  </h2>
                   {uploadResultList[selectedIndex].analysis && (
                     <p className="sen-details">
                       {uploadResultList[selectedIndex].analysis}
                     </p>
                   )}
+                  <div className="sen-corrections">
+                    정확도: {uploadResultList[selectedIndex].correction}%
+                  </div>
                   <div className="sen-result-bottom-container">
                     <div className="sen-button-group">
                       <button onClick={() => setShowWaveformPopup(true)}>
-                        Waveform 보기
+                        Waveform
                       </button>
                       <button onClick={() => setShowPitchPopup(true)}>
-                        Pitch 보기
+                        Pitch
                       </button>
                     </div>
                     {selectedIndex === 2 && (

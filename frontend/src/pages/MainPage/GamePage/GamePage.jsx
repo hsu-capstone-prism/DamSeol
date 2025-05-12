@@ -13,7 +13,6 @@ const GamePage = () => {
   const [isFinished, setIsFinished] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
-  const [answerStatus, setAnswerStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [videoSrc, setVideoSrc] = useState(null);
   const [error, setError] = useState(null);
@@ -75,7 +74,7 @@ const GamePage = () => {
         const videoURL = URL.createObjectURL(videoBlob);
 
         setVideoSrc((prevUrl) => {
-          if (prevUrl) URL.revokeObjectURL(prevUrl); // 🔹 이전 URL 해제
+          if (prevUrl) URL.revokeObjectURL(prevUrl);
           return videoURL;
         });
       } catch (error) {
@@ -92,10 +91,12 @@ const GamePage = () => {
     if (!current || !current.choices || !current.choices[choiceIndex]) return;
 
     const selectedChoice = current.choices[choiceIndex];
-    const isCorrect = selectedChoice.correct;
 
-    setUserAnswers((prev) => [...prev, selectedChoice.text]);
-    setAnswerStatus(isCorrect ? "정답입니다!" : "오답입니다!");
+    setUserAnswers((prev) => {
+      const updated = [...prev];
+      updated[selectedIndex] = selectedChoice.text;
+      return updated;
+    });
 
     if (selectedIndex === gameData.length - 1) {
       setIsFinished(true);
@@ -111,7 +112,6 @@ const GamePage = () => {
   };
 
   const handleNext = () => {
-    setAnswerStatus(null);
     if (selectedIndex === gameData.length - 1) setIsFinished(true);
     else setSelectedIndex((prev) => prev + 1);
   };
@@ -222,38 +222,39 @@ const GamePage = () => {
           <h2>Game</h2>
           <div className="game-box-wrapper">
             <div className="media-section">
-              {/* 🔹 key 추가로 비디오 리렌더링 유도 */}
               <GameVideo key={videoSrc} videoSrc={videoSrc} />
             </div>
             <div className="text-section">
               <h2 className="situation-text">{current.situation}</h2>
-              {answerStatus && (
-                <div className="answer-status">
-                  <p
-                    className={
-                      answerStatus.includes("정답") ? "correct" : "incorrect"
-                    }
-                  >
-                    {answerStatus}
-                  </p>
-                  {selectedIndex < gameData.length - 1 && (
-                    <button className="next-button" onClick={handleNext}>
-                      다음 문제
-                    </button>
-                  )}
-                </div>
-              )}
               <div className="choices">
-                {current.choices.map((choice, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleAnswer(index)}
-                    disabled={answerStatus !== null}
-                  >
-                    {choice.text}
-                  </button>
-                ))}
+                {current.choices.map((choice, index) => {
+                  const isSelected = userAnswers[selectedIndex] === choice.text;
+                  const isCorrectChoice = choice.correct;
+                  const isAnswered = userAnswers[selectedIndex] !== undefined;
+
+                  let buttonClass = "choice-button";
+                  if (isAnswered && isSelected) {
+                    buttonClass += isCorrectChoice ? " correct" : " incorrect";
+                  }
+
+                  return (
+                    <button
+                      key={index}
+                      className={buttonClass}
+                      onClick={() => handleAnswer(index)}
+                      disabled={isAnswered}
+                    >
+                      {choice.text}
+                    </button>
+                  );
+                })}
               </div>
+              {userAnswers[selectedIndex] !== undefined &&
+                selectedIndex < gameData.length - 1 && (
+                  <button className="next-button" onClick={handleNext}>
+                    다음 문제
+                  </button>
+                )}
             </div>
           </div>
           <ProgressBar
