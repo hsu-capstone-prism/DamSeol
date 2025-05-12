@@ -25,6 +25,7 @@ const GamePage = () => {
         setError(null);
 
         const token = localStorage.getItem("authToken");
+
         if (!token)
           throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
 
@@ -55,6 +56,7 @@ const GamePage = () => {
     fetchGameData();
   }, []);
 
+  // 현재 선택된 게임 데이터
   const current = gameData[selectedIndex];
 
   useEffect(() => {
