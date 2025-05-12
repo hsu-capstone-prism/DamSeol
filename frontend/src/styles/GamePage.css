@@ -102,6 +102,18 @@
   white-space: normal;
 }
 
+.choice-button.correct {
+  background-color: #a6e3a1 !important;
+  border-color: #7fd57f !important;
+  color: #1e4620 !important;
+}
+
+.choice-button.incorrect {
+  background-color: #f4a8a8 !important;
+  border-color: #e57373 !important;
+  color: #641414 !important;
+}
+
 .choices button:hover {
   background-color: #e6f4ff;
   transform: scale(1.01);
