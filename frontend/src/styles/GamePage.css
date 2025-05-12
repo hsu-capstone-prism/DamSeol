@@ -431,4 +431,5 @@
 .situation-text {
   color: #666;
   margin-bottom: 30px;
+  word-break: keep-all;
 }

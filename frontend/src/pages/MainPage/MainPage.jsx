@@ -17,7 +17,7 @@ const MainPage = () => {
       <section className="main-section">
         <div className="main-hero">
           <div className="main-hero-title">
-            환영합니다, {localStorage.getItem("username")} 님
+            환영합니다, <span className="main-hero-title-username">{localStorage.getItem("username")} 님</span>
           </div>
         </div>
         <div className="main-row">
