@@ -83,4 +83,5 @@ def extract_speech_pause_ratio(audio_path, sr=16000, frame_length=0.05, top_db=2
         # Speech-Pause Ratio 계산 (발화된 시간 비율)
         speech_ratios.append((start_time, speech_duration / frame_length))
 
-    return speech_ratios  # [(time, speech_pause_ratio), ...]
+    filtered_speech_ratios = [(round(float(t),2), round(float(r),2)) for t,r in speech_ratios]
+    return filtered_speech_ratios  # [(time, speech_pause_ratio), ...]
