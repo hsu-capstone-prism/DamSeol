@@ -101,10 +101,12 @@ const GamePage = () => {
       updated[selectedIndex] = selectedChoice.text;
       return updated;
     });
+  };
 
+  const handleNext = () => {
     if (selectedIndex === gameData.length - 1) {
       setIsFinished(true);
-      const totalCorrect = [...userAnswers, selectedChoice.text].filter(
+      const totalCorrect = [...userAnswers].filter(
         (ans, idx) =>
           ans === gameData[idx]?.choices.find((c) => c.correct)?.text
       ).length;
@@ -113,11 +115,10 @@ const GamePage = () => {
       localStorage.setItem("gameTotalScore", totalScore.toString());
       localStorage.setItem("gameAvgScore", avgScore.toString());
     }
-  };
-
-  const handleNext = () => {
-    if (selectedIndex === gameData.length - 1) setIsFinished(true);
-    else setSelectedIndex((prev) => prev + 1);
+    else {
+      setVideoSrc(null);
+      setSelectedIndex((prev) => prev + 1);
+    }
   };
 
   const handleStepClick = (index) => {
@@ -253,8 +254,7 @@ const GamePage = () => {
                   );
                 })}
               </div>
-              {userAnswers[selectedIndex] !== undefined &&
-                selectedIndex < gameData.length - 1 && (
+              {userAnswers[selectedIndex] !== undefined  && (
                   <button className="next-button" onClick={handleNext}>
                     다음 문제
                   </button>

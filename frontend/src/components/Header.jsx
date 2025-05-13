@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  FaHome,
-  FaSchool,
-  FaChartBar,
-  FaGamepad,
   FaUser,
   FaCog,
   FaDownload,
@@ -12,7 +8,6 @@ import {
   FaChevronRight,
   FaChevronDown,
   FaChevronUp,
-  FaArrowRight,
 } from "react-icons/fa";
 import "../styles/Header.css";
 
