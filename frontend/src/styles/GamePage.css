@@ -9,24 +9,21 @@
 .game-section {
   background: #ffffff;
   border: 1px solid #ebecec;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
 }
 
-.game-section h2 {
-  font-size: 25px;
-  color: black;
-  text-align: center;
-  margin-bottom: 35px;
-}
 
 .game-box-wrapper {
   border-radius: 14px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: auto 60px;
+    grid-template-areas:
+    "video sel"
+    ". nextbutton";
   gap: 30px;
   max-height: 700px;
   min-height: 450px;
@@ -36,6 +33,7 @@
 
 /* 영상 */
 .media-section {
+  grid-area: video;
   flex: 1;
   display: flex;
   align-items: center;
@@ -48,10 +46,13 @@
   width: 90%;
   height: 380px;
   object-fit: contain;
+  background-color: black;
+  border-radius: 12px;
 }
 
 /* 텍스트 + 선택지 */
 .text-section {
+  grid-area: sel;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -360,6 +361,7 @@
 }
 
 .next-button {
+  grid-area: nextbutton;
   background-color: #3498db;
   color: white;
   border: none;
@@ -435,4 +437,5 @@
   color: #666;
   margin-bottom: 30px;
   word-break: keep-all;
+  text-align: left;
 }

@@ -224,7 +224,6 @@ const GamePage = () => {
         </section>
       ) : (
         <section className="game-section">
-          <h2>Game</h2>
           <div className="game-box-wrapper">
             <div className="media-section">
               <GameVideo key={videoSrc} videoSrc={videoSrc} />
@@ -254,12 +253,12 @@ const GamePage = () => {
                   );
                 })}
               </div>
-              {userAnswers[selectedIndex] !== undefined  && (
-                  <button className="next-button" onClick={handleNext}>
-                    다음 문제
-                  </button>
-                )}
             </div>
+              {userAnswers[selectedIndex] !== undefined  && (
+                <button className="next-button" onClick={handleNext}>
+                  다음 문제
+                </button>
+              )}
           </div>
           <ProgressBar
             currentStep={selectedIndex}
