@@ -372,7 +372,7 @@ const ReportPage = () => {
             <p>
               최근 게임 평균 점수
               <br />
-              <strong>{localStorage.getItem("gameAvgScore") || "0"}%</strong>
+              <strong>{localStorage.getItem("gameAvgScore") || "0"}/100점</strong>
             </p>
           </div>
         </div>

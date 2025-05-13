@@ -111,7 +111,7 @@ const GamePage = () => {
           ans === gameData[idx]?.choices.find((c) => c.correct)?.text
       ).length;
       const totalScore = totalCorrect;
-      const avgScore = ((totalCorrect / gameData.length) * 100).toFixed(1);
+      const avgScore = ((totalCorrect / gameData.length) * 100);
       localStorage.setItem("gameTotalScore", totalScore.toString());
       localStorage.setItem("gameAvgScore", avgScore.toString());
     }
@@ -165,19 +165,9 @@ const GamePage = () => {
                 userAnswers.filter(
                   (ans, idx) =>
                     ans === gameData[idx].choices.find((c) => c.correct)?.text
-                ).length
+                ).length * (100 / gameData.length)
               }
-              /{gameData.length}점<br />
-              평균 점수:{" "}
-              {(
-                (userAnswers.filter(
-                  (ans, idx) =>
-                    ans === gameData[idx].choices.find((c) => c.correct)?.text
-                ).length /
-                  gameData.length) *
-                100
-              ).toFixed(1)}
-              %
+              /100점<br />
             </p>
             <ul className="game-answer-list">
               {gameData.map((game, index) => {
