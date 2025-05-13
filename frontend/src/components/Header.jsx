@@ -50,23 +50,23 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   };
 
   const navMenu = [
-    { icon: <FaHome />, text: "Home", path: "/main" },
+    { icon: 'home', text: "Home", path: "/main" },
     {
-      icon: <FaSchool />,
+      icon: 'school',
       text: "Class",
       subMenu: [
         {
-          icon: <FaArrowRight />,
+          icon: 'chevron_right',
           text: "Word",
           path: "/word",
           activePath: ["/phon", "/alter", "/add"],
         },
-        { icon: <FaArrowRight />, text: "Sentence", path: "/sentence" },
-        { icon: <FaArrowRight />, text: "Grammar", path: "/grammer" },
+        { icon: 'chevron_right', text: "Sentence", path: "/sentence" },
+        { icon: 'chevron_right', text: "Grammar", path: "/grammer" },
       ],
     },
-    { icon: <FaChartBar />, text: "Report", path: "/report" },
-    { icon: <FaGamepad />, text: "Game", path: "/game" },
+    { icon: 'monitoring', text: "Report", path: "/report" },
+    { icon: 'sports_esports', text: "Game", path: "/game" },
   ];
 
   const profileMenu = [
@@ -101,7 +101,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                   className="menu-item"
 
                 >
-                  <span className="icon">{menu.icon}</span>
+                  <span className="material-symbols-outlined">{menu.icon}</span>
                   <span className="header-nav-menu-text">{menu.text}</span>
                   {menu.subMenu && (
                     <>
@@ -146,7 +146,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                         >
                           {isMenuOpen ? (
                             <>
-                              <span className="icon">{subItem.icon}</span>
+                              <span className="material-symbols-outlined">{subItem.icon}</span>
                               <span className="header-nav-menu-text">
                                 {subItem.text}
                               </span>
