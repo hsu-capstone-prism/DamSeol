@@ -262,15 +262,17 @@ const ReportPage = () => {
                       font: { size: 14 },
                     },
                     grid: {
+                      color: "#eee",
                       display: true,
-                      drawBorder: true,
+                      drawBorder: false,
+                      tickLength: 0,
                     },
                   },
                   y: {
                     min: 0,
                     max: 100,
                     ticks: {
-                      stepSize: 10,
+                      stepSize: 20,
                       font: { size: 14 },
                     },
                     grid: {
@@ -284,6 +286,16 @@ const ReportPage = () => {
                     labels: {
                       font: { size: 14 },
                     },
+                  },
+                },
+                elements: {
+                  line: {
+                    tension: 0.4,
+                    borderWidth: 2,
+                  },
+                  point: {
+                    radius: 3,
+                    horverRadius: 5,
                   },
                 },
               }}

@@ -4,6 +4,7 @@ import "../../styles/MainPage.css";
 import wordImg from "../../assets/images/word.png";
 import sentenceImg from "../../assets/images/sentence.png";
 import grammerImg from "../../assets/images/grammer.png";
+import gameImg from "../../assets/images/game.png";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -12,12 +13,25 @@ const MainPage = () => {
     navigate(path);
   };
 
+  const today = new Date();
+  const dateString = today.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  });
+
   return (
     <main className="main">
       <section className="main-section">
-        <div className="main-hero">
-          <div className="main-hero-title">
-            환영합니다, <span className="main-hero-title-username">{localStorage.getItem("username")} 님</span>
+        <div className="main-row">
+          <div className="main-hero">
+            <div className="main-hero-date">{dateString}</div>
+            <div className="main-hero-title">
+              만나서 반가워요, <span className="main-hero-title-username">{localStorage.getItem("username")}님</span>
+              <br />
+              <span className="main-hero-title-text">더 자연스러운 소통을 위한 매일 쌓아가는 한 걸음</span>
+            </div>
           </div>
         </div>
         <div className="main-row">
@@ -61,7 +75,10 @@ const MainPage = () => {
             </div>
           </div>
           <div className="main-box" onClick={() => handleClick("/game")}>
-            {/* 게임 콘텐츠 또는 설명 */}
+            <img
+              src={gameImg}
+              alt="문법 연습"
+            />
             <div className="main-box-text-container">
               <div className="main-box-text-background">게임을 시작해보세요!</div>
               <p className="main-box-text">게임을 시작해보세요!</p>
