@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'NanumSquareNeoVariable';
-  src: url(../public/NanumSquareNeo-Variable.woff) format("woff");
+  src: url(./assets/fonts/NanumSquareNeo-Variable.woff) format("woff");
 }
 
 body {

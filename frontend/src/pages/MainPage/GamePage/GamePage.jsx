@@ -87,7 +87,7 @@ const GamePage = () => {
       }
     };
     fetchVideo();
-  }, [gameData, selectedIndex]);
+  }, [current, gameData, selectedIndex]);
 
   const handleStart = () => setStarted(true);
 
@@ -246,7 +246,9 @@ const GamePage = () => {
             </div>
               {userAnswers[selectedIndex] !== undefined  && (
                 <button className="next-button" onClick={handleNext}>
-                  다음 문제
+                  {selectedIndex === gameData.length - 1
+                    ? "게임 종료"
+                    : "다음 문제"}
                 </button>
               )}
           </div>
