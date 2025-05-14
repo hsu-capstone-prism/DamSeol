@@ -141,7 +141,7 @@ const GamePage = () => {
   return (
     <div className="game-container">
       {!started ? (
-        <section className="game-section">
+        <section className="game-section game-section-start">
           <div className="game-start-screen">
             <p className="game-start-title">
               입을 잘 보고, 마음의 귀를 열어봐요!
@@ -248,7 +248,7 @@ const GamePage = () => {
                 <button className="next-button" onClick={handleNext}>
                   {selectedIndex === gameData.length - 1
                     ? "게임 종료"
-                    : "다음 문제"}
+                    : "다음 문제 →"}
                 </button>
               )}
           </div>

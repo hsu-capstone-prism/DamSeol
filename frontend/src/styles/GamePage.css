@@ -9,14 +9,23 @@
 .game-section {
   background: #ffffff;
   border: 1px solid #ebecec;
-  padding: 20px;
+  padding: 60px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
 }
 
 
+.game-section-start {
+  background: url("/src/assets/images/game.png") no-repeat;
+  background-size: auto 100%;
+  background-position: left 10% bottom 0%;
+  
+}
+
+
 .game-box-wrapper {
+  width: 100%;
   border-radius: 14px;
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -56,7 +65,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   min-width: 300px;
   max-width: 500px;
   padding: 0 10px;
@@ -79,7 +88,7 @@
 .choices button {
   display: block;
   width: 100%;
-  margin-bottom: 20px;
+  margin-top: 20px;
   padding: 16px 20px;
   font-size: 17px;
   background-color: #ffffff;
@@ -122,6 +131,10 @@
   height: 100%;
 }
 
+.game-start-screen p {
+  text-shadow: 1px 1px rgba(255, 255, 255, 1);
+}
+
 .game-start-title {
   font-size: 36px;
   text-align: center;
@@ -160,7 +173,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 8px;
+  gap: 30px;
   height: 100%;
 }
 
@@ -169,14 +182,14 @@
   text-align: center;
   font-weight: 700;
   line-height: 1.4;
-  font-family: "Segoe UI", "Comic Sans MS", sans-serif;
+  margin: 0;
 }
 
 .game-finish-description {
   font-size: 20px;
   line-height: 1.6;
   color: #555;
-  margin: 0 0 25px 0;
+  margin: 0;
 }
 
 .game-finish-button {
@@ -362,18 +375,21 @@
 
 .next-button {
   grid-area: nextbutton;
-  background-color: #3498db;
-  color: white;
-  border: none;
+  height: 3rem;
+  background-color: white;
+  border: 2px solid #007bff;
+  color: #007bff;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 3rem;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1rem;
   transition: background-color 0.3s;
 }
 
 .next-button:hover {
-  background-color: #2980b9;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
 }
 
 .choices button:disabled {
@@ -435,7 +451,11 @@
 
 .situation-text {
   color: #666;
-  margin-bottom: 30px;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 20px;
+  font-weight: 600;
+  border-radius: 8px;
   word-break: keep-all;
   text-align: left;
 }

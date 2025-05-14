@@ -103,7 +103,6 @@
 
 .main-box img {
   height: 105%;
-  
   overflow: hidden;
   object-fit: cover;
   position: absolute;
@@ -162,3 +161,21 @@ background-clip: text;
 .main-box:hover .main-box-text-background {
   width: 100%;
 }
+
+.main-box-report::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/src/assets/images/report-bg.jpg');
+  background-size: auto 100%;
+  background-position: left 0% bottom 0%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+
+  mask-image: linear-gradient(to right, black 40%, transparent 50%);
+  -webkit-mask-image: linear-gradient(to right, black 40%, transparent 0%,);
+}
+

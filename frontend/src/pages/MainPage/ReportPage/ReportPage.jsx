@@ -322,16 +322,16 @@ const ReportPage = () => {
 
         <div className="feedback-box">
           <p>
-            <strong>발음 정확도 평균 :</strong> {scoreData.accuracy.toFixed(1)}%
+            <strong>발음 정확도 평균</strong> {scoreData.accuracy.toFixed(1)}%
           </p>
           <p>
-            <strong>정확도 :</strong> {getAccuracyFeedback(scoreData.accuracy)}
+            <strong>정확도</strong> {getAccuracyFeedback(scoreData.accuracy)}
           </p>
           <p>
-            <strong>리듬 :</strong> {getRhythmFeedback(scoreData.rhythm)}
+            <strong>리듬</strong> {getRhythmFeedback(scoreData.rhythm)}
           </p>
           <p>
-            <strong>피치 :</strong> {getPitchFeedback(scoreData.pitch)}
+            <strong>피치</strong> {getPitchFeedback(scoreData.pitch)}
           </p>
         </div>
       </section>

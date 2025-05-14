@@ -5,6 +5,7 @@ import wordImg from "../../assets/images/word.png";
 import sentenceImg from "../../assets/images/sentence.png";
 import grammerImg from "../../assets/images/grammer.png";
 import gameImg from "../../assets/images/game.png";
+import reportImg from "../../assets/images/report.png";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -67,8 +68,11 @@ const MainPage = () => {
           </div>
         </div>
         <div className="main-row">
-          <div className="main-box double-width" onClick={() => handleClick("/report")}>
-            {/* 리포트 내용이 들어갈 수 있습니다 */}
+          <div className="main-box double-width main-box-report" onClick={() => handleClick("/report")}>
+            <img
+              src={reportImg}
+              alt="리포트"
+            />
             <div className="main-box-text-container">
               <div className="main-box-text-background">리포트</div>
               <p className="main-box-text">리포트</p>
