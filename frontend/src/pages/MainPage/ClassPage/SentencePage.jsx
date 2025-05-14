@@ -100,7 +100,7 @@ const SentencePage = () => {
                   )
                 }
               >
-                {topic.name}
+                <span class="material-symbols-outlined box-icon">record_voice_over</span>{topic.name}
               </div>
             ))}
           </div>
@@ -121,7 +121,7 @@ const SentencePage = () => {
                   )
                 }
               >
-                {topic.name}
+                <span class="material-symbols-outlined box-icon">record_voice_over</span>{topic.name}
               </div>
             ))}
           </div>

@@ -80,11 +80,11 @@ const VowelPage = () => {
                   key={vowel.symbol}
                   state={{ symbol: vowel.symbol }}
                 >
-                  <div className="phonetic-box vowel-box">{vowel.symbol} 단어</div>
+                  <div className="phonetic-box vowel-box"><span class="phonetic-symbol">{vowel.symbol}</span> 단어</div>
                 </Link>
               ) : (
                 <div className="phonetic-box vowel-box disabled" key={vowel.symbol}>
-                  {vowel.symbol} 단어
+                  <span class="phonetic-symbol">{vowel.symbol}</span> 단어
                 </div>
               )
             )}

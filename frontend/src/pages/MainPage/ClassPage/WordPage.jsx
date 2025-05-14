@@ -37,13 +37,13 @@ const WordPage = () => {
           <h2>음운</h2>
           <div className="box-container">
             <div className="box" onClick={() => navigate("/phon/vowel")}>
-              모음 <span class="material-symbols-outlined">open_in_new</span>
+            <span class="material-symbols-outlined box-icon">more_horiz</span>모음 <span style={{marginLeft:'auto'}} class="material-symbols-outlined">open_in_new</span>
             </div>
             <div
               className="box"
               onClick={() => navigate("/phon/consonant")}
             >
-              자음 <span class="material-symbols-outlined">open_in_new</span>
+              <span class="material-symbols-outlined box-icon">more_horiz</span>자음 <span style={{marginLeft:'auto'}} class="material-symbols-outlined">open_in_new</span>
             </div>
             {phonTopics.map((phon) => (
               <div
@@ -53,7 +53,7 @@ const WordPage = () => {
                   navigate("/phon/study", { state: { phonName: phon.name } })
                 }
               >
-                {phon.name}
+                <span class="material-symbols-outlined box-icon">volume_up</span>{phon.name}
               </div>
             ))}
           </div>
@@ -69,7 +69,7 @@ const WordPage = () => {
                   navigate("/alter/study", { state: { alterName: alter.name } })
                 }
               >
-                {alter.name}
+                <span class="material-symbols-outlined box-icon">volume_up</span>{alter.name}
               </div>
             ))}
           </div>
@@ -85,7 +85,7 @@ const WordPage = () => {
                   navigate("/add/study", { state: { addName: add.name } })
                 }
               >
-                {add.name}
+                <span class="material-symbols-outlined box-icon">volume_up</span>{add.name}
               </div>
             ))}
           </div>

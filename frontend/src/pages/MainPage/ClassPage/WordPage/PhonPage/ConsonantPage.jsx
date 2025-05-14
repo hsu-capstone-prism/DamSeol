@@ -89,11 +89,11 @@ const ConsonantPage = () => {
                   key={consonant.symbol}
                   state={{ symbol: consonant.symbol }}
                 >
-                  <div className="phonetic-box consonant-box">{consonant.symbol} 단어</div>
+                  <div className="phonetic-box consonant-box"><span class="phonetic-symbol">{consonant.symbol}</span> 단어</div>
                 </Link>
               ) : (
                 <div className="phonetic-box consonant-box disabled" key={consonant.symbol}>
-                  {consonant.symbol} 단어
+                  <span class="phonetic-symbol">{consonant.symbol}</span> 단어
                 </div>
               )
             )}

@@ -16,7 +16,7 @@
 .learning-section {
   background-color: #fff;
   border: 1px solid #e4e0e0;
-  
+  font-weight: 600;
   padding: 40px;
   border-radius: 12px;
   text-align: center;
@@ -24,6 +24,7 @@
   white-space: nowrap;
   margin: 0 auto;
   width: 100%;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
 }
 
@@ -47,29 +48,38 @@
 
 /* Common box styles */
 .box {
-  background-color: #fff;
-  border: 1px solid #007bff;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #4B88FF, #A3D8F4);
+  
+  border-radius: 8px;
   padding: 20px;
   text-align: left;
   font-size: 18px;
-  color: #007bff;
+  color: white;
   display: flex;
   align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   
   cursor: pointer;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .box .material-symbols-outlined {
   font-size: 18px;
-  margin-left: 10px;
+  
+}
+
+.box .box-icon {
+  font-size: 18px;
+  margin-right: 10px;
+  color: #4B88FF;
+  background-color: white;
+  border-radius: 50%;
+  padding: 2px;
 }
 
 .box:hover {
-  background-color: #007bff;
-  color: white;
-  font-weight: 600;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Error message styles */

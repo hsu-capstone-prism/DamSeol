@@ -32,7 +32,7 @@ const GrammerPage = () => {
                 className="box"
                 onClick={() => handleClick(cat.id, cat.symbol)}
               >
-                {cat.name}
+                <span class="material-symbols-outlined box-icon">spellcheck</span>{cat.name}
               </div>
             ))}
           </div>

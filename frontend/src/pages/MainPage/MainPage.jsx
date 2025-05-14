@@ -6,6 +6,7 @@ import sentenceImg from "../../assets/images/sentence.png";
 import grammerImg from "../../assets/images/grammer.png";
 import gameImg from "../../assets/images/game.png";
 import reportImg from "../../assets/images/report.png";
+import splashImg from "../../assets/images/main-splash.png";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -33,6 +34,12 @@ const MainPage = () => {
               <br />
               <span className="main-hero-title-text">더 자연스러운 소통을 위한 매일 쌓아가는 한 걸음</span>
             </div>
+            <img
+              className="main-hero-img"
+              src={splashImg}
+              alt="hero"
+            />
+            
           </div>
         </div>
         <div className="main-row">
