@@ -36,17 +36,13 @@ public class PracticeController {
         String memberName = customUserDetails.getUsername();
 
         try {
-            // 1. 파일 업로드 (fileName은 사용하지 않음)
-            String fileName = practiceService.uploadAudioFile(audioFile);
+            String fileName = practiceService.uploadAudioFile(audioFile); //파일 업로드
 
-            // 2. WordRecord 생성 및 저장
-            WordRecord wordRecord = practiceService.createWordRecord(wordId, memberName, audioFile);
+            WordRecord wordRecord = practiceService.createWordRecord(wordId, memberName, audioFile); // WordRecord 생성
 
-            // 3. 틀린 발음 설정 및 인덱스 반환
-            String wrongPhonsIndices = practiceService.setWrongWordPhon(wordId, wordRecord);
+            String wrongPhonsIndices = practiceService.setWrongWordPhon(wordId, wordRecord); // 틀린 발음 설정 및 인덱스 반환
 
-            // WordRecordDTO로 변환 후 반환
-            WordRecordDTO wordRecordDTO = new WordRecordDTO(wordRecord);
+            WordRecordDTO wordRecordDTO = new WordRecordDTO(wordRecord); // WordRecordDTO로 변환 후 반환
             wordRecordDTO.setWrongPhonIndices(wrongPhonsIndices);
 
             return ResponseEntity.ok(wordRecordDTO);
@@ -73,11 +69,8 @@ public class PracticeController {
 
             SentenceRecord sentenceRecord = practiceService.createSentenceRecord(sentenceId, memberName, audioFile);
 
-            // 틀린 발음 인덱스 반환
-            // String wrongPhonsIndices = practiceService.setWrongSentencePhon(sentenceId, sentenceRecord);
-
             SentenceRecordDTO sentenceRecordDTO = new SentenceRecordDTO(sentenceRecord);
-            //sentenceRecordDTO.setWrongPhonIndices(wrongPhonsIndices);
+
             sentenceRecordDTO.setWaveformFileName(fileName.replace("_audio.wav", "_waveform.png"));
             sentenceRecordDTO.setPitchFileName(fileName.replace("_audio.wav", "_pitch.png"));
 
