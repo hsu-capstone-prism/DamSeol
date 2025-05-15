@@ -7,7 +7,9 @@
 }
 
 .game-section {
-  background: #ffffff;
+  background: linear-gradient(135deg, #f6fbff, #eef7ff);
+  background-color: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border: 1px solid #ebecec;
   padding: 60px;
   border-radius: 12px;
@@ -15,14 +17,11 @@
   flex-direction: column;
 }
 
-
 .game-section-start {
   background: url("/src/assets/images/game.png") no-repeat;
   background-size: auto 100%;
   background-position: left 10% bottom 0%;
-  
 }
-
 
 .game-box-wrapper {
   width: 100%;
@@ -30,7 +29,7 @@
   display: grid;
   grid-template-columns: 3fr 2fr;
   grid-template-rows: auto 60px;
-    grid-template-areas:
+  grid-template-areas:
     "video sel"
     ". nextbutton";
   gap: 30px;
@@ -234,7 +233,7 @@
 
 .game-answer-list li {
   margin-bottom: 15px;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   padding: 12px;
   border-radius: 8px;
 }
@@ -262,6 +261,7 @@
   bottom: 20px;
   justify-content: center;
   gap: 50px;
+  background: linear-gradient(135deg, #f6fbff, #eef7ff);
   background-color: #fff;
   margin-top: 40px;
   padding: 10px;
