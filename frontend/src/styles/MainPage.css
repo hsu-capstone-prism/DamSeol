@@ -22,7 +22,8 @@
 }
 
 .main-hero-title {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   font-size: 18px;
   font-weight: 600;
   color: #2c3e50;
@@ -59,13 +60,12 @@
 }
 
 .main-box:hover {
-  
   background-color: rgba(0, 123, 255, 0.05);
 }
 
 .main-box img {
   height: 105%;
-  
+
   overflow: hidden;
   object-fit: cover;
   position: absolute;
@@ -92,17 +92,18 @@
   position: relative;
   z-index: 2;
   transition: all 0.5s ease;
-  background: linear-gradient(90deg, 
+  background: linear-gradient(
+    90deg,
     #554dde 0%,
-    #59d3fc 50%, 
-    #2c3e50 50%, 
+    #59d3fc 50%,
+    #2c3e50 50%,
     #2c3e50 100%
   );
-background-size: 200% 200%;
-background-position: 100% 0;
-background-clip: text;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  background-position: 100% 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .main-box:hover .main-box-text {

@@ -242,7 +242,7 @@ const ReportPage = () => {
 
   return (
     <div className="report-container">
-      <h1 className="section-title">Report</h1>
+      <h1 className="report-section-title">Report</h1>
 
       {/* 주차별 정확도 추이 */}
       <section className="report-learning-section">

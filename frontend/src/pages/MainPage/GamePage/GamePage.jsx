@@ -174,7 +174,7 @@ const GamePage = () => {
                   gameData.length) *
                 100
               ).toFixed(1)}
-              %
+              점
             </p>
             <ul className="game-answer-list">
               {gameData.map((game, index) => {
