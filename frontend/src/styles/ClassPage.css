@@ -59,20 +59,18 @@
   display: flex;
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .box .material-symbols-outlined {
   font-size: 18px;
-  
 }
 
 .box .box-icon {
   font-size: 18px;
   margin-right: 10px;
-  color: #4B88FF;
+  color: #4b88ff;
   background-color: white;
   border-radius: 50%;
   padding: 2px;

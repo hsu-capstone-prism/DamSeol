@@ -2,8 +2,6 @@ import React from "react";
 import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/ClassPage.css";
-import { FaExternalLinkAlt  } from "react-icons/fa";
-
 
 const phonTopics = [
   { name: "음절의 끝소리", key: "FinalSound" },
@@ -37,13 +35,25 @@ const WordPage = () => {
           <h2>음운</h2>
           <div className="box-container">
             <div className="box" onClick={() => navigate("/phon/vowel")}>
-            <span class="material-symbols-outlined box-icon">more_horiz</span>모음 <span style={{marginLeft:'auto'}} class="material-symbols-outlined">open_in_new</span>
+              <span class="material-symbols-outlined box-icon">more_horiz</span>
+              모음{" "}
+              <span
+                style={{ marginLeft: "auto" }}
+                class="material-symbols-outlined"
+              >
+                open_in_new
+              </span>
             </div>
-            <div
-              className="box"
-              onClick={() => navigate("/phon/consonant")}
-            >
-              <span class="material-symbols-outlined box-icon">more_horiz</span>자음 <span style={{marginLeft:'auto'}} class="material-symbols-outlined">open_in_new</span>
+
+            <div className="box" onClick={() => navigate("/phon/consonant")}>
+              <span class="material-symbols-outlined box-icon">more_horiz</span>
+              자음{" "}
+              <span
+                style={{ marginLeft: "auto" }}
+                class="material-symbols-outlined"
+              >
+                open_in_new
+              </span>
             </div>
             {phonTopics.map((phon) => (
               <div
@@ -53,7 +63,10 @@ const WordPage = () => {
                   navigate("/phon/study", { state: { phonName: phon.name } })
                 }
               >
-                <span class="material-symbols-outlined box-icon">volume_up</span>{phon.name}
+                <span class="material-symbols-outlined box-icon">
+                  volume_up
+                </span>
+                {phon.name}
               </div>
             ))}
           </div>
@@ -69,7 +82,10 @@ const WordPage = () => {
                   navigate("/alter/study", { state: { alterName: alter.name } })
                 }
               >
-                <span class="material-symbols-outlined box-icon">volume_up</span>{alter.name}
+                <span class="material-symbols-outlined box-icon">
+                  volume_up
+                </span>
+                {alter.name}
               </div>
             ))}
           </div>
@@ -85,7 +101,10 @@ const WordPage = () => {
                   navigate("/add/study", { state: { addName: add.name } })
                 }
               >
-                <span class="material-symbols-outlined box-icon">volume_up</span>{add.name}
+                <span class="material-symbols-outlined box-icon">
+                  volume_up
+                </span>
+                {add.name}
               </div>
             ))}
           </div>
