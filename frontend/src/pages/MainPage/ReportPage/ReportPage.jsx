@@ -10,6 +10,7 @@ import {
   Legend,
   CategoryScale,
   LinearScale,
+  plugins,
 } from "chart.js";
 import axios from "axios";
 import "../../../styles/ReportPage.css";
@@ -86,7 +87,7 @@ const ReportPage = () => {
           (a, b) => b.weekOffset - a.weekOffset
         );
 
-        const weekLabels = ["이번주", "1주전", "2주전", "3주전"];
+        const weekLabels = ["이번 주", "1주 전", "2주 전", "3주 전"];
         const labels = sorted.map(
           (r) => weekLabels[r.weekOffset] || `${r.weekOffset}주전`
         );
@@ -103,6 +104,7 @@ const ReportPage = () => {
               data: accuracy,
               borderColor: "#0056b3",
               backgroundColor: "rgba(0, 86, 179, 0.2)",
+              borderWidth: 1,
               fill: false,
             },
             {
@@ -110,6 +112,7 @@ const ReportPage = () => {
               data: pitch,
               borderColor: "#ff8c00",
               backgroundColor: "rgba(255, 140, 0, 0.2)",
+              borderWidth: 1,
               fill: false,
             },
             {
@@ -117,6 +120,7 @@ const ReportPage = () => {
               data: rhythm,
               borderColor: "#008000",
               backgroundColor: "rgba(0, 128, 0, 0.2)",
+              borderWidth: 1,
               fill: false,
             },
           ],
@@ -192,9 +196,10 @@ const ReportPage = () => {
         ],
         backgroundColor: "rgba(0, 86, 179, 0.2)",
         borderColor: "#0056b3",
-        borderWidth: 2,
+        borderWidth: 1,
       },
     ],
+
   };
 
   const radarChartOptions = {
@@ -242,12 +247,12 @@ const ReportPage = () => {
 
   return (
     <div className="report-container">
-      <h1 className="section-title">Report</h1>
+      <h1 className="report-title">Report</h1>
 
       {/* 주차별 정확도 추이 */}
-      <section className="report-learning-section">
+      <section className="report-learning-section chart-section">
         <h2>주차별 정확도 추이</h2>
-        <div className="chart-container" style={{ height: "350px" }}>
+        <div className="chart-container">
           {weeklyChartData ? (
             <Line
               data={weeklyChartData}
@@ -262,10 +267,7 @@ const ReportPage = () => {
                       font: { size: 14 },
                     },
                     grid: {
-                      color: "#eee",
-                      display: true,
-                      drawBorder: false,
-                      tickLength: 0,
+                      display: false,
                     },
                   },
                   y: {
@@ -276,16 +278,16 @@ const ReportPage = () => {
                       font: { size: 14 },
                     },
                     grid: {
-                      color: "#ddd",
+                      color: "#eee",
                     },
                   },
                 },
                 plugins: {
                   legend: {
+                    display: true,
                     position: "top",
-                    labels: {
-                      font: { size: 14 },
-                    },
+                    align: "end",
+              
                   },
                 },
                 elements: {
@@ -294,8 +296,7 @@ const ReportPage = () => {
                     borderWidth: 2,
                   },
                   point: {
-                    radius: 3,
-                    horverRadius: 5,
+                    pointStyle: false,
                   },
                 },
               }}
