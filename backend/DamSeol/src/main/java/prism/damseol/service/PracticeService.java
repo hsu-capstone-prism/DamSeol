@@ -90,7 +90,6 @@ public class PracticeService {
         Word word = wordRepository.findById(wordId)
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
 
-        // wordRecord에 틀린 발음 설정
         List<String> wrongProns;
         if (!word.getText().equals(wordRecord.getPron()))
             wrongProns = KoreanPronunciationUtils.checkPronunciation(word.getWordPron(), wordRecord.getPron());
