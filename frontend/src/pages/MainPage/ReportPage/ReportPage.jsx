@@ -262,15 +262,17 @@ const ReportPage = () => {
                       font: { size: 14 },
                     },
                     grid: {
+                      color: "#eee",
                       display: true,
-                      drawBorder: true,
+                      drawBorder: false,
+                      tickLength: 0,
                     },
                   },
                   y: {
                     min: 0,
                     max: 100,
                     ticks: {
-                      stepSize: 10,
+                      stepSize: 20,
                       font: { size: 14 },
                     },
                     grid: {
@@ -284,6 +286,16 @@ const ReportPage = () => {
                     labels: {
                       font: { size: 14 },
                     },
+                  },
+                },
+                elements: {
+                  line: {
+                    tension: 0.4,
+                    borderWidth: 2,
+                  },
+                  point: {
+                    radius: 3,
+                    horverRadius: 5,
                   },
                 },
               }}
@@ -310,16 +322,16 @@ const ReportPage = () => {
 
         <div className="feedback-box">
           <p>
-            <strong>발음 정확도 평균 :</strong> {scoreData.accuracy.toFixed(1)}%
+            <strong>발음 정확도 평균</strong> {scoreData.accuracy.toFixed(1)}%
           </p>
           <p>
-            <strong>정확도 :</strong> {getAccuracyFeedback(scoreData.accuracy)}
+            <strong>정확도</strong> {getAccuracyFeedback(scoreData.accuracy)}
           </p>
           <p>
-            <strong>리듬 :</strong> {getRhythmFeedback(scoreData.rhythm)}
+            <strong>리듬</strong> {getRhythmFeedback(scoreData.rhythm)}
           </p>
           <p>
-            <strong>피치 :</strong> {getPitchFeedback(scoreData.pitch)}
+            <strong>피치</strong> {getPitchFeedback(scoreData.pitch)}
           </p>
         </div>
       </section>
@@ -372,7 +384,7 @@ const ReportPage = () => {
             <p>
               최근 게임 평균 점수
               <br />
-              <strong>{localStorage.getItem("gameAvgScore") || "0"}%</strong>
+              <strong>{localStorage.getItem("gameAvgScore") || "0"}/100점</strong>
             </p>
           </div>
         </div>

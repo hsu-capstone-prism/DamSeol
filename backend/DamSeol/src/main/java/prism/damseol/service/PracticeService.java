@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -90,7 +91,12 @@ public class PracticeService {
                 .orElseThrow(() -> new IllegalArgumentException("Word not found with id " + wordId));
 
         // wordRecord에 틀린 발음 설정
-        List<String> wrongProns = KoreanPronunciationUtils.checkPronunciation(word.getWordPron(), wordRecord.getPron());
+        List<String> wrongProns;
+        if (!word.getText().equals(wordRecord.getPron()))
+            wrongProns = KoreanPronunciationUtils.checkPronunciation(word.getWordPron(), wordRecord.getPron());
+        else
+            wrongProns = new ArrayList<>();
+
         StringBuilder sb = new StringBuilder();
         for (String wrongPron : wrongProns) {
             sb.append(wrongPron);
@@ -102,7 +108,12 @@ public class PracticeService {
         wordRecordRepository.save(wordRecord);
 
         // 틀린 발음이 포함된 인덱스 반환
-        List<Integer> incorrectPronIndices = KoreanPronunciationUtils.getIncorrectPronIndices(word.getWordPron(), wordRecord.getPron());
+        List<Integer> incorrectPronIndices;
+        if (!word.getText().equals(wordRecord.getPron()))
+            incorrectPronIndices = KoreanPronunciationUtils.getIncorrectPronIndices(word.getWordPron(), wordRecord.getPron());
+        else
+            incorrectPronIndices = new ArrayList<>();
+
         sb = new StringBuilder();
         for (Integer incorrectPronIndex : incorrectPronIndices) {
             sb.append(incorrectPronIndex);
