@@ -37,10 +37,7 @@ const WordPage = () => {
             <div className="box" onClick={() => navigate("/phon/vowel")}>
               모음
             </div>
-            <div
-              className="box"
-              onClick={() => navigate("/phon/consonant")}
-            >
+            <div className="box" onClick={() => navigate("/phon/consonant")}>
               자음
             </div>
             {phonTopics.map((phon) => (
