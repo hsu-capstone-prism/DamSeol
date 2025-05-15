@@ -1,3 +1,4 @@
+/* Common styles for all study pages */
 .study-page {
   display: flex;
   position: relative;
@@ -6,11 +7,12 @@
   gap: 40px;
   margin-top: 30px !important;
   padding: 40px;
+  background: linear-gradient(135deg, #f6fbff, #eef7ff);
   background-color: #fff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   width: 100%;
-  height: 650px;
+  min-height: 650px;
 }
 
 .breadcrumb {
@@ -30,19 +32,19 @@
 
 .display-container {
   position: relative;
-  background-color: rgba(0, 123, 255, 0.03);
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background: white;
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.05);
   padding: 40px;
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 80%;
-  overflow: auto;
+  width: 90%;
+  max-width: 960px;
   overflow: hidden;
-  border: 1px solid rgba(0, 123, 255, 0.1);
+  border: 1px solid rgba(0, 123, 255, 0.05);
   gap: 20px;
 }
 
@@ -51,6 +53,26 @@
   font-weight: bold;
   color: #007bff;
   margin: 0;
+}
+
+.pronunciation-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.user-pronunciation span {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: black;
+}
+
+.user-pronunciation span.wrong {
+  color: red;
+  font-weight: 900;
 }
 
 .mic-button-container {
@@ -67,7 +89,7 @@
 
 .mic-button {
   background-color: rgba(0, 123, 255, 0.1);
-  border: 1px solid rgba(0, 123, 255, 0.1);
+  border: 2px solid rgba(0, 123, 255, 0.4);
   border-radius: 50%;
   width: 100px;
   height: 100px;
@@ -147,7 +169,7 @@
   bottom: 20px;
   justify-content: center;
   gap: 50px;
-  background-color: #fff;
+  background: linear-gradient(135deg, #f6fbff, #eef7ff);
   margin-top: 40px;
   padding: 20px;
   width: 100%;
@@ -175,7 +197,7 @@
   line-height: 40px;
   font-size: 14px;
   font-weight: bold;
-  border: 2px solid rgba(0, 123, 255, 0.1);
+  border: 2px solid rgba(0, 123, 255, 0.4);
   position: relative;
   z-index: 1;
   transition: all 0.3s ease-in-out;
@@ -262,23 +284,28 @@
 }
 
 .word-study .score-container {
-  position: absolute;
-  right: 80px;
-  margin-top: 60px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #007bff;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0c69cd;
   display: flex;
   align-items: center;
   gap: 10px;
   height: 50px;
+  position: absolute;
+  right: 40px;
+  margin-top: 30px;
+}
+
+.word-study .score-container .final-result-btn {
+  margin-bottom: 40px;
+  right: 20px;
 }
 
 .word-study .button-group {
   display: flex;
   justify-content: center; /* 중앙 정렬 */
-  gap: 10px;
-  margin-top: 15px;
+  gap: 20px;
+  margin-top: 60px;
 }
 
 /* Sentence Study specific styles */
@@ -288,17 +315,30 @@
 }
 
 .sen-study .sen-details {
-  font-size: 20px;
-  font-size: 25px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #525151;
   text-align: center;
-  white-space: pre-line;
+  white-space: pre-wrap;
   margin-top: 40px;
+  line-height: 1.8;
+  word-break: keep-all;
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
 }
 
 .sen-study .sen-corrections {
-  font-size: 20px;
-  color: #666;
-  margin-top: 40px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0c69cd;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  position: absolute;
+  right: 80px;
+  margin-top: 50px;
 }
 
 .sen-study .sen-result-bottom-container {
