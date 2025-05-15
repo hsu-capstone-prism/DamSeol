@@ -16,17 +16,72 @@
 }
 
 .main-hero {
-  background: linear-gradient(45deg, #59d3fc, #7d9cf3);
+  /*background: linear-gradient(45deg, #897df3, #59bbfc);*/
+  background: linear-gradient(135deg, #7f5af0, #00c9a7, #28ffdb);
+  background-size: 200% auto;
   padding: 40px;
   border-radius: 12px;
+  flex: 1;
+  min-height: 200px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: background-size 0.3s ease-in-out;
+}
+
+.main-hero-date {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 300;
+  color: white;
 }
 
 .main-hero-title {
-  margin: 0;
+  margin-top: 40px;
   padding: 0;
-  font-size: 18px;
+  font-size: 32px;
   font-weight: 600;
-  color: #2c3e50;
+  color: white;
+  line-height: 2rem;
+}
+
+.main-hero-title-text {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.main-hero-img {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 10%;
+
+  opacity: 0;
+  animation: splash 0.8s ease-in-out forwards;
+  animation-delay: 0.3s;
+
+  transition: filter 0.3s ease-in-out;
+}
+
+.main-hero:hover {
+  background-size: 130% auto;
+}
+
+@keyframes splash {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
 }
 
 .main-row {
@@ -52,7 +107,7 @@
 }
 
 .main-box.double-width {
-  flex: 2;
+  flex: 1.5;
 }
 
 .main-box:last-child {
@@ -65,7 +120,6 @@
 
 .main-box img {
   height: 105%;
-
   overflow: hidden;
   object-fit: cover;
   position: absolute;
@@ -106,10 +160,39 @@
   -webkit-text-fill-color: transparent;
 }
 
+.main-box-text-background {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  top: 0;
+  left: 0;
+  text-align: right;
+  position: absolute;
+  color: transparent;
+  z-index: 1;
+}
+
 .main-box:hover .main-box-text {
   background-position: 0% 0;
 }
 
 .main-box:hover .main-box-text-background {
   width: 100%;
+}
+
+.main-box-report::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/src/assets/images/report-bg.jpg");
+  background-size: auto 100%;
+  background-position: left 0% bottom 0%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+
+  mask-image: linear-gradient(to right, black 40%, transparent 50%);
+  -webkit-mask-image: linear-gradient(to right, black 40%, transparent 0%);
 }

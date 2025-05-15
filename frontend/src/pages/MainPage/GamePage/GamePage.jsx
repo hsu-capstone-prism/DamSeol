@@ -60,7 +60,9 @@ const GamePage = () => {
 
   useEffect(() => {
     const fetchVideo = async () => {
-      if (!current || !current.videoFileName) return;
+      //if (!current || !current.videoFileName) return;
+      if (!gameData || gameData.length === 0) return;
+      if (selectedIndex == null || selectedIndex >= gameData.length) return;
 
       try {
         const token = getAuthToken();
@@ -85,7 +87,7 @@ const GamePage = () => {
       }
     };
     fetchVideo();
-  }, [current]);
+  }, [current, gameData, selectedIndex]);
 
   const handleStart = () => setStarted(true);
 
@@ -99,23 +101,23 @@ const GamePage = () => {
       updated[selectedIndex] = selectedChoice.text;
       return updated;
     });
+  };
 
+  const handleNext = () => {
     if (selectedIndex === gameData.length - 1) {
       setIsFinished(true);
-      const totalCorrect = [...userAnswers, selectedChoice.text].filter(
+      const totalCorrect = [...userAnswers].filter(
         (ans, idx) =>
           ans === gameData[idx]?.choices.find((c) => c.correct)?.text
       ).length;
       const totalScore = totalCorrect;
-      const avgScore = ((totalCorrect / gameData.length) * 100).toFixed(1);
+      const avgScore = (totalCorrect / gameData.length) * 100;
       localStorage.setItem("gameTotalScore", totalScore.toString());
       localStorage.setItem("gameAvgScore", avgScore.toString());
+    } else {
+      setVideoSrc(null);
+      setSelectedIndex((prev) => prev + 1);
     }
-  };
-
-  const handleNext = () => {
-    if (selectedIndex === gameData.length - 1) setIsFinished(true);
-    else setSelectedIndex((prev) => prev + 1);
   };
 
   const handleStepClick = (index) => {
@@ -138,7 +140,7 @@ const GamePage = () => {
   return (
     <div className="game-container">
       {!started ? (
-        <section className="game-section">
+        <section className="game-section game-section-start">
           <div className="game-start-screen">
             <p className="game-start-title">
               입을 잘 보고, 마음의 귀를 열어봐요!
@@ -158,23 +160,13 @@ const GamePage = () => {
             <h2 className="game-result-title">결과</h2>
             <p className="game-result-description">
               총 점수:{" "}
-              {
-                userAnswers.filter(
-                  (ans, idx) =>
-                    ans === gameData[idx].choices.find((c) => c.correct)?.text
-                ).length
-              }
-              /{gameData.length}점<br />
-              평균 점수:{" "}
-              {(
-                (userAnswers.filter(
-                  (ans, idx) =>
-                    ans === gameData[idx].choices.find((c) => c.correct)?.text
-                ).length /
-                  gameData.length) *
-                100
-              ).toFixed(1)}
-              점
+              {userAnswers.filter(
+                (ans, idx) =>
+                  ans === gameData[idx].choices.find((c) => c.correct)?.text
+              ).length *
+                (100 / gameData.length)}
+              /100점
+              <br />
             </p>
             <ul className="game-answer-list">
               {gameData.map((game, index) => {
@@ -221,7 +213,6 @@ const GamePage = () => {
         </section>
       ) : (
         <section className="game-section">
-          <h2>Game</h2>
           <div className="game-box-wrapper">
             <div className="media-section">
               <GameVideo key={videoSrc} videoSrc={videoSrc} />
@@ -251,13 +242,14 @@ const GamePage = () => {
                   );
                 })}
               </div>
-              {userAnswers[selectedIndex] !== undefined &&
-                selectedIndex < gameData.length - 1 && (
-                  <button className="next-button" onClick={handleNext}>
-                    다음 문제
-                  </button>
-                )}
             </div>
+            {userAnswers[selectedIndex] !== undefined && (
+              <button className="next-button" onClick={handleNext}>
+                {selectedIndex === gameData.length - 1
+                  ? "게임 종료"
+                  : "다음 문제 →"}
+              </button>
+            )}
           </div>
           <ProgressBar
             currentStep={selectedIndex}

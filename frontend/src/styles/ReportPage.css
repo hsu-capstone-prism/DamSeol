@@ -70,13 +70,12 @@
 }
 
 .feedback-box {
-  background-color: #ffffff;
-  border: 1px solid #ebecec;
+  background-color: #f9f9f9;
+
   width: 48%;
   padding: 20px;
   font-size: 18px;
   border-radius: 12px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
 
@@ -115,7 +114,6 @@
   border: 1px solid #ebecec;
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .recent-right-section h3,
