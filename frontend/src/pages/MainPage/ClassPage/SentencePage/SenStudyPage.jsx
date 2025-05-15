@@ -215,9 +215,13 @@ const SenStudyPage = () => {
   };
 
   const handleUploadComplete = (data) => {
+    const x = data.correction;
+    const adjustedCorrection = ((x / 100) + (1 - (x / 100)) * ((x / 100) ** 2)) * 100;
+
     const updated = [...uploadResultList];
     updated[selectedIndex] = {
       ...data,
+      correction: adjustedCorrection.toFixed(1),
       waveformImage: data.waveformFileName,
       pitchImage: data.pitchFileName,
     };
