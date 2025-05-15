@@ -293,17 +293,6 @@ const SenStudyPage = () => {
                     </p>
                   )}
                   <div className="sen-corrections">
-                    정확도: {uploadResultList[selectedIndex].correction}%
-                  </div>
-                  <div className="sen-result-bottom-container">
-                    <div className="sen-button-group">
-                      <button onClick={() => setShowWaveformPopup(true)}>
-                        Waveform
-                      </button>
-                      <button onClick={() => setShowPitchPopup(true)}>
-                        Pitch
-                      </button>
-                    </div>
                     {selectedIndex === 2 && (
                       <button
                         className={`final-result-btn ${
@@ -317,6 +306,17 @@ const SenStudyPage = () => {
                           : "최종 결과화면 보기"}
                       </button>
                     )}
+                    정확도: {uploadResultList[selectedIndex].correction}%
+                  </div>
+                  <div className="sen-result-bottom-container">
+                    <div className="sen-button-group">
+                      <button onClick={() => setShowWaveformPopup(true)}>
+                        Waveform
+                      </button>
+                      <button onClick={() => setShowPitchPopup(true)}>
+                        Pitch
+                      </button>
+                    </div>
                   </div>
                 </div>
               ) : (

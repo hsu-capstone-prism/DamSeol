@@ -2,36 +2,36 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
-  margin: 40px 15%;
+  padding: 40px 15%;
   gap: 30px;
+  /*
   background: linear-gradient(-45deg, #e8f0fe, #d0ecff, #c1dbff, #e3f2ff);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   min-height: 100vh;
+  */
   grid-template-areas:
     "title    title     title"
     "chart    chart     recent"
     "feedback feedback  feedback";
 }
 
-.report-section-title {
+.report-title {
   font-size: 28px;
   color: #0056b3;
   margin-bottom: 20px;
+  grid-area: title;
 }
 
-/* 전체 박스 섹션 */
 .report-learning-section {
   background-color: #ffffff;
   border: 1px solid #ebecec;
   padding: 30px 40px;
   border-radius: 12px;
   text-align: center;
-  margin: 0 auto;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  margin: 0;
 }
 
-/* 섹션 제목 */
 .report-learning-section h2 {
   font-size: 22px;
   margin: 0;
@@ -50,35 +50,45 @@
   grid-area: chart;
 }
 
-
-.chart-section {
-  grid-area: chart;
-}
-
-/* 피드백 + Radar 그래프 */
+/* 피드백 + 5각형 그래프 */
 .feedback-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0;
+  overflow: hidden;
   flex-direction: row;
   
   grid-area: feedback;
 }
 
 .radar-chart-container {
-  content: "";
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  
 }
 
+
 .feedback-box {
-  background-color: #f9f9f9;
-  width: 60%;
+  background-color: #f2f4ff;
+  flex-basis: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 0px 40px;
   font-size: 18px;
-  border-radius: 12px;
+  
   text-align: left;
-  box-shadow: 0px 4px 8px rgba(0, 86, 179, 0.08);
-  border-left: 6px solid #0056b3;
+}
+
+.feedback-box p {
+  margin: 30px 0;
+  line-height: 1.5rem;
+}
+
+.feedback-box p strong {
+  display: block;
+  color: #0056b3;
 }
 
 .feedback-doughnut-wrapper {
@@ -105,12 +115,12 @@
 
 /* 최근 학습 */
 .recent-section {
-  background: linear-gradient(135deg, #4B88FF, #60c2f7);
+  background: linear-gradient(135deg, #6d9eff, #8cd7ff);
   color: white;
 }
 
 .recent-section h2 {
-  color: white;
+  color: #fff;
 }
 
 .recent-container {
@@ -134,7 +144,6 @@
   min-width: 300px;
 }
 
-/* 최근 학습 섹션 */
 .recent-container {
   display: flex;
   flex-direction: column;
@@ -144,9 +153,9 @@
 
 .recent-container > div {
   flex: 1;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   color: #fff;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   padding: 20px;
   border-radius: 10px;
   text-align: left;
@@ -155,11 +164,20 @@
 
 .recent-container > div h3 {
   font-size: 20px;
+  color: #2A3335;
   margin: 0;
 }
 
 .recent-container > div p {
   margin: 20px 0;
+  line-height: 1.5rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.recent-container > div p > span {
+  color: #2A3335;
+  font-weight: 600;
+  text-shadow: none;
 }
 
 .recent-container > div p:last-child {

@@ -11,7 +11,6 @@ import {
   CategoryScale,
   LinearScale,
   ArcElement,
-  plugins,
 } from "chart.js";
 import axios from "axios";
 import "../../../styles/ReportPage.css";
@@ -388,14 +387,14 @@ const ReportPage = () => {
           <div className="recent-left-section">
             <h3>학습 진도</h3>
             <p>
-              이번 주에 학습한 단어
+              <span >이번 주에 학습한 단어</span>
               <br />
               <strong>
                 {wordCount !== null ? `${wordCount} 단어` : "불러오는 중..."}
               </strong>
             </p>
             <p>
-              이번 주에 학습한 문장
+            <span>이번 주에 학습한 문장</span>
               <br />
               <strong>
                 {sentenceCount !== null
@@ -404,7 +403,7 @@ const ReportPage = () => {
               </strong>
             </p>
             <p>
-              개선이 필요한 발음
+            <span>개선이 필요한 발음</span>
               <br />
               <strong>
                 {wrongPhons.length > 0
@@ -418,14 +417,14 @@ const ReportPage = () => {
           <div className="recent-right-section">
             <h3>게임 결과</h3>
             <p>
-              최근 게임 점수
+            <span>최근 게임 점수</span>
               <br />
               <strong>
                 {localStorage.getItem("gameTotalScore") || "0"}점
               </strong>
             </p>
             <p>
-              최근 게임 평균 점수
+            <span>최근 게임 평균 점수</span>
               <br />
               <strong>
                 {localStorage.getItem("gameAvgScore") || "0"}점
