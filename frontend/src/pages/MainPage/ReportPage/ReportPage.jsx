@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Radar, Line } from "react-chartjs-2";
+import { Radar, Line, Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -10,6 +10,7 @@ import {
   Legend,
   CategoryScale,
   LinearScale,
+  ArcElement,
   plugins,
 } from "chart.js";
 import axios from "axios";
@@ -19,6 +20,7 @@ ChartJS.register(
   RadialLinearScale,
   LineElement,
   PointElement,
+  ArcElement,
   Filler,
   Tooltip,
   Legend,
@@ -217,6 +219,11 @@ const ReportPage = () => {
         },
       },
     },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
 
   // 피드백 함수
@@ -300,7 +307,7 @@ const ReportPage = () => {
                   },
                 },
               }}
-              height={300}
+              height={400}
             />
           ) : (
             <p>주차별 데이터를 불러오는 중..</p>
@@ -310,20 +317,56 @@ const ReportPage = () => {
 
       {/* Radar + 피드백 */}
       <section className="report-learning-section feedback-section">
-        <div style={{ margin: "0 auto", textAlign: "center" }}>
+        <div className="radar-chart-container">
           {radarChartData && (
             <Radar
               data={radarChartData}
               options={radarChartOptions}
-              width={300}
-              height={300}
+              width={400}
+              height={400}
             />
           )}
         </div>
 
         <div className="feedback-box">
           <p>
-            <strong>발음 정확도 평균</strong> {scoreData.accuracy.toFixed(1)}%
+            <strong>발음 정확도 평균</strong>
+            {scoreData ? 
+            <div className="feedback-doughnut-wrapper">
+              <Doughnut
+              className="feedback-doughnut"
+              data={{
+                labels: ["정확도", "오차"],
+                datasets: [
+                  {
+                    data: [
+                      scoreData.accuracy.toFixed(1),
+                      (100 - scoreData.accuracy.toFixed(1)),
+                    ],
+                    backgroundColor: ["#0056b3", "#eee"],
+                  },
+                ],
+              }}
+              options={{
+                cutout: "70%",
+                responsive: true,
+                //borderRadius: 10,
+
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                  tooltip: {
+                    enabled: false,
+                  },
+                },
+              }}
+            />
+            <div className="feedback-doughnut-text">{scoreData.accuracy.toFixed(1)}%</div>
+          </div>
+          : "-"
+          }
+            
           </p>
           <p>
             <strong>정확도</strong> {getAccuracyFeedback(scoreData.accuracy)}
@@ -375,17 +418,18 @@ const ReportPage = () => {
           <div className="recent-right-section">
             <h3>게임 결과</h3>
             <p>
-              최근 게임 총 점수
+              최근 게임 점수
               <br />
               <strong>
-                {localStorage.getItem("gameTotalScore") || "0"}
-              </strong>{" "}
-              점
+                {localStorage.getItem("gameTotalScore") || "0"}점
+              </strong>
             </p>
             <p>
               최근 게임 평균 점수
               <br />
-              <strong>{localStorage.getItem("gameAvgScore") || "0"}/100점</strong>
+              <strong>
+                {localStorage.getItem("gameAvgScore") || "0"}점
+              </strong>
             </p>
           </div>
         </div>

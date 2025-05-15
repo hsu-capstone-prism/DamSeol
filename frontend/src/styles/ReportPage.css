@@ -1,7 +1,7 @@
 .report-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto 1fr 1fr;
+  grid-template-rows: auto;
   margin: 40px 15%;
   gap: 30px;
   grid-template-areas:
@@ -27,10 +27,8 @@
 }
 
 .report-learning-section h2 {
-  font-size: 18px;
-  margin-bottom: 20px;
-  margin-top: 0px;
-  
+  font-size: 22px;
+  margin: 0;
   padding-bottom: 20px;
   color: #007bff;
   text-align: left;
@@ -38,9 +36,9 @@
 
 /* 차트 컨테이너 */
 .chart-container {
-  height: 350px;
   margin: auto;
 }
+
 
 .chart-section {
   grid-area: chart;
@@ -51,26 +49,46 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+  flex-direction: row;
   
   grid-area: feedback;
 }
 
 .radar-chart-container {
-  width: 48%;
-  
+  content: "";
 }
 
 .feedback-box {
   background-color: #f9f9f9;
-  
-  width: 48%;
+  width: 60%;
+  height: 100%;
   padding: 20px;
   font-size: 18px;
   border-radius: 12px;
   text-align: left;
 }
 
+.feedback-doughnut-wrapper {
+  position: relative;
+  width: fit-content;
+  margin: 10px 0;
+}
+
+.feedback-doughnut {
+  max-width: 8rem;
+  max-height: 8rem;
+}
+
+.feedback-doughnut-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #0056b3;
+  font-size: 18px;
+  font-weight: 600;
+  
+}
 
 /* 최근 학습 */
 .recent-section {

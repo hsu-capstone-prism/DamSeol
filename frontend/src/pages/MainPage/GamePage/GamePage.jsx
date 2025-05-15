@@ -6,6 +6,8 @@ import axios from "axios";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
+const GAME_NUMBER = 5; // 게임 문제 수
+
 const GamePage = () => {
   const [gameData, setGameData] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -37,7 +39,7 @@ const GamePage = () => {
         const selected = [];
         const shuffled = [...response.data];
 
-        while (selected.length < 5) {
+        while (selected.length < GAME_NUMBER) {
           const randomIndex = Math.floor(Math.random() * shuffled.length);
           const selectedItem = shuffled[randomIndex];
           if (!selected.includes(selectedItem)) {
@@ -110,8 +112,10 @@ const GamePage = () => {
         (ans, idx) =>
           ans === gameData[idx]?.choices.find((c) => c.correct)?.text
       ).length;
-      const totalScore = totalCorrect;
-      const avgScore = ((totalCorrect / gameData.length) * 100);
+
+      const totalScore = ((totalCorrect / gameData.length) * 100);
+      if (localStorage.getItem("gameAvgScore") === null) { localStorage.setItem("gameAvgScore", totalScore); }
+      const avgScore = (((totalCorrect / gameData.length) * 100) + parseInt(localStorage.getItem("gameAvgScore"))) / 2;
       localStorage.setItem("gameTotalScore", totalScore.toString());
       localStorage.setItem("gameAvgScore", avgScore.toString());
     }
