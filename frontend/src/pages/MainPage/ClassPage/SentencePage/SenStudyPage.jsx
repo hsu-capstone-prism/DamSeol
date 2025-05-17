@@ -221,7 +221,7 @@ const SenStudyPage = () => {
     const updated = [...uploadResultList];
     updated[selectedIndex] = {
       ...data,
-      correction: adjustedCorrection.toFixed(1),
+      correction: Number(adjustedCorrection.toFixed(1)),
       waveformImage: data.waveformFileName,
       pitchImage: data.pitchFileName,
     };

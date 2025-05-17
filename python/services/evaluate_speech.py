@@ -103,13 +103,14 @@ def get_audio_pitch_eval(audio, text, situation=None):
 def get_audio_rhythm_eval(audio_file, text, situation=None):
   #audio_speech_pause_ratio = extract_speech_pause_ratio(audio_file)
   audio_spr_eval = get_spr_eval(audio_file, text)
-  audio_speech_rate = extract_speech_rate(audio_file)
+  audio_speech_rate = extract_speech_rate(audio_file, recognized_text=text)
 
   if(situation == None):
     situation = "일반적인 대화 상황"
 
   system_prompt = """
   당신은 청각장애인 발화자의 리듬(발화 속도 및 발화 중단 비율)이 적절한지 평가하는 평가자입니다.
+  학습자의 발화를 평가할 때, 지나치게 엄격하기보다는 실질적인 의사소통 가능성과 학습자의 노력을 고려한 공정하고 온건한 기준을 적용하십시오.
   제공된 데이터를 기반으로 발화가 자연스러운지를 객관적으로 평가하십시오.
 
   📌 평가 기준
@@ -117,6 +118,7 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   - 정상 범위: 4~6 syllables/sec
   - 3 이하: 느림 → 부자연스럽거나 전달력이 약할 수 있음
   - 7 이상: 빠름 → 청취가 어려울 수 있음
+  - 발화 속도가 다소 빠르거나 느려도, 실제 사람의 청취에 큰 부담이 없다면 "적절한 속도"로 평가할 수 있습니다.
 
   2. 발화 중단 비율 (Speech Pause Ratio)
   - 발화 중단 비율에 대한 평가는 다른 AI 모델이 진행한 후 전달합니다.
@@ -126,10 +128,10 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   - 긴 문장에서 지나치게 빠른 속도는 청취 난이도를 높일 수 있음
 
   📌 평가 방법
-  - 반드시 Speech Rate의 수치와 Speech Pause Ratio의 평가를 직접 분석하여 평가하십시오.
+  - 반드시 주어진 기본 평가 내용을 직접 분석하여 평가하십시오.
   - 수치 분석 없이 인상이나 느낌으로 빠르다/느리다를 판단하는 것은 허용되지 않습니다.
   - 제공된 데이터를 기반으로 논리적이고 일관성 있게 평가하십시오.
-  - 일반인이 이해할 수 있도록 간단하고 명료한 표현을 사용하십시오.
+  - 일반인이 이해할 수 있도록 간단하고 명료한 표현을 사용하십시오. "발화 중단 비율"과 같은 전문 용어는 사용하지 마십시오.
     (예: "발화 속도가 빠른 편이에요", "발화가 중간에 끊겨요" 등)
 
   📌 답변 형식 (JSON, RFC8259 준수)
@@ -204,6 +206,7 @@ def get_spr_eval(audio, text):
 
   system_prompt = """
   당신은 청각장애인 발화자의 발화 중단 비율(Speech Pause Ratio)이 적절한지 평가하는 평가자입니다.
+  학습자의 발화를 평가할 때, 지나치게 엄격하기보다는 실질적인 의사소통 가능성과 학습자의 노력을 고려한 공정하고 온건한 기준을 적용하십시오.
   제공된 데이터를 기반으로 발화가 자연스러운지를 객관적으로 평가하십시오.
 
   📌 평가 기준

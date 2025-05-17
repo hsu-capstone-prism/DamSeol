@@ -66,7 +66,7 @@ const WordStudy = () => {
 
     setResultList((prev) => {
       const updated = [...prev];
-      updated[selectedIndex] = {...data, score: adjustedScore.toFixed(1)};
+      updated[selectedIndex] = {...data, score: Number(adjustedScore.toFixed(1))};
       return updated;
     });
 
