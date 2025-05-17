@@ -103,7 +103,7 @@ def get_audio_pitch_eval(audio, text, situation=None):
 def get_audio_rhythm_eval(audio_file, text, situation=None):
   #audio_speech_pause_ratio = extract_speech_pause_ratio(audio_file)
   audio_spr_eval = get_spr_eval(audio_file, text)
-  audio_speech_rate = extract_speech_rate(audio_file)
+  audio_speech_rate = extract_speech_rate(audio_file, recognized_text=text)
 
   if(situation == None):
     situation = "일반적인 대화 상황"
@@ -126,7 +126,7 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   - 긴 문장에서 지나치게 빠른 속도는 청취 난이도를 높일 수 있음
 
   📌 평가 방법
-  - 반드시 Speech Rate의 수치와 Speech Pause Ratio의 평가를 직접 분석하여 평가하십시오.
+  - 반드시 주어진 기본 평가 내용을 직접 분석하여 평가하십시오.
   - 수치 분석 없이 인상이나 느낌으로 빠르다/느리다를 판단하는 것은 허용되지 않습니다.
   - 제공된 데이터를 기반으로 논리적이고 일관성 있게 평가하십시오.
   - 일반인이 이해할 수 있도록 간단하고 명료한 표현을 사용하십시오.
