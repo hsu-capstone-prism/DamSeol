@@ -172,12 +172,12 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 30px;
+  gap: 60px;
   height: 100%;
 }
 
 .game-finish-title {
-  font-size: 36px;
+  font-size: 45px;
   text-align: center;
   font-weight: 700;
   line-height: 1.4;
@@ -191,10 +191,87 @@
   margin: 0;
 }
 
+.result-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+
+.circle-chart {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(#1e90ff var(--percent), #e6e6e6 var(--percent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.circle-chart::before {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  background: #f6fbff;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.circle-text {
+  position: absolute;
+  z-index: 2;
+  text-align: center;
+}
+
+.circle-text p {
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+}
+
+.circle-text h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: #1e90ff;
+}
+
+.score-text {
+  font-size: 22px;
+  text-align: left;
+}
+
+.result-table {
+  width: 100%;
+  max-width: 700px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.result-table th,
+.result-table td {
+  border: 1px solid #ddd;
+  padding: 14px 16px;
+  font-size: 18px;
+}
+
+.result-table th {
+  background-color: #f2f7fc;
+  font-weight: bold;
+}
+
+.result-table tr:nth-child(even) {
+  background-color: #f9fcff;
+  font-size: 19px;
+}
+
 .game-finish-button {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 35px;
   font-weight: bold;
   color: #0077cc;
   cursor: pointer;
@@ -222,6 +299,10 @@
   margin-bottom: 20px;
 }
 
+.game-result-title {
+  font-size: 28px;
+}
+
 .game-answer-list {
   text-align: left;
   max-width: 600px;
@@ -239,21 +320,21 @@
 }
 
 .game-home-button {
-  position: absolute;
-  bottom: 30px;
-  right: 20px;
-  margin-top: 20px;
-  padding: 10px 24px;
+  position: static;
+  margin-top: 40px;
+  padding: 13px 34px;
   background-color: #0077cc;
   color: white;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .game-home-button:hover {
   background-color: #0056b3;
+  transform: scale(1.08);
 }
 
 .game-progress-bar {
@@ -390,6 +471,10 @@
   background-color: #007bff;
   color: white;
   font-weight: 600;
+}
+
+.choices button {
+  font-size: 19px;
 }
 
 .choices button:disabled {

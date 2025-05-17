@@ -18,6 +18,13 @@ const GamePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [videoSrc, setVideoSrc] = useState(null);
   const [error, setError] = useState(null);
+  const correctRate = Math.round(
+    (userAnswers.filter(
+      (ans, idx) => ans === gameData[idx].choices.find((c) => c.correct)?.text
+    ).length /
+      gameData.length) *
+      100
+  );
 
   useEffect(() => {
     const fetchGameData = async () => {
@@ -113,13 +120,17 @@ const GamePage = () => {
           ans === gameData[idx]?.choices.find((c) => c.correct)?.text
       ).length;
 
-      const totalScore = ((totalCorrect / gameData.length) * 100);
-      if (localStorage.getItem("gameAvgScore") === null) { localStorage.setItem("gameAvgScore", totalScore); }
-      const avgScore = (((totalCorrect / gameData.length) * 100) + parseInt(localStorage.getItem("gameAvgScore"))) / 2;
+      const totalScore = (totalCorrect / gameData.length) * 100;
+      if (localStorage.getItem("gameAvgScore") === null) {
+        localStorage.setItem("gameAvgScore", totalScore);
+      }
+      const avgScore =
+        ((totalCorrect / gameData.length) * 100 +
+          parseInt(localStorage.getItem("gameAvgScore"))) /
+        2;
       localStorage.setItem("gameTotalScore", totalScore.toString());
       localStorage.setItem("gameAvgScore", avgScore.toString());
-    }
-    else {
+    } else {
       setVideoSrc(null);
       setSelectedIndex((prev) => prev + 1);
     }
@@ -162,37 +173,62 @@ const GamePage = () => {
       ) : isFinished && showResult ? (
         <section className="game-section">
           <div className="game-result-screen">
-            <h2 className="game-result-title">결과</h2>
-            <p className="game-result-description">
-              총 점수:{" "}
-              {
-                userAnswers.filter(
-                  (ans, idx) =>
-                    ans === gameData[idx].choices.find((c) => c.correct)?.text
-                ).length * (100 / gameData.length)
-              }
-              /100점<br />
-            </p>
-            <ul className="game-answer-list">
-              {gameData.map((game, index) => {
-                const userAnswer = userAnswers[index];
-                const correctAnswer = game.choices.find((c) => c.correct)?.text;
-                const isCorrect = userAnswer === correctAnswer;
-                return (
-                  <li key={index} style={{ marginBottom: "1rem" }}>
-                    <strong>Q{index + 1}:</strong> {game.situation}
-                    <br />
-                    <strong>선택한 답:</strong> {userAnswer || "선택 안 함"}
-                    <br />
-                    <strong>정답:</strong> {correctAnswer}
-                    <br />
-                    <span style={{ color: isCorrect ? "green" : "red" }}>
-                      {isCorrect ? "정답" : "오답"}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
+            <h2 className="game-result-title">학습 결과 요약</h2>
+            <div className="result-top">
+              <div className="circle-chart">
+                <div
+                  className="circle-chart"
+                  style={{ "--percent": `${correctRate * 3.6}deg` }}
+                >
+                  <div className="circle-text">
+                    <p>정답률</p>
+                    <h3>{correctRate}%</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="score-text">
+                <p>
+                  총 점수:{" "}
+                  {userAnswers.filter(
+                    (ans, idx) =>
+                      ans === gameData[idx].choices.find((c) => c.correct)?.text
+                  ).length *
+                    (100 / gameData.length)}
+                  /100점
+                </p>
+              </div>
+            </div>
+
+            <table className="result-table">
+              <thead>
+                <tr>
+                  <th>문항</th>
+                  <th>내가 선택한 답</th>
+                  <th>정답</th>
+                  <th>결과</th>
+                </tr>
+              </thead>
+              <tbody>
+                {gameData.map((game, index) => {
+                  const userAnswer = userAnswers[index];
+                  const correctAnswer = game.choices.find(
+                    (c) => c.correct
+                  )?.text;
+                  const isCorrect = userAnswer === correctAnswer;
+
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{userAnswer || "선택 안 함"}</td>
+                      <td>{correctAnswer}</td>
+                      <td style={{ color: isCorrect ? "#1E90FF" : "#e74c3c" }}>
+                        {isCorrect ? "✔️" : "❌"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
             <button
               className="game-home-button"
               onClick={() => (window.location.href = "/main")}
@@ -248,13 +284,13 @@ const GamePage = () => {
                 })}
               </div>
             </div>
-              {userAnswers[selectedIndex] !== undefined  && (
-                <button className="next-button" onClick={handleNext}>
-                  {selectedIndex === gameData.length - 1
-                    ? "게임 종료"
-                    : "다음 문제 →"}
-                </button>
-              )}
+            {userAnswers[selectedIndex] !== undefined && (
+              <button className="next-button" onClick={handleNext}>
+                {selectedIndex === gameData.length - 1
+                  ? "게임 종료"
+                  : "다음 문제 →"}
+              </button>
+            )}
           </div>
           <ProgressBar
             currentStep={selectedIndex}
