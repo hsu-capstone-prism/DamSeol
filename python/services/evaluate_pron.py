@@ -14,6 +14,7 @@ client = OpenAI(api_key=openai_api_key)
 def evaluate_pronunciation(text_original, text_input):
     system_prompt = """
     당신은 청각장애인 발화자의 발음이 적절한지 평가하는 평가자입니다.
+    학습자의 발화를 평가할 때, 지나치게 엄격하기보다는 실질적인 의사소통 가능성과 학습자의 노력을 고려한 공정하고 온건한 기준을 적용하십시오.
     다음 절차에 따라 발음을 평가하십시오.
 
     1. 텍스트 변환
