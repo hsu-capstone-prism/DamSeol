@@ -5,7 +5,7 @@ import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
 import axios from "axios";
-import { Radar } from "react-chartjs-2";
+import { Radar, Doughnut } from "react-chartjs-2";
 
 import {
   Chart as ChartJS,
@@ -15,6 +15,7 @@ import {
   Filler,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
 
 ChartJS.register(
@@ -23,7 +24,8 @@ ChartJS.register(
   LineElement,
   Filler,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
 
 const getAuthToken = () => localStorage.getItem("authToken");
@@ -169,7 +171,7 @@ const SenStudyPage = () => {
       labels: ["정확도", "리듬", "피치"],
       datasets: [
         {
-          label: "평균 점수",
+          lcabel: "평균 점수",
           data: [
             finalChartData.avgCorrection,
             finalChartData.avgRhythm,
@@ -240,7 +242,7 @@ const SenStudyPage = () => {
 
         {showFinalResult ? (
           <div className="final-result">
-            <h2 style={{ textAlign: "center" }}>
+            <h2 style={{ textAlign: "center", marginTop: "10px" }}>
               {username}님의 문장 학습 결과
             </h2>
             <div className="final-result-grid">
@@ -250,7 +252,11 @@ const SenStudyPage = () => {
               </div>
               <div className="final-right">
                 <p className="final-title">학습 팁</p>
-                <p className="tip-content">{summaryTip}</p>
+                <div className="tip-content">
+                  {summaryTip.split("\n").map((line, index) => (
+                    <p key={index}>{line}</p>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="button-group" style={{ justifyContent: "center" }}>
@@ -295,6 +301,7 @@ const SenStudyPage = () => {
                   <div className="sen-corrections">
                     정확도: {uploadResultList[selectedIndex].correction}%
                   </div>
+
                   <div className="sen-result-bottom-container">
                     <div className="sen-button-group">
                       <button onClick={() => setShowWaveformPopup(true)}>
