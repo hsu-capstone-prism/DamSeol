@@ -61,11 +61,15 @@ const WordStudy = () => {
   }, [subcategoryId]);
 
   const handleUploadComplete = (data) => {
+    const x = data.score;
+    const adjustedScore = ((x / 100) + (1 - (x / 100)) * ((x / 100) ** 2)) * 100;
+
     setResultList((prev) => {
       const updated = [...prev];
-      updated[selectedIndex] = data;
+      updated[selectedIndex] = {...data, score: Number(adjustedScore.toFixed(1))};
       return updated;
     });
+
     setIsResultVisible(true);
   };
 
@@ -304,7 +308,7 @@ const WordStudy = () => {
                               : "최종 결과화면 보기"}
                           </button>
                         )}
-                        <p className="accuracy-label">정확도</p>
+                        <p className="accuracy-label">정확도:</p>
                         <p className="score">
                           {resultList[selectedIndex].score}%
                         </p>

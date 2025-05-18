@@ -2,7 +2,6 @@ import React from "react";
 import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/ClassPage.css";
-import { FaExternalLinkAlt } from "react-icons/fa";
 
 const phonTopics = [
   { name: "음절의 끝소리", key: "FinalSound" },

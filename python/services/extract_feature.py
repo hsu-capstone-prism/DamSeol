@@ -20,31 +20,43 @@ def extract_pitch_info(audio_path, sr=16000):
 
 
 
-def extract_speech_rate(audio_path, sr=16000, frame_length=0.05):
+def extract_speech_rate(audio_path, sr=16000, recognized_text=None):
     """
     음성 데이터에서 초당 발화 속도(Speech Rate)를 계산하는 함수.
 
     - y: 오디오 신호
     - sr: 샘플링 레이트
-    - frame_length: 분석할 시간 구간 (초 단위)
+    - recognized_text: 인식된 텍스트 (발화된 음절 수를 계산하기 위해 사용)
     """
     y, sr = librosa.load(audio_path, sr=sr)
+    duration = librosa.get_duration(y=y, sr=sr)
 
-    # 온셋(발음 시작 지점) 감지
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr)
+    syllable_count = len(recognized_text) if recognized_text else 0  # 발화된 음절 수
 
-    # frame_length 단위로 나누기
-    hop_length = int(librosa.time_to_frames(frame_length, sr=sr))
-    frames = range(0, len(onset_env), hop_length)
-    times = librosa.frames_to_time(frames, sr=sr)
+    speech_rate = syllable_count / duration if duration > 0 else 0  # 초당 발화 속도 계산
 
-    speech_rates = []
-    for i in range(len(frames) - 1):
-        start, end = frames[i], frames[i+1]
-        onset_count = np.sum(onset_env[start:end] > np.mean(onset_env))  # 강한 온셋만 카운트
-        speech_rates.append((times[i], onset_count / frame_length))  # 초당 음절 수 계산
+        # 4. 라벨 분류
+    if speech_rate < 3:
+        rate_label = "느림"
+    elif 3 <= speech_rate <= 6:
+        rate_label = "적절"
+    else:
+        rate_label = "빠름"
 
-    return speech_rates  # [(time, speech_rate), ...]
+    # 5. LLM 입력용 summary
+    summary = (
+        f"발화 시간은 총 {round(duration, 2)}초이고, "
+        f"음절 수는 {syllable_count}개입니다. "
+        f"초당 발화 속도는 약 {round(speech_rate, 2)} 음절/초로 분류 기준에 따라 '{rate_label}'에 해당합니다."
+    )
+
+    return {
+        "duration_sec": round(duration, 2),
+        "syllable_count": syllable_count,
+        "speech_rate": round(speech_rate, 2),
+        "rate_label": rate_label,
+        "summary": summary
+    }
 
 
 

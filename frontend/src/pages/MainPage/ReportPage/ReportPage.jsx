@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Radar, Line } from "react-chartjs-2";
+import { Radar, Line, Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -10,6 +10,7 @@ import {
   Legend,
   CategoryScale,
   LinearScale,
+  ArcElement,
 } from "chart.js";
 import axios from "axios";
 import "../../../styles/ReportPage.css";
@@ -18,6 +19,7 @@ ChartJS.register(
   RadialLinearScale,
   LineElement,
   PointElement,
+  ArcElement,
   Filler,
   Tooltip,
   Legend,
@@ -86,7 +88,7 @@ const ReportPage = () => {
           (a, b) => b.weekOffset - a.weekOffset
         );
 
-        const weekLabels = ["이번주", "1주전", "2주전", "3주전"];
+        const weekLabels = ["이번 주", "1주 전", "2주 전", "3주 전"];
         const labels = sorted.map(
           (r) => weekLabels[r.weekOffset] || `${r.weekOffset}주전`
         );
@@ -103,6 +105,7 @@ const ReportPage = () => {
               data: accuracy,
               borderColor: "#0056b3",
               backgroundColor: "rgba(0, 86, 179, 0.2)",
+              borderWidth: 1,
               fill: false,
             },
             {
@@ -110,6 +113,7 @@ const ReportPage = () => {
               data: pitch,
               borderColor: "#ff8c00",
               backgroundColor: "rgba(255, 140, 0, 0.2)",
+              borderWidth: 1,
               fill: false,
             },
             {
@@ -117,6 +121,7 @@ const ReportPage = () => {
               data: rhythm,
               borderColor: "#008000",
               backgroundColor: "rgba(0, 128, 0, 0.2)",
+              borderWidth: 1,
               fill: false,
             },
           ],
@@ -192,7 +197,7 @@ const ReportPage = () => {
         ],
         backgroundColor: "rgba(0, 86, 179, 0.2)",
         borderColor: "#0056b3",
-        borderWidth: 2,
+        borderWidth: 1,
       },
     ],
   };
@@ -210,6 +215,11 @@ const ReportPage = () => {
         pointLabels: {
           font: { size: 14 },
         },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
       },
     },
   };
@@ -242,12 +252,12 @@ const ReportPage = () => {
 
   return (
     <div className="report-container">
-      <h1 className="report-section-title">Report</h1>
+      <h1 className="report-title">Report</h1>
 
       {/* 주차별 정확도 추이 */}
-      <section className="report-learning-section">
+      <section className="report-learning-section chart-section">
         <h2>주차별 정확도 추이</h2>
-        <div className="chart-container" style={{ height: "350px" }}>
+        <div className="chart-container">
           {weeklyChartData ? (
             <Line
               data={weeklyChartData}
@@ -262,10 +272,7 @@ const ReportPage = () => {
                       font: { size: 14 },
                     },
                     grid: {
-                      color: "#eee",
-                      display: true,
-                      drawBorder: false,
-                      tickLength: 0,
+                      display: false,
                     },
                   },
                   y: {
@@ -276,16 +283,15 @@ const ReportPage = () => {
                       font: { size: 14 },
                     },
                     grid: {
-                      color: "#ddd",
+                      color: "#eee",
                     },
                   },
                 },
                 plugins: {
                   legend: {
+                    display: true,
                     position: "top",
-                    labels: {
-                      font: { size: 14 },
-                    },
+                    align: "end",
                   },
                 },
                 elements: {
@@ -294,12 +300,11 @@ const ReportPage = () => {
                     borderWidth: 2,
                   },
                   point: {
-                    radius: 3,
-                    horverRadius: 5,
+                    pointStyle: false,
                   },
                 },
               }}
-              height={300}
+              height={400}
             />
           ) : (
             <p>주차별 데이터를 불러오는 중..</p>
@@ -309,20 +314,58 @@ const ReportPage = () => {
 
       {/* Radar + 피드백 */}
       <section className="report-learning-section feedback-section">
-        <div style={{ margin: "0 auto", textAlign: "center" }}>
+        <div className="radar-chart-container">
           {radarChartData && (
             <Radar
               data={radarChartData}
               options={radarChartOptions}
-              width={300}
-              height={300}
+              width={400}
+              height={400}
             />
           )}
         </div>
 
         <div className="feedback-box">
           <p>
-            <strong>발음 정확도 평균</strong> {scoreData.accuracy.toFixed(1)}%
+            <strong>발음 정확도 평균</strong>
+            {scoreData ? (
+              <div className="feedback-doughnut-wrapper">
+                <Doughnut
+                  className="feedback-doughnut"
+                  data={{
+                    labels: ["정확도", "오차"],
+                    datasets: [
+                      {
+                        data: [
+                          scoreData.accuracy.toFixed(1),
+                          100 - scoreData.accuracy.toFixed(1),
+                        ],
+                        backgroundColor: ["#0056b3", "#eee"],
+                      },
+                    ],
+                  }}
+                  options={{
+                    cutout: "70%",
+                    responsive: true,
+                    //borderRadius: 10,
+
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                      tooltip: {
+                        enabled: false,
+                      },
+                    },
+                  }}
+                />
+                <div className="feedback-doughnut-text">
+                  {scoreData.accuracy.toFixed(1)}%
+                </div>
+              </div>
+            ) : (
+              "-"
+            )}
           </p>
           <p>
             <strong>정확도</strong> {getAccuracyFeedback(scoreData.accuracy)}
@@ -344,14 +387,14 @@ const ReportPage = () => {
           <div className="recent-left-section">
             <h3>학습 진도</h3>
             <p>
-              이번 주에 학습한 단어
+              <span>이번 주에 학습한 단어</span>
               <br />
               <strong>
                 {wordCount !== null ? `${wordCount} 단어` : "불러오는 중..."}
               </strong>
             </p>
             <p>
-              이번 주에 학습한 문장
+              <span>이번 주에 학습한 문장</span>
               <br />
               <strong>
                 {sentenceCount !== null
@@ -360,7 +403,7 @@ const ReportPage = () => {
               </strong>
             </p>
             <p>
-              개선이 필요한 발음
+              <span>개선이 필요한 발음</span>
               <br />
               <strong>
                 {wrongPhons.length > 0
@@ -374,17 +417,14 @@ const ReportPage = () => {
           <div className="recent-right-section">
             <h3>게임 결과</h3>
             <p>
-              최근 게임 총 점수
+              <span>최근 게임 점수</span>
               <br />
-              <strong>
-                {localStorage.getItem("gameTotalScore") || "0"}
-              </strong>{" "}
-              점
+              <strong>{localStorage.getItem("gameTotalScore") || "0"}점</strong>
             </p>
             <p>
-              최근 게임 평균 점수
+              <span>최근 게임 평균 점수</span>
               <br />
-              <strong>{localStorage.getItem("gameAvgScore") || "0"}/100점</strong>
+              <strong>{localStorage.getItem("gameAvgScore") || "0"}점</strong>
             </p>
           </div>
         </div>

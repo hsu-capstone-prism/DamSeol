@@ -13,11 +13,7 @@ public class KoreanPronunciationUtils {
     private static final String JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
     private static final String JONG = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
 
-    /**
-     * 한글 음절을 초성, 중성, 종성으로 분해하는 메서드
-     * @param ch 한글 문자
-     * @return 초성, 중성, 종성 배열 (종성이 없는 경우 빈 문자열 반환)
-     */
+    // 한글 음절을 초성, 중성, 종성으로 분해하는 메서드
     public static String[] decomposeKorean(char ch) {
         if (ch < '\uAC00' || ch > '\uD7A3') return new String[]{String.valueOf(ch)};
 
@@ -60,7 +56,6 @@ public class KoreanPronunciationUtils {
 
     public static List<String> checkPronunciation(String correct, String userInput) {
         List<String> list = new ArrayList<>();
-
         int correctIndex = 0, userIndex = 0;
 
         while (userIndex < userInput.length() && correctIndex < correct.length()) {
@@ -78,18 +73,12 @@ public class KoreanPronunciationUtils {
             String[] correctPhons = decomposeKorean(correctChar);
             String[] userPhons = decomposeKorean(userChar);
 
-            // for (int j = 0; j < Math.max(correctPhons.length, userPhons.length); j++) {
             for (int j = 0; j < correctPhons.length; j++) {
-//                String correctPhon = j < correctPhons.length ? correctPhons[j] : "";
-//                String userPhon = j < userPhons.length ? userPhons[j] : "";
-
                 String correctPhon = correctPhons[j];
                 String userPhon = userPhons[j];
 
-                if (!correctPhon.equals(userPhon)) {
+                if (!correctPhon.equals(userPhon) && !list.contains(correctPhon))
                     list.add(correctPhon);
-                    System.out.println("잘못 발음한 부분: '" + correctChar + "'에서 '" + correctPhon + "' 대신 '" + userPhon + "' 발음함");
-                }
             }
             correctIndex++;
             userIndex++;
