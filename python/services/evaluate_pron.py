@@ -80,6 +80,7 @@ def evaluate_pronunciation(text_original, text_input):
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=messages,
+        temperature=0.5,
     )
 
     response_message = response.choices[0].message.content
