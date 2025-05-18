@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   FaUser,
   FaCog,
-  FaDownload,
   FaSignOutAlt,
   FaChevronRight,
   FaChevronDown,
@@ -45,29 +44,27 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   };
 
   const navMenu = [
-    { icon: 'home', text: "Home", path: "/main" },
+    { icon: "home", text: "Home", path: "/main" },
     {
-      icon: 'school',
+      icon: "school",
       text: "Class",
       subMenu: [
         {
-          icon: 'chevron_right',
+          icon: "chevron_right",
           text: "Word",
           path: "/word",
           activePath: ["/phon", "/alter", "/add"],
         },
-        { icon: 'chevron_right', text: "Sentence", path: "/sentence" },
-        { icon: 'chevron_right', text: "Grammar", path: "/grammer" },
+        { icon: "chevron_right", text: "Sentence", path: "/sentence" },
+        { icon: "chevron_right", text: "Grammar", path: "/grammer" },
       ],
     },
-    { icon: 'monitoring', text: "Report", path: "/report" },
-    { icon: 'sports_esports', text: "Game", path: "/game" },
+    { icon: "monitoring", text: "Report", path: "/report" },
+    { icon: "sports_esports", text: "Game", path: "/game" },
   ];
 
   const profileMenu = [
-    { icon: <FaUser />, text: "내 프로필", path: "/profile" },
     { icon: <FaCog />, text: "환경설정", path: "/settings" },
-    { icon: <FaDownload />, text: "PC 앱 다운로드", path: "/download" },
     { icon: <FaSignOutAlt />, text: "로그아웃", path: "/logout" },
   ];
 
@@ -92,10 +89,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                     : handleNavigate(menu.path)
                 }
               >
-                <div
-                  className="menu-item"
-
-                >
+                <div className="menu-item">
                   <span className="material-symbols-outlined">{menu.icon}</span>
                   <span className="header-nav-menu-text">{menu.text}</span>
                   {menu.subMenu && (
@@ -141,7 +135,9 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
                         >
                           {isMenuOpen ? (
                             <>
-                              <span className="material-symbols-outlined">{subItem.icon}</span>
+                              <span className="material-symbols-outlined">
+                                {subItem.icon}
+                              </span>
                               <span className="header-nav-menu-text">
                                 {subItem.text}
                               </span>

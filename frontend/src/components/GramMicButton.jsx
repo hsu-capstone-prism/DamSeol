@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaMicrophone, FaStop } from "react-icons/fa";
 import "../styles/StudyPage.css";
 
-const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
+const GramMicButton = ({ selectedIndex, grammars, onUploadComplete }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [statusList, setStatusList] = useState([]);
@@ -10,10 +10,10 @@ const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
   const audioChunksRef = useRef([]);
 
   useEffect(() => {
-    if (sentences.length > 0) {
-      setStatusList(new Array(sentences.length).fill("버튼을 눌러서 녹음하기"));
+    if (grammars.length > 0) {
+      setStatusList(new Array(grammars.length).fill("버튼을 눌러서 녹음하기"));
     }
-  }, [sentences]);
+  }, [grammars]);
 
   const updateStatus = (index, message) => {
     setStatusList((prev) => {
@@ -71,7 +71,7 @@ const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
   };
 
   const uploadAudio = async (audioBlob) => {
-    const sentence = sentences[selectedIndex];
+    const sentence = grammars[selectedIndex];
 
     if (!sentence || !sentence.id || isNaN(sentence.id)) {
       console.error(" 유효하지 않은 sentence 객체 또는 ID:", sentence);
@@ -185,7 +185,7 @@ const GramMicButton = ({ selectedIndex, sentences, onUploadComplete }) => {
   return (
     <div className="mic-button-container">
       <button
-        className={`mic-button ${isRecording ? 'recording' : ''}`}
+        className={`mic-button ${isRecording ? "recording" : ""}`}
         onClick={isRecording ? stopRecording : startRecording}
         disabled={isUploading}
       >

@@ -388,6 +388,74 @@
   background-color: rgba(0, 123, 255, 0.9);
 }
 
+/* Grammar Study specific styles */
+.gram-study .gram-result {
+  transition: min-height 0.3s ease-in-out;
+  min-height: 0px;
+}
+
+.gram-study .gram-details {
+  font-size: 24px;
+  font-weight: bold;
+  color: #525151;
+  text-align: center;
+  white-space: pre-wrap;
+  margin: 40px auto 0px auto;
+  line-height: 1.8;
+  word-break: keep-all;
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
+}
+
+.gram-study .gram-corrections {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0c69cd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+}
+
+.gram-study .gram-result-bottom-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.gram-study .gram-button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 50px;
+}
+
+.gram-study .gram-button-group button {
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  min-width: 160px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.gram-study .gram-button-group button:hover {
+  background-color: rgba(0, 123, 255, 0.9);
+}
+
 /* Final Result styles */
 .final-result {
   width: 100%;
