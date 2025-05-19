@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/LandingPage.css";
 import reportVideo from "../../assets/videos/report.mp4";
 import scoreVideo from "../../assets/videos/score.mp4";
+import gameVideo from "../../assets/videos/game.mp4";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -69,8 +70,7 @@ const LandingPage = () => {
 
       {isModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-content">
-            {/* X 버튼을 제목과 같은 줄에 배치 */}
+          <div className="modal-content upgraded-modal">
             <div className="modal-header">
               <h2>담설(談說)이란?</h2>
               <button
@@ -80,18 +80,33 @@ const LandingPage = () => {
                 &times;
               </button>
             </div>
-            <p>
-              <strong>“담설(談說)”</strong>은 ‘말을 주고받으며 소통한다’는
-              의미를 담고 있습니다. <br />
-              청각장애인들이 언어를 보다 쉽게 학습하고, <br />
-              원활한 소통을 할 수 있도록 지원하는 플랫폼입니다.
-            </p>
+            <div className="modal-body">
+              <p>
+                <strong>“담설(談說)”</strong>은{" "}
+                <strong>‘서로의 말을 나누며 진심을 전하는 것’</strong>을
+                뜻합니다.
+              </p>
+              <p>
+                우리는 소리 없이도 마음을 전할 수 있다는 믿음으로,
+                <br />
+                청각장애인의 언어 학습을 <strong>
+                  더 쉽고, 더 깊이 있게
+                </strong>{" "}
+                돕고자 합니다.
+              </p>
+              <p>
+                말의 벽을 허물고, 세상과의 소통을 이어주는{" "}
+                <strong>연결의 시작점</strong>
+                <br />
+                그것이 바로 <strong>담설</strong>이 추구하는 가치입니다.
+              </p>
+            </div>
           </div>
         </div>
       )}
 
       {/* 배경 및 필요성 - 첫 번째 카드 위에 위치 */}
-      <div className="section-title">어떤 서비스 인가요?</div>
+      <div className="service-section-title">어떤 서비스 인가요?</div>
 
       <div className="section-container">
         {/* Section 1 */}
@@ -209,7 +224,19 @@ const LandingPage = () => {
             <h2>게임형 콘텐츠</h2>
             <p>퀴즈와 퍼즐을 통해 학습한 내용을 재미있게 복습할 수 있습니다.</p>
           </div>
-          <div className="feature-placeholder">이미지 자리</div>
+          <div className="feature-placeholder">
+            {" "}
+            <video
+              src={gameVideo}
+              width="100%"
+              height="102%"
+              muted
+              autoPlay
+              loop
+              playsInline
+              style={{ borderRadius: "10px", objectFit: "cover" }}
+            />
+          </div>
         </div>
       </div>
     </div>
