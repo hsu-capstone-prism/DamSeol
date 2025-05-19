@@ -44,7 +44,6 @@ const WordPage = () => {
                 open_in_new
               </span>
             </div>
-
             <div className="box" onClick={() => navigate("/phon/consonant")}>
               <span class="material-symbols-outlined box-icon">more_horiz</span>
               자음{" "}

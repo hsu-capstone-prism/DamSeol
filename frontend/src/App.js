@@ -7,11 +7,11 @@ import Header from "./components/Header";
 import MainPage from "./pages/MainPage/MainPage";
 import WordPage from "./pages/MainPage/ClassPage/WordPage";
 import SentencePage from "./pages/MainPage/ClassPage/SentencePage";
-import GrammerPage from "./pages/MainPage/ClassPage/GrammerPage";
+import GrammarPage from "./pages/MainPage/ClassPage/GrammarPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
-import ProfilePage from "./pages/MainPage/ProfilePage";
 import GamePage from "./pages/MainPage/GamePage/GamePage";
+import IntroducePage from "./pages/MainPage/IntroducePage";
 
 //WordPage
 import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage";
@@ -25,7 +25,7 @@ import AddPage from "./pages/MainPage/ClassPage/WordPage/AddPage/AddPage";
 import SenStudyPage from "./pages/MainPage/ClassPage/SentencePage/SenStudyPage";
 
 //GrammerPage
-import GramStudyPage from "./pages/MainPage/ClassPage/GrammerPage/GramStudyPage";
+import GramStudyPage from "./pages/MainPage/ClassPage/GrammarPage/GramStudyPage";
 
 function AppContent() {
   const location = useLocation();
@@ -40,8 +40,8 @@ function AppContent() {
     { path: "/logout", element: <Logout /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
+    { path: "/introduce", element: <IntroducePage /> },
     { path: "/report", element: <ReportPage /> },
-    { path: "/profile", element: <ProfilePage /> },
     { path: "/game", element: <GamePage /> },
 
     //word
@@ -73,9 +73,9 @@ function AppContent() {
       element: <SenStudyPage />,
     },
 
-    //grammer
-    { path: "/grammer", element: <GrammerPage /> },
-    { path: "/grammer/study/:subcategoryId", element: <GramStudyPage /> },
+    //grammar
+    { path: "/grammar", element: <GrammarPage /> },
+    { path: "/grammar/study/:subcategoryId", element: <GramStudyPage /> },
   ];
 
   return (
@@ -95,7 +95,10 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+      />
       <AppContent />
     </BrowserRouter>
   );

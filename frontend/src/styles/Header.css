@@ -119,7 +119,7 @@
 
 .profile-menu {
   position: absolute;
-  bottom: 0px;
+  bottom: 20px;
   left: calc(100% + 10px);
   width: 150px;
   background: white;
