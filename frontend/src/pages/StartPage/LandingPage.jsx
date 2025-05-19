@@ -91,8 +91,7 @@ const LandingPage = () => {
       )}
 
       {/* 배경 및 필요성 - 첫 번째 카드 위에 위치 */}
-      <div className="section-title">어떤 서비스 인가요?</div>
-
+      <div className="service-section-title">어떤 서비스 인가요?</div>
       <div className="section-container">
         {/* Section 1 */}
         <div
