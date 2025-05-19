@@ -64,7 +64,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
   ];
 
   const profileMenu = [
-    { icon: <FaCog />, text: "환경설정", path: "/settings" },
+    { icon: <FaCog />, text: "소개 및 이용 약관", path: "/introduce" },
     { icon: <FaSignOutAlt />, text: "로그아웃", path: "/logout" },
   ];
 

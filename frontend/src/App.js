@@ -11,6 +11,7 @@ import GrammarPage from "./pages/MainPage/ClassPage/GrammarPage";
 import SignupPage from "./pages/StartPage/SignupPage";
 import ReportPage from "./pages/MainPage/ReportPage/ReportPage";
 import GamePage from "./pages/MainPage/GamePage/GamePage";
+import IntroducePage from "./pages/MainPage/IntroducePage";
 
 //WordPage
 import ConsonantPage from "./pages/MainPage/ClassPage/WordPage/PhonPage/ConsonantPage";
@@ -39,6 +40,7 @@ function AppContent() {
     { path: "/logout", element: <Logout /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "/main", element: <MainPage /> },
+    { path: "/introduce", element: <IntroducePage /> },
     { path: "/report", element: <ReportPage /> },
     { path: "/game", element: <GamePage /> },
 

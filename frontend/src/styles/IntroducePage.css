@@ -1,0 +1,74 @@
+.introduce-page {
+  margin-top: 2rem;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-bottom: 100px;
+  padding: 20px;
+  height: auto;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+  line-height: 1.75;
+  color: #222;
+}
+
+.introduce-page h1 {
+  font-size: 2.3rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.7rem;
+  color: #222;
+}
+
+.intro-section,
+.terms-section {
+  background-color: #fafafa;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.5rem;
+}
+
+.introduce-page h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #007bff;
+  padding-left: 12px;
+  color: #333;
+}
+
+.introduce-page h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.introduce-page ul {
+  list-style: disc;
+  margin-left: 1.8rem;
+  font-size: 1.05rem;
+}
+
+.introduce-page li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.introduce-page ol {
+  margin-left: 1.8rem;
+  font-size: 1.05rem;
+  color: #444;
+}
+
+.introduce-page ol li {
+  margin-bottom: 0.6rem;
+  line-height: 1.7;
+}
+
+.introduce-page p {
+  margin-bottom: 1rem;
+  color: #444;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
