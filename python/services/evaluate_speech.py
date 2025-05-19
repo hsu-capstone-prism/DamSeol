@@ -35,6 +35,14 @@ def get_audio_pitch_eval(audio, text, situation=None):
 
   3. 문맥 적절성: 문장의 분위기에 비해 피치가 너무 단조롭거나 과도하게 변화하면 부자연스럽다고 판단  
 
+- 평가 수정사항
+  - 발화가 다소 단조로워도록도, 청자가 드기에 자연시달고 문남상 여기운다면 **긍정적으로 평가할 수 있습니다.**
+  - 너무 엄격하게 판단하지 마세요. **학생자의 의사소통 가능성과 발화 흐름**을 원선 고보하세요.
+  - 발화가 대체로 자연시되면 4점 이상, 명확하고 안정적이면 5점을 주어도 좋습니다.
+
+  - 평가 점수가 "5/5점"인 경우에는 **조건 없는 강화된 긍정적 이유**만 제시하시오.  
+    예: "피치 변화가 자연시고 드기 편했어요 😊", "문장의 흐름에 맞게 피치가 안정적으로 변화했어요 👍"
+    
   - 음성을 평가할 때에는 오직 음정(pitch)에 대한 정보만 반영하십시오.
   - 일반인이 들었을 때 어색한 정도를 객관적인 관점에서 평가하십시오.
   - 평가 대상이 청각장애인임을 고려하여 평가를 진행하십시오.
@@ -98,8 +106,6 @@ def get_audio_pitch_eval(audio, text, situation=None):
 
   return response_json
 
-
-
 def get_audio_rhythm_eval(audio_file, text, situation=None):
   #audio_speech_pause_ratio = extract_speech_pause_ratio(audio_file)
   audio_spr_eval = get_spr_eval(audio_file, text)
@@ -133,6 +139,9 @@ def get_audio_rhythm_eval(audio_file, text, situation=None):
   - 제공된 데이터를 기반으로 논리적이고 일관성 있게 평가하십시오.
   - 일반인이 이해할 수 있도록 간단하고 명료한 표현을 사용하십시오. "발화 중단 비율"과 같은 전문 용어는 사용하지 마십시오.
     (예: "발화 속도가 빠른 편이에요", "발화가 중간에 끊겨요" 등)
+
+  - 📌 평가 점수가 "5/5점"인 경우, 조건 없이 긍정적인 이유만 제시하십시오.  
+    예: "발화가 자연스럽고 듣기 편했어요 😊", "발화가 안정적이고 끊김 없이 잘 이어졌어요 👍"
 
   📌 답변 형식 (JSON, RFC8259 준수)
   (출력에 백틱이나 큰따옴표 생략 금지)
@@ -250,6 +259,6 @@ def get_spr_eval(audio, text):
   )
   response_message = response.choices[0].message.content
 
-  print("사용자 Speech Pause Ratio 평가 ——")
+  print("사용자 Speech Pause Ratio 평가 ----")
   print(response_message)
   return response_message
