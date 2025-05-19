@@ -3,7 +3,7 @@ import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/ClassPage.css";
 
-const GrammerPage = () => {
+const GrammarPage = () => {
   const navigate = useNavigate();
 
   // 문법 서브카테고리 id와 이름 매핑
@@ -17,7 +17,7 @@ const GrammerPage = () => {
   ];
 
   const handleClick = (subcategoryId, symbol) => {
-    navigate(`/grammer/study/${subcategoryId}`, { state: { symbol } });
+    navigate(`/grammar/study/${subcategoryId}`, { state: { symbol } });
   };
 
   return (
@@ -32,7 +32,10 @@ const GrammerPage = () => {
                 className="box"
                 onClick={() => handleClick(cat.id, cat.symbol)}
               >
-                <span class="material-symbols-outlined box-icon">spellcheck</span>{cat.name}
+                <span class="material-symbols-outlined box-icon">
+                  spellcheck
+                </span>
+                {cat.name}
               </div>
             ))}
           </div>
@@ -42,4 +45,4 @@ const GrammerPage = () => {
   );
 };
 
-export default GrammerPage;
+export default GrammarPage;

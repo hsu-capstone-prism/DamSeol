@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../Layout";
 import { useParams, useLocation } from "react-router-dom";
 import "../../../../styles/StudyPage.css";
-import MicButton from "../../../../components/SenMicButton";
-import ProgressBar from "../../../../components/SenProgressBar";
+import MicButton from "../../../../components/GramMicButton";
+import ProgressBar from "../../../../components/GramProgressBar";
 import axios from "axios";
 import { Radar } from "react-chartjs-2";
 
@@ -36,9 +36,9 @@ const getRandomSentences = (arr, count) => {
   return shuffled.slice(0, count);
 };
 
-const SenStudyPage = () => {
+const GramStudyPage = () => {
   const { subcategoryId } = useParams();
-  const [sentences, setSentences] = useState([]);
+  const [grammars, setGrammars] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -77,13 +77,13 @@ const SenStudyPage = () => {
           setError("해당 서브카테고리에 대한 문장이 없습니다.");
         } else {
           const randomSentences = getRandomSentences(data, 5);
-          setSentences(randomSentences);
+          setGrammars(randomSentences);
           setSelectedIndex(0);
           setUploadResultList(new Array(randomSentences.length).fill(null));
         }
       } catch (err) {
         console.error("Error fetching sentences:", err);
-        setError("문장 데이터를 불러오는 중 오류가 발생했습니다.");
+        setError("문법 데이터를 불러오는 중 오류가 발생했습니다.");
       } finally {
         setLoading(false);
       }
@@ -235,15 +235,15 @@ const SenStudyPage = () => {
 
   return (
     <Layout>
-      <div className="study-page sen-study">
+      <div className="study-page gram-study">
         <nav className="breadcrumb">
-          <span>문장 학습</span> ➝ <span className="highlight">{symbol}</span>
+          <span>문법 학습</span> ➝ <span className="highlight">{symbol}</span>
         </nav>
 
         {showFinalResult ? (
           <div className="final-result">
             <h2 style={{ textAlign: "center", marginTop: "10px" }}>
-              {username}님의 문장 학습 결과
+              {username}님의 문법 학습 결과
             </h2>
             <div className="final-result-grid">
               <div className="final-left">
@@ -283,27 +283,25 @@ const SenStudyPage = () => {
         ) : (
           <>
             <section className="display-container">
-              {sentences.length > 0 ? (
-                <h1 className="content-text">
-                  {sentences[selectedIndex].text}
-                </h1>
+              {grammars.length > 0 ? (
+                <h1 className="content-text">{grammars[selectedIndex].text}</h1>
               ) : (
                 <p>해당하는 문장이 없습니다.</p>
               )}
 
               {isResultVisible && uploadResultList[selectedIndex] ? (
-                <div className="sen-result">
+                <div className="gram-result">
                   {uploadResultList[selectedIndex].analysis && (
-                    <p className="sen-details">
+                    <p className="gram-details">
                       {uploadResultList[selectedIndex].analysis}
                     </p>
                   )}
-                  <div className="sen-corrections">
+                  <div className="gram-corrections">
                     정확도: {uploadResultList[selectedIndex].correction}%
                   </div>
 
-                  <div className="sen-result-bottom-container">
-                    <div className="sen-button-group">
+                  <div className="gram-result-bottom-container">
+                    <div className="gram-button-group">
                       <button onClick={() => setShowWaveformPopup(true)}>
                         Waveform
                       </button>
@@ -334,14 +332,14 @@ const SenStudyPage = () => {
             {!isResultVisible && (
               <MicButton
                 selectedIndex={selectedIndex}
-                sentences={sentences}
+                grammars={grammars}
                 onUploadComplete={handleUploadComplete}
               />
             )}
 
             <ProgressBar
               currentStep={selectedIndex}
-              totalSteps={sentences.length}
+              totalSteps={grammars.length}
               onStepClick={(index) => {
                 setSelectedIndex(index);
                 setIsResultVisible(false);
@@ -384,4 +382,4 @@ const SenStudyPage = () => {
   );
 };
 
-export default SenStudyPage;
+export default GramStudyPage;

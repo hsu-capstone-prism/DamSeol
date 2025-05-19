@@ -200,7 +200,6 @@ const ReportPage = () => {
         borderWidth: 1,
       },
     ],
-
   };
 
   const radarChartOptions = {
@@ -293,7 +292,6 @@ const ReportPage = () => {
                     display: true,
                     position: "top",
                     align: "end",
-              
                   },
                 },
                 elements: {
@@ -330,42 +328,44 @@ const ReportPage = () => {
         <div className="feedback-box">
           <p>
             <strong>발음 정확도 평균</strong>
-            {scoreData ? 
-            <div className="feedback-doughnut-wrapper">
-              <Doughnut
-              className="feedback-doughnut"
-              data={{
-                labels: ["정확도", "오차"],
-                datasets: [
-                  {
-                    data: [
-                      scoreData.accuracy.toFixed(1),
-                      (100 - scoreData.accuracy.toFixed(1)),
+            {scoreData ? (
+              <div className="feedback-doughnut-wrapper">
+                <Doughnut
+                  className="feedback-doughnut"
+                  data={{
+                    labels: ["정확도", "오차"],
+                    datasets: [
+                      {
+                        data: [
+                          scoreData.accuracy.toFixed(1),
+                          100 - scoreData.accuracy.toFixed(1),
+                        ],
+                        backgroundColor: ["#0056b3", "#eee"],
+                      },
                     ],
-                    backgroundColor: ["#0056b3", "#eee"],
-                  },
-                ],
-              }}
-              options={{
-                cutout: "70%",
-                responsive: true,
-                //borderRadius: 10,
+                  }}
+                  options={{
+                    cutout: "70%",
+                    responsive: true,
+                    //borderRadius: 10,
 
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                  tooltip: {
-                    enabled: false,
-                  },
-                },
-              }}
-            />
-            <div className="feedback-doughnut-text">{scoreData.accuracy.toFixed(1)}%</div>
-          </div>
-          : "-"
-          }
-            
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                      tooltip: {
+                        enabled: false,
+                      },
+                    },
+                  }}
+                />
+                <div className="feedback-doughnut-text">
+                  {scoreData.accuracy.toFixed(1)}%
+                </div>
+              </div>
+            ) : (
+              "-"
+            )}
           </p>
           <p>
             <strong>정확도</strong> {getAccuracyFeedback(scoreData.accuracy)}
@@ -387,14 +387,14 @@ const ReportPage = () => {
           <div className="recent-left-section">
             <h3>학습 진도</h3>
             <p>
-              <span >이번 주에 학습한 단어</span>
+              <span>이번 주에 학습한 단어</span>
               <br />
               <strong>
                 {wordCount !== null ? `${wordCount} 단어` : "불러오는 중..."}
               </strong>
             </p>
             <p>
-            <span>이번 주에 학습한 문장</span>
+              <span>이번 주에 학습한 문장</span>
               <br />
               <strong>
                 {sentenceCount !== null
@@ -403,7 +403,7 @@ const ReportPage = () => {
               </strong>
             </p>
             <p>
-            <span>개선이 필요한 발음</span>
+              <span>개선이 필요한 발음</span>
               <br />
               <strong>
                 {wrongPhons.length > 0
@@ -417,18 +417,14 @@ const ReportPage = () => {
           <div className="recent-right-section">
             <h3>게임 결과</h3>
             <p>
-            <span>최근 게임 점수</span>
+              <span>최근 게임 점수</span>
               <br />
-              <strong>
-                {localStorage.getItem("gameTotalScore") || "0"}점
-              </strong>
+              <strong>{localStorage.getItem("gameTotalScore") || "0"}점</strong>
             </p>
             <p>
-            <span>최근 게임 평균 점수</span>
+              <span>최근 게임 평균 점수</span>
               <br />
-              <strong>
-                {localStorage.getItem("gameAvgScore") || "0"}점
-              </strong>
+              <strong>{localStorage.getItem("gameAvgScore") || "0"}점</strong>
             </p>
           </div>
         </div>
