@@ -136,8 +136,7 @@ FrontEnd
 ─ Router: React Router DOM 7.1.5
 ─ HTTP 통신: Axios
 ─ 차트 시각화: Chart.js + react-chartjs-2
-─ 애니메이션: Framer Motion
-─ 아이콘: React Icons
+─ 아이콘: React Icons, Material Symbols & Icons
 ─ 테스트
   ─ Testing Library (React, DOM, UserEvent, Jest DOM)
 ─ 환경 설정
