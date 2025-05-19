@@ -56,7 +56,7 @@ const Header = ({ isMenuOpen, setIsMenuOpen }) => {
           activePath: ["/phon", "/alter", "/add"],
         },
         { icon: "chevron_right", text: "Sentence", path: "/sentence" },
-        { icon: "chevron_right", text: "Grammar", path: "/grammer" },
+        { icon: "chevron_right", text: "Grammar", path: "/grammar" },
       ],
     },
     { icon: "monitoring", text: "Report", path: "/report" },

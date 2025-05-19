@@ -13,7 +13,7 @@ api_blueprint = Blueprint('api', __name__)
 @api_blueprint.route('/upload-audio', methods=['POST'])
 def upload_audio():
     if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
+        return jsonify({"status": "error", "error": "No file part"}), 400
     
     
     mode = request.form.get('mode', None)
@@ -39,6 +39,13 @@ def upload_audio():
 
     #file_bytes = file.read()
     user_pronun = get_pronun(file_path)
+
+    if user_pronun == "Get Pronunciation Error":
+        return jsonify({
+            "status": "error",
+            "error": "Get Pronunciation Error"
+            }), 503
+
     if mode == 'word':
         user_pronun = user_pronun.replace('.', '')
         user_pronun = user_pronun.replace(' ', '')

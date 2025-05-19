@@ -27,7 +27,18 @@ def get_pronun(audio_path):
     output = "Error"
 
   if output is None:
-    output = "Get Pronunciation Error"
+    print("It seems decoding failed, trying again with utf-8 mode...")
+    try:
+      result = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=script_dir, encoding='utf-8')
+      output = result.stdout
+      print("kospeech output: ", output)
+    except subprocess.CalledProcessError as e:
+      print("kospeech error: ", e.stderr)
+      output = "Error"
+
+    if output is None:
+      print("utf-8 mode failed. End process with error.")
+      output = "Get Pronunciation Error"
 
   clean_output = get_clean_text(output)
   

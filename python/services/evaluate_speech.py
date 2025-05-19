@@ -250,6 +250,6 @@ def get_spr_eval(audio, text):
   )
   response_message = response.choices[0].message.content
 
-  print("사용자 Speech Pause Ratio 평가 ----")
+  print("사용자 Speech Pause Ratio 평가 ——")
   print(response_message)
   return response_message
