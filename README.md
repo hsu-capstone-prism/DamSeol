@@ -145,7 +145,7 @@ FrontEnd
   ─ Browserslist: 최신 브라우저 대응
 
 AI
-─ Python: 3.x
+─ Python: ≤ 3.12.x
 ─ PyTorch: ≥ 1.4.0
 ─ Torchaudio, Librosa: 오디오 처리
 ─ Numpy, Pandas: 데이터 처리
