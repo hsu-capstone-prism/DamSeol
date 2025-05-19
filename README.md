@@ -105,9 +105,9 @@ OpenAI의 GPT 모델을 활용하여 학습자의 발음에 대한 텍스트 기
 ### Tool 
 ```
 - 개발 환경 : Windows, Mac OS
-- 개발 도구 : Visual Studio Code, IntelliJ, MySQL workbench
+- 개발 도구 : Visual Studio Code, IntelliJ, MySQL
 - 개발 언어 : Javascript, Java, Python
-- 주요 기술 : React, Spring Boot, Flask, GPT 4o
+- 주요 기술: React, Spring Boot, Flask, OpenAI, KoSpeech
 ```
 
 ### Version
