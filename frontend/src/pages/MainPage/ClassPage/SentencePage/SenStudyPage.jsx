@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/SenMicButton";
 import ProgressBar from "../../../../components/SenProgressBar";
+import Loading from "../../../../components/Loading";
 import axios from "axios";
 import { Radar } from "react-chartjs-2";
 
@@ -230,7 +231,7 @@ const SenStudyPage = () => {
     }
   };
 
-  if (loading) return <p>📡 데이터 로딩 중...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
   return (

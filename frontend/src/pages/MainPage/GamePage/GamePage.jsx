@@ -3,6 +3,7 @@ import "../../../styles/GamePage.css";
 import GameVideo from "../../../components/GameVideo";
 import ProgressBar from "../../../components/GameProgressBar";
 import axios from "axios";
+import Loading from "../../../components/Loading";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -143,7 +144,7 @@ const GamePage = () => {
   if (isLoading)
     return (
       <div className="game-container">
-        <p>게임 데이터를 불러오는 중입니다...</p>
+        <Loading />
       </div>
     );
   if (error)

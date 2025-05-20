@@ -17,6 +17,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import Loading from "../../../../components/Loading";
 
 ChartJS.register(
   RadialLinearScale,
@@ -230,7 +231,7 @@ const GramStudyPage = () => {
     }
   };
 
-  if (loading) return <p>📡 데이터 로딩 중...</p>;
+  if (loading) return <Loading />;``
   if (error) return <p>{error}</p>;
 
   return (

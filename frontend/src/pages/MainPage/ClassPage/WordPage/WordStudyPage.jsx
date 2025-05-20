@@ -5,6 +5,7 @@ import "../../../../styles/StudyPage.css";
 import MicButton from "../../../../components/WordMicButton";
 import ProgressBar from "../../../../components/WordProgressBar";
 import axios from "axios";
+import Loading from "../../../../components/Loading";
 
 const getAuthToken = () => localStorage.getItem("authToken");
 
@@ -182,7 +183,7 @@ const WordStudy = () => {
     ));
   };
 
-  if (loading) return <p>📡 데이터 로딩 중...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
   return (

@@ -14,6 +14,7 @@ import {
 } from "chart.js";
 import axios from "axios";
 import "../../../styles/ReportPage.css";
+import Loading from "../../../components/Loading";
 
 ChartJS.register(
   RadialLinearScale,
@@ -247,7 +248,7 @@ const ReportPage = () => {
     return "전반적으로 양호해요. 👍";
   };
 
-  if (loading) return <div className="report-container">⏳ 로딩 중...</div>;
+  if (loading) return <Loading />;
   if (error) return <div className="report-container">❌ {error}</div>;
 
   return (
