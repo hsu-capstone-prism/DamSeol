@@ -77,7 +77,8 @@ public class KoreanPronunciationUtils {
                 String correctPhon = correctPhons[j];
                 String userPhon = userPhons[j];
 
-                if (!correctPhon.equals(userPhon) && !list.contains(correctPhon))
+                if (!correctPhon.equals(userPhon) && !list.contains(correctPhon)
+                        && !correctPhon.isEmpty())
                     list.add(correctPhon);
             }
             correctIndex++;
