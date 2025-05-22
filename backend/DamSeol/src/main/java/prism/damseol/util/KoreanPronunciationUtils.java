@@ -2,6 +2,7 @@ package prism.damseol.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 한글 발음 비교 서비스 클래스
@@ -12,6 +13,26 @@ public class KoreanPronunciationUtils {
     private static final String CHO = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
     private static final String JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
     private static final String JONG = " ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
+    // 종성 발음 변환 맵
+    private static final Map<String, String> JONG_PRON_MAP = Map.ofEntries(
+            Map.entry("ㄱ", "ㄱ"), Map.entry("ㄲ", "ㄱ"), Map.entry("ㅋ", "ㄱ"),
+            Map.entry("ㄴ", "ㄴ"),
+            Map.entry("ㄷ", "ㄷ"), Map.entry("ㅅ", "ㄷ"), Map.entry("ㅆ", "ㄷ"), Map.entry("ㅈ", "ㄷ"),
+            Map.entry("ㅊ", "ㄷ"), Map.entry("ㅌ", "ㄷ"), Map.entry("ㅎ", "ㄷ"),
+            Map.entry("ㄹ", "ㄹ"),
+            Map.entry("ㅁ", "ㅁ"),
+            Map.entry("ㅂ", "ㅂ"), Map.entry("ㅍ", "ㅂ"),
+            Map.entry("ㅇ", "ㅇ"),
+            Map.entry("ㄳ", "ㄱ"), Map.entry("ㄵ", "ㄴ"), Map.entry("ㄶ", "ㄴ"),
+            Map.entry("ㄺ", "ㄱ"), Map.entry("ㄻ", "ㅁ"), Map.entry("ㄼ", "ㅂ"),
+            Map.entry("ㄽ", "ㄹ"), Map.entry("ㄾ", "ㄹ"), Map.entry("ㄿ", "ㅂ"),
+            Map.entry("ㅀ", "ㄹ"), Map.entry("ㅄ", "ㅂ")
+    );
+
+    // 발음 비교 시 종성 변환
+    private static String normalizeJong(String jong) {
+        return JONG_PRON_MAP.getOrDefault(jong, jong);
+    }
 
     // 한글 음절을 초성, 중성, 종성으로 분해하는 메서드
     public static String[] decomposeKorean(char ch) {
@@ -77,7 +98,14 @@ public class KoreanPronunciationUtils {
                 String correctPhon = correctPhons[j];
                 String userPhon = userPhons[j];
 
-                if (!correctPhon.equals(userPhon) && !list.contains(correctPhon))
+                // 종성일 경우, 발음이 같다면 틀린 것으로 간주하지 않음
+                if (j == 2) {
+                    correctPhon = normalizeJong(correctPhon);
+                    userPhon = normalizeJong(userPhon);
+                }
+
+                if (!correctPhon.equals(userPhon) && !list.contains(correctPhon)
+                        && !correctPhon.isEmpty())
                     list.add(correctPhon);
             }
             correctIndex++;
