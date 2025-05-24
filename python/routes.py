@@ -3,7 +3,7 @@ import json
 from flask import Blueprint, request, jsonify, Response
 from werkzeug.utils import secure_filename
 from services.evaluate_speech import get_audio_pitch_eval, get_audio_rhythm_eval
-from services.evaluate_pron import evaluate_pronunciation
+from services.evaluate_pron import evaluate_pronunciation, evaluate_pronunciation_word
 from services.evaluate_learn import evaluate_sentence, evaluate_word, test_sentence, test_word
 from services.extract_graph import extract_waveform, extract_pitch_graph
 from services.get_pronun import get_pronun
@@ -59,7 +59,10 @@ def upload_audio():
             "error": "No STT result"
             }), 503
 
-    result_pronun = evaluate_pronunciation(text, user_pronun)
+    if mode == 'word':
+        result_pronun = evaluate_pronunciation_word(text, user_pronun)
+    else:
+        result_pronun = evaluate_pronunciation(text, user_pronun)
 
     if not isinstance(result_pronun, dict):
         return jsonify({
