@@ -15,7 +15,7 @@ Damseol: A Language Learning Platform for the Hearing Impaired
         <td ><a href="https://github.com/cumoon">
             <img src="https://avatars.githubusercontent.com/cumoon"  width="100px"  alt="cumoon"/><br/>
             <sub><b>노문호</b></sub></a>  
-            <br/> AI
+            <br/> AI, Backend
         </td>
         <td><a href="https://github.com/modelable">
             <img src="https://avatars.githubusercontent.com/modelable" width="100px" alt="modelable"/><br/>
