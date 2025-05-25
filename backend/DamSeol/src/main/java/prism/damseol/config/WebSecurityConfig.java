@@ -80,6 +80,8 @@ public class WebSecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
+                        // 정적 리소스 허용
+                        .requestMatchers("/", "/index.html", "/static/**", "/asset-manifest.json", "/favicon.ico", "/logo*.png").permitAll()
                         .requestMatchers("/api/login", "/", "/api/join").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
