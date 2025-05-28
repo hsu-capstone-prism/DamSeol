@@ -16,7 +16,7 @@ PATH = "C:\\Users\\hw010\\project\\capstone\\DamSeol\\python\\test.wav"
 #PATH = "C:\\Users\\admin\\Documents\\my-project\\project-deaf-learning\\backend\\DamSeol\\uploads\\audio\\1747302746421_audio.wav"
 
 #print(get_audio_rhythm_eval(PATH, "안녕하세요? 저는 몽골에서 온 자가라고 해요."))
-print(get_audio_pitch_eval(PATH, "안녕하세요? 저는 몽골에서 온 자가라고 해요."))
+#print(get_audio_pitch_eval(PATH, "안녕하세요? 저는 몽골에서 온 자가라고 해요."))
 #text = get_pronun(PATH)
 #if text:
-#  print(evaluate_pronunciation("안녕하세요? 저는 몽골에서 온 자가라고 해요", text))
+evaluate_pronunciation("신라시대에 대해 배워봅시다", "실라시때에 대애 배워봅 시다")
