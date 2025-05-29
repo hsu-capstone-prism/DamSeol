@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class MainController {
 
     @Operation(summary = "메인 페이지", description = "서비스의 메인 엔드포인트로, 초기 화면 정보를 반환합니다.")
-    @GetMapping("/")
+    @GetMapping("/api/main")
     public String mainP() {
         //세션 사용자 이름 확인
         String name = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -2,6 +2,9 @@
 ### 청각장애인을 위한 언어 학습 플랫폼, 담설(談說)
 Damseol: A Language Learning Platform for the Hearing Impaired
 
+[![시연 영상](https://img.youtube.com/vi/0ooLWTzr20A/0.jpg)](https://www.youtube.com/watch?v=0ooLWTzr20A)
+> 이미지를 클릭하여 시연 영상을 확인할 수 있습니다
+
 <br>
 
 ## 팀 정보 🧑‍🤝‍🧑

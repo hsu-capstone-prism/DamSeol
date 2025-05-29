@@ -2,6 +2,7 @@ package prism.damseol.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,8 +28,10 @@ public class WebSecurityConfig {
 
     //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
-
     private final JWTUtil jwtUtil;
+    private final String[] permitRouterList = new String[] {"/login", "/main", "/word",
+            "/phon/**", "/alter/**", "/add/**", "/sentence/**", "/grammar/**", "/report", "/game"};
+
 
     //AuthenticationManager Bean 등록
     @Bean
@@ -77,11 +80,19 @@ public class WebSecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
 
+
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/login", "/", "/api/join").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        // 정적 리소스 허용
+                        .requestMatchers(
+                                "/", "/index.html",
+                                "/static/**", "/assets/**",
+                                "/manifest.json", "/*.png", "/favicon.ico",
+                                "/*.js", "/*.css", "/*.woff", "/*.mp4"
+                        ).permitAll()
+                        .requestMatchers(permitRouterList).permitAll()
+                        .requestMatchers("/api/login", "/api/join").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated());
 
