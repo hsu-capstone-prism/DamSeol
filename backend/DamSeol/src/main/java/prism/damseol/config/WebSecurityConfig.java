@@ -28,8 +28,10 @@ public class WebSecurityConfig {
 
     //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
-
     private final JWTUtil jwtUtil;
+    private final String[] permitRouterList = new String[] {"/login", "/main", "/word",
+            "/phon/**", "/alter/**", "/add/**", "/sentence/**", "/grammar/**", "/report", "/game"};
+
 
     //AuthenticationManager Bean 등록
     @Bean
@@ -89,6 +91,7 @@ public class WebSecurityConfig {
                                 "/manifest.json", "/*.png", "/favicon.ico",
                                 "/*.js", "/*.css", "/*.woff", "/*.mp4"
                         ).permitAll()
+                        .requestMatchers(permitRouterList).permitAll()
                         .requestMatchers("/api/login", "/api/join").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated());
