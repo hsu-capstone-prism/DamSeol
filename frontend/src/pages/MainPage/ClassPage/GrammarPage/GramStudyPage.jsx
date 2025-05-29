@@ -201,6 +201,11 @@ const GramStudyPage = () => {
           },
         },
       },
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
     };
     return (
       <div style={{ margin: "0 auto", textAlign: "center" }}>
