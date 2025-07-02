@@ -88,7 +88,8 @@ FrontEnd
 ─ 환경 설정
   ─ ESLint: CRA 기본 설정
   ─ Browserslist: 최신 브라우저 대응
-
+```
+<!--
 AI
 ─ Python: ≤ 3.12.x
 ─ PyTorch: ≥ 1.4.0
@@ -99,7 +100,8 @@ AI
 ─ SentencePiece: 토크나이저
 ─ Hydra-Core: 설정 관리
 ─ python-Levenshtein: 유사도 측정
-```
+-->
+
 
 ### API
 <img src = "./readme_images/swagger.png" width="800px"/>
