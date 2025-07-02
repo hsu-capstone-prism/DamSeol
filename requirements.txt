@@ -1,0 +1,9 @@
+flask
+librosa
+openai
+python-dotenv
+scipy
+matplotlib
+numpy
+waitress
+gunicorn
