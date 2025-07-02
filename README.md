@@ -1,9 +1,12 @@
-# 담설 💬
+ # 담설 💬
 ### 청각장애인을 위한 언어 학습 플랫폼, 담설(談說)
 Damseol: A Language Learning Platform for the Hearing Impaired
 
-[![시연 영상](https://img.youtube.com/vi/0ooLWTzr20A/0.jpg)](https://www.youtube.com/watch?v=0ooLWTzr20A)
-> 이미지를 클릭하여 시연 영상을 확인할 수 있습니다
+<div style="display: flex; gap: 10px;">
+  <img src="./readme_images/damseolMain.png" width="500px"/>
+  <img src="./readme_images/damseolMain2.png" width="500px"/>
+</div>
+시연 URL: https://www.youtube.com/watch?v=0ooLWTzr20A
 
 <br>
 
@@ -51,9 +54,6 @@ Damseol: A Language Learning Platform for the Hearing Impaired
 이 과정을 통해 얻은 데이터를 기반으로, 플랫폼은 시각적 피드백을 제공하며,
 OpenAI의 GPT 모델을 활용하여 학습자의 발음에 대한 텍스트 기반 평가를 수행한다.
 이를 통해 학습자는 제공된 다양한 시각적 정보로 피드백을 받을 수 있으며, 이를 바탕으로 발음을 교정할 수 있다.
-
-이 플랫폼은 PC 환경의 웹 브라우저에서 사용할 수 있도록 개발되며,
-직관적인 사용자 인터페이스(UI)를 통해 청각장애인 학습자가 쉽게 접근하고 활용할 수 있도록 설계하였다.
 ```
 
 <br>
@@ -61,42 +61,6 @@ OpenAI의 GPT 모델을 활용하여 학습자의 발음에 대한 텍스트 기
 ## 개발 기간 🗓️
 
 2025.02.13. - 2025.05.30.
-
-<br>
-
-## 프로젝트 목표 ⛳
-
-### 단어 학습
-<img src = "./readme_images/word-practice.png" width="150px"/>
-정상 청력을 가진 화자는 한국어의 발음 원리를 자연스럽게 습득하지만,
-청각장애인은 이를 이해하는 데 어려움을 겪을 수 있다.
-
-특히, 구개음화나 연음과 같은 음운 변동은 정상 청력자는 어릴 때부터 듣고 익히며 자연스럽게 체득하지만,
-청각장애인에게는 낯선 개념이 될 수 있다. 
-
-이에 따라, 이 프로젝트에서는 주요 음운 변동 유형을 중심으로 학습 카테고리를 구성하여,
-청각장애인이 단어 발음을 보다 효과적으로 익힐 수 있도록 기획하였다.
-그리고 특정 자음이나 모음에서만 발음상의 어려움을 겪을 가능성이 있으므로,
-자음·모음 단위로도 학습을 분류하여 청각장애인에게 최적화된 학습 환경을 제공하고자 한다.
-
-### 문장 학습
-<img src = "./readme_images/sentence-practice.png" width="150px"/>
-일상적인 대화는 대부분 문장 단위로 이루어지며, 
-문장 발화에서는 발음의 정확성뿐만 아니라 음정, 운율, 성량 등의 요소도 중요한 역할을 한다.
-
-이러한 요소들은 청각장애인이 발화할 때 겪는 주요한 어려움 중 하나이다.
-
-따라서 이 프로젝트에서는 다양한 상황별 문장을 학습할 수 있도록 구성하고, 
-발음 정확도뿐만 아니라 음정, 운율, 성량 등의 요소에 대한 피드백을 제공함으로써
-더욱 청각장애인 친화적인 플랫폼을 구축하고자 한다.
-
-### 학습 리포트
-효과적인 언어 학습을 위해서는 꾸준한 훈련뿐만 아니라, 
-자신의 학습 성과를 객관적으로 확인하고 향후 학습 계획을 수립하는 과정도 중요하다.
-
-이에 따라, 학습 진행 과정에서 얻은 점수를 통계적으로 분석하고,
-학습자의 발음 패턴 및 음성 데이터를 시각화하여 제공할 예정이다.
-이를 통해 학습자가 자신의 발음 습관을 파악하고, 보다 체계적으로 언어 능력을 향상시킬 수 있도록 지원한다.
 
 <br>
 
@@ -159,7 +123,54 @@ AI
 ```
 
 ### API
-<img src = "./readme_images/swagger.png" />
+<img src = "./readme_images/swagger.png" width="800px"/>
+
+<br>
 
 ### ERD
-<img src = "./readme_images/erd.png" />
+<img src = "./readme_images/damseol_erd2.png" />
+
+<br>
+
+## 프로젝트 목표 ⛳
+
+### 단어 학습
+<div style="display: flex; gap: 10px;">
+  <img src="./readme_images/damseolWord1.png" width="500px"/>
+  <img src="./readme_images/damseolWord2.png" width="500px"/>
+</div>
+자음, 모음, 음절의 끝소리 등 한국어 발음 규칙에 따라 구성된 카테고리에서 단어 연습을 선택할 수 있다.
+사용자는 마이크 버튼을 눌러 자신의 발음을 녹음하며 단어 학습을 수행한다.
+녹음한 발음에 대한 정확도, 추천 학습 음소, 사용자 발음 비교 등을 시각적으로 확인할 수 있다.
+
+### 문장 학습
+<div style="display: flex; gap: 10px;">
+  <img src="./readme_images/damseolSentence1.png" width="500px"/>
+  <img src="./readme_images/damseolSentence2.png" width="500px"/>
+</div>
+일상생활의 다양한 상황(예: 식당, 교회 등), 문법 요소별(예: 문장 내 불규칙 활용)에 맞추어 구성된 카테고리에서 문장 연습을 선택할 수 있다.
+사용자는 Waveform, Pitch, 정확도, 발음 평가 등의 학습 결과를 다양한 시각 자료로 확인할 수 있다.
+
+### 학습 결과
+<div style="display: flex; gap: 10px;">
+  <img src="./readme_images/damseolResult1.png" width="500px"/>
+  <img src="./readme_images/damseolResult2.png" width="500px"/>
+</div>
+단어 학습이 종료되면 사용자가 특별히 틀리는 자/모음 등을 표시하고 발음 팁을 제공하는 화면이다.
+결과 요약 화면에서는 사용자의 발음 정확도, 피치, 리듬, 학습 팁을 종합적으로 보여준다.
+
+### 학습 리포트
+<div style="display: flex; gap: 10px;">
+  <img src="./readme_images/damseolReport.png" width="500px"/>
+</div>
+주차별 발음 정확도, 음정, 리듬 점수 및 학습 진도, 게임 결과를 종합적으로 확인할 수 있는 통계 페이지이다.
+
+### 구화(口和) 학습 게임
+<div style="display: flex; gap: 10px;">
+  <img src="./readme_images/damseolGame1.png" width="500px"/>
+  <img src="./readme_images/damseolGame2.png" width="500px"/>
+</div>
+입모양만 보고 발음을 추측하는 훈련을 통해 구화 능력을 향상시키는 게임 학습 화면이다.
+사용자는 영상에 표시되는 사람의 입모양을 보고 정답 선택지를 고르게 된다.
+
+<br>
