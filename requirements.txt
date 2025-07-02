@@ -1,9 +1,26 @@
-flask
-librosa
-openai
-python-dotenv
-scipy
-matplotlib
+# === Core Utilities ===
 numpy
+pandas
+scipy
+tqdm
+matplotlib
+
+# === Audio Processing ===
+torchaudio
+librosa>=0.7.0
+
+# === Machine Learning / AI ===
+torch>=1.4.0
+sentencepiece
+hydra-core
+
+# === Server / Deployment ===
+flask
 waitress
 gunicorn
+
+# === Utilities ===
+python-Levenshtein
+openai
+python-dotenv
+astropy
