@@ -55,7 +55,7 @@ Damseol: A Language Learning Platform for the Hearing Impaired
 - 개발 언어 : Javascript, Java, Python
 - 주요 기술: React, Spring Boot, Flask, OpenAI, KoSpeech
 ```
-
+<!--
 ### Version
 
 ```
@@ -89,7 +89,7 @@ FrontEnd
   ─ ESLint: CRA 기본 설정
   ─ Browserslist: 최신 브라우저 대응
 ```
-<!--
+
 AI
 ─ Python: ≤ 3.12.x
 ─ PyTorch: ≥ 1.4.0
