@@ -3,8 +3,8 @@
 Damseol: A Language Learning Platform for the Hearing Impaired
 
 <div style="display: flex; gap: 10px;">
-  <img src="./readme_images/damseolMain.png" width="500px"/>
-  <img src="./readme_images/damseolMain2.png" width="500px"/>
+  <img src="./readme_images/damseolMain.png" width="400px"/>
+  <img src="./readme_images/damseolMain2.png" width="400px"/>
 </div>
 시연 URL: https://www.youtube.com/watch?v=0ooLWTzr20A
 
@@ -136,8 +136,8 @@ AI
 
 ### 단어 학습
 <div style="display: flex; gap: 10px;">
-  <img src="./readme_images/damseolWord1.png" width="500px"/>
-  <img src="./readme_images/damseolWord2.png" width="500px"/>
+  <img src="./readme_images/damseolWord1.png" width="400px"/>
+  <img src="./readme_images/damseolWord2.png" width="400px"/>
 </div>
 자음, 모음, 음절의 끝소리 등 한국어 발음 규칙에 따라 구성된 카테고리에서 단어 연습을 선택할 수 있다.
 사용자는 마이크 버튼을 눌러 자신의 발음을 녹음하며 단어 학습을 수행한다.
@@ -145,30 +145,30 @@ AI
 
 ### 문장 학습
 <div style="display: flex; gap: 10px;">
-  <img src="./readme_images/damseolSentence1.png" width="500px"/>
-  <img src="./readme_images/damseolSentence2.png" width="500px"/>
+  <img src="./readme_images/damseolSentence1.png" width="400px"/>
+  <img src="./readme_images/damseolSentence2.png" width="400px"/>
 </div>
 일상생활의 다양한 상황(예: 식당, 교회 등), 문법 요소별(예: 문장 내 불규칙 활용)에 맞추어 구성된 카테고리에서 문장 연습을 선택할 수 있다.
 사용자는 Waveform, Pitch, 정확도, 발음 평가 등의 학습 결과를 다양한 시각 자료로 확인할 수 있다.
 
 ### 학습 결과
 <div style="display: flex; gap: 10px;">
-  <img src="./readme_images/damseolResult1.png" width="500px"/>
-  <img src="./readme_images/damseolResult2.png" width="500px"/>
+  <img src="./readme_images/damseolResult1.png" width="400px"/>
+  <img src="./readme_images/damseolResult2.png" width="400px"/>
 </div>
 단어 학습이 종료되면 사용자가 특별히 틀리는 자/모음 등을 표시하고 발음 팁을 제공하는 화면이다.
 결과 요약 화면에서는 사용자의 발음 정확도, 피치, 리듬, 학습 팁을 종합적으로 보여준다.
 
 ### 학습 리포트
 <div style="display: flex; gap: 10px;">
-  <img src="./readme_images/damseolReport.png" width="500px"/>
+  <img src="./readme_images/damseolReport.png" width="400px"/>
 </div>
 주차별 발음 정확도, 음정, 리듬 점수 및 학습 진도, 게임 결과를 종합적으로 확인할 수 있는 통계 페이지이다.
 
 ### 구화(口和) 학습 게임
 <div style="display: flex; gap: 10px;">
-  <img src="./readme_images/damseolGame1.png" width="500px"/>
-  <img src="./readme_images/damseolGame2.png" width="500px"/>
+  <img src="./readme_images/damseolGame1.png" width="400px"/>
+  <img src="./readme_images/damseolGame2.png" width="400px"/>
 </div>
 입모양만 보고 발음을 추측하는 훈련을 통해 구화 능력을 향상시키는 게임 학습 화면이다.
 사용자는 영상에 표시되는 사람의 입모양을 보고 정답 선택지를 고르게 된다.
